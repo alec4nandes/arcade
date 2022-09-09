@@ -53,20 +53,35 @@ function getStartingBoard(alreadyDrawn) {
     ];
 }
 
-function getGameData(username) {
-    const playerDrawn = getStartingHand([], 7),
-        opponentDrawn = getStartingHand(playerDrawn, 7),
-        onTheBoard = getStartingBoard([...playerDrawn, ...opponentDrawn]),
-        drawPile = getStartingHand([
-            ...playerDrawn,
-            ...opponentDrawn,
-            ...onTheBoard,
-        ]);
+/* MULTIPLAYER */
+
+const getPlayers = (gameKey) => gameKey.split("-");
+
+function recursiveDealer(players) {
+    const result = {};
+    recursiveDealerHelper(players, players[0], result);
+    return result;
+}
+
+function recursiveDealerHelper(players, player, result) {
+    const alreadyDrawn = Object.values(result).flat(),
+        index = players.indexOf(player);
+    result[player] = getStartingHand(alreadyDrawn, 7);
+    if (index < players.length - 1) {
+        recursiveDealerHelper(players, players[index + 1], result);
+    }
+}
+
+/* END MULTIPLAYER */
+
+function getGameData(username, players) {
+    const allHands = recursiveDealer(players),
+        allHandsCards = Object.values(allHands).flat(),
+        onTheBoard = getStartingBoard(allHandsCards),
+        drawPile = getStartingHand([...allHandsCards, ...onTheBoard]);
     return {
-        player: username,
-        playerTurn: true,
-        playerDrawn,
-        opponentDrawn,
+        currentPlayer: username,
+        allHands,
         onTheBoard,
         drawPile,
     };
@@ -77,6 +92,7 @@ export {
     cornerIndexes,
     emptyPair,
     getGameData,
+    getPlayers,
     getStartingBoard,
     getStartingHand,
 };

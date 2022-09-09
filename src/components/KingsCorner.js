@@ -1,26 +1,26 @@
 import "../css/kings-corner.css";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { firestore } from "../database";
-import { cornerIndexes, emptyPair, getGameData } from "../cards";
+import { cornerIndexes, emptyPair, getGameData, getPlayers } from "../cards";
 import Board from "./Board";
 import Hand from "./Hand";
 
 export default function KingsCorner({ gameKey, username }) {
-    const [player, setPlayer] = useState(),
-        [playerTurn, setPlayerTurn] = useState(),
+    const players = getPlayers(gameKey),
+        [currentPlayer, setCurrentPlayer] = useState(),
         [playerPicks, setPlayerPicks] = useState([]), // player can pick multiple ascending cards
-        [playerDrawn, setPlayerDrawn] = useState(),
-        [opponentDrawn, setOpponentDrawn] = useState(),
+        // new state: all hands
+        [allHands, setAllHands] = useState(),
         [onTheBoard, setOnTheBoard] = useState(),
         [drawPile, setDrawPile] = useState(),
         [selected, setSelected] = useState(),
-        drawnCardRef = useRef();
+        drawnCardRef = useRef(),
+        isYourTurn = currentPlayer === username;
 
-    const getIsYourTurn = useCallback(
-        () => (playerTurn ? player === username : player !== username),
-        [player, playerTurn, username]
-    );
+    const isGameOver = useCallback(() => {
+        return Object.values(allHands).find((hand) => !hand.length);
+    }, [allHands]);
 
     const pairClickHandlerHelper = useCallback(
         (target, index, selected) => {
@@ -76,67 +76,64 @@ export default function KingsCorner({ gameKey, username }) {
             }
 
             function removeFromHand() {
-                const result = playerDrawn
+                const result = allHands[username]
                         .filter((p) => !playerPicks.includes(p))
                         .map((p) => ({ ...p, isNew: false })),
-                    update = {};
-                update[player === username ? "playerDrawn" : "opponentDrawn"] =
-                    result;
+                    update = { allHands: { ...allHands } };
+                update.allHands[username] = result;
                 updateDoc(doc(firestore, "Kings Corner", gameKey), update);
-                return result;
             }
         },
-        [gameKey, onTheBoard, player, playerDrawn, playerPicks, username]
+        [allHands, gameKey, onTheBoard, playerPicks, username]
     );
 
     const pairClickHandler = useCallback(
         (target, index) =>
-            getIsYourTurn() && pairClickHandlerHelper(target, index, selected),
-        [getIsYourTurn, pairClickHandlerHelper, selected]
+            isYourTurn && pairClickHandlerHelper(target, index, selected),
+        [isYourTurn, pairClickHandlerHelper, selected]
     );
 
     const drawPileHandler = useCallback(() => {
         const pileCopy = [...drawPile],
             nextCard = pileCopy.pop(),
-            update = {};
+            update = { allHands: { ...allHands } };
         if (nextCard) {
             const result = [
-                ...playerDrawn.map((target) => ({
+                ...allHands[username].map((target) => ({
                     ...target,
                     isNew: false,
                 })),
                 { ...nextCard, isNew: true },
             ];
-            update[player === username ? "playerDrawn" : "opponentDrawn"] =
-                result;
-        } else if (playerTurn) {
+            update.allHands[username] = result;
+        } else if (isYourTurn) {
             alert("NO MORE CARDS TO DRAW");
         }
         setPlayerPicks([]);
         updateDoc(doc(firestore, "Kings Corner", gameKey), {
             ...update,
             drawPile: pileCopy,
-            playerTurn: !playerTurn,
+            currentPlayer:
+                players[players.indexOf(currentPlayer) + 1] || players[0],
         });
-    }, [drawPile, gameKey, player, playerDrawn, playerTurn, username]);
+    }, [
+        allHands,
+        currentPlayer,
+        drawPile,
+        gameKey,
+        isYourTurn,
+        players,
+        username,
+    ]);
 
     /* USE EFFECTS */
 
     // load game and set Firebase listener on first render
     useEffect(() => {
         function updateGame(gameData) {
-            const {
-                player,
-                playerTurn,
-                playerDrawn,
-                opponentDrawn,
-                onTheBoard,
-                drawPile,
-            } = gameData;
-            setPlayer(player);
-            setPlayerTurn(playerTurn);
-            setPlayerDrawn(player === username ? playerDrawn : opponentDrawn);
-            setOpponentDrawn(player === username ? opponentDrawn : playerDrawn);
+            const { currentPlayer, allHands, onTheBoard, drawPile } = gameData;
+            setCurrentPlayer(currentPlayer);
+            setAllHands(allHands);
             setOnTheBoard(onTheBoard);
             setDrawPile(drawPile);
         }
@@ -152,12 +149,13 @@ export default function KingsCorner({ gameKey, username }) {
 
     // announce winner
     useEffect(() => {
-        if (playerDrawn && (!playerDrawn.length || !opponentDrawn.length)) {
-            alert(`YOU ${playerDrawn.length ? "LOST" : "WON"}`);
+        if (allHands && isGameOver()) {
+            alert(`YOU ${allHands[username].length ? "LOST" : "WON"}`);
         }
-    }, [gameKey, opponentDrawn, playerDrawn, playerTurn]);
+    }, [allHands, isGameOver, username]);
 
     // scroll to newly drawn card in player's hand
+    const myHand = allHands?.[username];
     useEffect(() => {
         if (drawnCardRef.current) {
             const { offsetHeight, offsetTop } = drawnCardRef.current,
@@ -174,14 +172,14 @@ export default function KingsCorner({ gameKey, username }) {
                 behavior: "smooth",
             });
         }
-    }, [playerDrawn]);
+    }, [myHand]);
 
     /* END USE EFFECTS */
 
     /* NESTED COMPONENTS */
 
     function DrawPile() {
-        const gameOver = !playerDrawn.length || !opponentDrawn.length;
+        const gameOver = isGameOver();
         return (
             <button
                 onClick={() =>
@@ -192,7 +190,7 @@ export default function KingsCorner({ gameKey, username }) {
                           )
                         : drawPileHandler()
                 }
-                disabled={gameOver ? false : !getIsYourTurn()}
+                disabled={gameOver ? false : !isYourTurn}
             >
                 {gameOver ? "NEW GAME" : `DRAW CARD (${drawPile.length})`}
             </button>
@@ -203,36 +201,31 @@ export default function KingsCorner({ gameKey, username }) {
 
     return (
         <div className="kings-corner">
-            {playerDrawn && (
+            {allHands && (
                 <>
-                    <Hand
-                        {...{
-                            drawn: playerDrawn,
-                            title: username,
-                            playerPicks,
-                            drawnCardRef,
-                            isYourTurn: getIsYourTurn(),
-                            pairClickHandler,
-                        }}
-                    />
+                    {players.map((player, i) => (
+                        <Hand
+                            {...{
+                                key: `hand-${i + 1}`,
+                                drawn: allHands[player],
+                                title: player,
+                                playerPicks,
+                                drawnCardRef,
+                                isActiveHand: currentPlayer === player,
+                                isOpponent: player !== username,
+                                pairClickHandler:
+                                    player === username
+                                        ? pairClickHandler
+                                        : () => "",
+                            }}
+                        />
+                    ))}
                     <Board
                         {...{
                             onTheBoard,
                             drawPile: <DrawPile />,
                             playerPicks,
                             pairClickHandler,
-                        }}
-                    />
-                    <Hand
-                        {...{
-                            drawn: opponentDrawn,
-                            title: gameKey
-                                .split("-")
-                                .filter((part) => part !== username),
-                            playerPicks,
-                            isOpponent: true,
-                            isYourTurn: getIsYourTurn(),
-                            pairClickHandler: () => "",
                         }}
                     />
                 </>

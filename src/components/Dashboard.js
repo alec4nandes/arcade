@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { firestore } from "../database";
-import { getGameData } from "../cards";
+import { getGameData, getPlayers } from "../cards";
 import { SignOut, getAllUsernames } from "./Login";
 import KingsCorner from "./KingsCorner";
 
@@ -19,16 +19,20 @@ export default function Dashboard({ username }) {
         const allUsernames = await getAllUsernames((error) =>
                 setDashboardError(error.message)
             ),
-            opponentExists = allUsernames.includes(opponent);
-        if (opponentExists) {
+            opponents = getPlayers(opponent),
+            opponentsExist = opponents.every((opp) =>
+                allUsernames.includes(opp)
+            );
+        if (opponentsExist) {
             try {
-                const gameKey = [username, opponent].sort().join("-"),
+                const allPlayers = [username, ...opponents].sort(),
+                    gameKey = allPlayers.join("-"),
                     theDoc = doc(firestore, "Kings Corner", gameKey),
                     checkDoc = await getDoc(theDoc);
                 if (!checkDoc.exists()) {
                     await setDoc(
                         doc(firestore, "Kings Corner", gameKey),
-                        getGameData(username)
+                        getGameData(username, allPlayers)
                     );
                 }
                 setCurrentGameKey(gameKey);

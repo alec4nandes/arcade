@@ -12,8 +12,8 @@ export default function Hand({
     title,
     playerPicks,
     drawnCardRef,
+    isActiveHand,
     isOpponent,
-    isYourTurn,
     pairClickHandler,
 }) {
     const containerHeight =
@@ -23,9 +23,7 @@ export default function Hand({
         <div className="hand">
             <h2>
                 {title}
-                {(!isOpponent && isYourTurn) || (isOpponent && !isYourTurn)
-                    ? "*"
-                    : ""}
+                {isActiveHand && <>*</>}
             </h2>
             <h3>({drawn.length} cards)</h3>
             <div className="hand-container" style={{ height: containerHeight }}>
