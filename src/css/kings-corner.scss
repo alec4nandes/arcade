@@ -5,6 +5,12 @@
     display: flex;
     gap: 10px;
 
+    .back-to-dashboard {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
     .hand {
         height: 100%;
         width: 150px;

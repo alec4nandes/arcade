@@ -5,6 +5,11 @@
   display: flex;
   gap: 10px;
 }
+.kings-corner .back-to-dashboard {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .kings-corner .hand {
   height: 100%;
   width: 150px;

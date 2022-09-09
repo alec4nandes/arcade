@@ -6,7 +6,7 @@ import { cornerIndexes, emptyPair, getGameData, getPlayers } from "../cards";
 import Board from "./Board";
 import Hand from "./Hand";
 
-export default function KingsCorner({ gameKey, username }) {
+export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
     const players = getPlayers(gameKey),
         [currentPlayer, setCurrentPlayer] = useState(),
         [playerPicks, setPlayerPicks] = useState([]), // player can pick multiple ascending cards
@@ -228,6 +228,12 @@ export default function KingsCorner({ gameKey, username }) {
                             pairClickHandler,
                         }}
                     />
+                    <button
+                        className="back-to-dashboard"
+                        onClick={() => setCurrentGameKey()}
+                    >
+                        dashboard
+                    </button>
                 </>
             )}
         </div>

@@ -1,0 +1,9 @@
+.dashboard {
+  text-align: center;
+}
+.dashboard form.opponents {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}/*# sourceMappingURL=dashboard.css.map */

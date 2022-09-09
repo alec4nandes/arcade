@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
@@ -17,26 +17,22 @@ export default function Login({
     isVerified,
     setIsVerified,
 }) {
-    const formRef = useRef(),
-        [errorMessage, setErrorMessage] = useState(),
+    const [errorMessage, setErrorMessage] = useState(),
         [isSignUp, setIsSignUp] = useState(false);
 
-    function getFormData() {
-        return Object.fromEntries(new FormData(formRef.current));
-    }
-
-    async function signInHandler() {
+    async function signInHandler(event) {
         try {
-            const { email, password } = getFormData();
-            await signInWithEmailAndPassword(auth, email, password);
+            const { email, password } = getFormData(event.target);
+            const log = await signInWithEmailAndPassword(auth, email, password);
+            console.log(log);
         } catch (error) {
             rewriteError(error);
         }
     }
 
-    async function signUpHandler() {
+    async function signUpHandler(event) {
         try {
-            const { username, email, password } = getFormData(),
+            const { username, email, password } = getFormData(event.target),
                 trimmed = username.trim().toLowerCase();
             if (trimmed.length > 30) {
                 throw Error("Username is too long.");
@@ -138,7 +134,12 @@ export default function Login({
             <button onClick={() => setIsSignUp((isSignUp) => !isSignUp)}>
                 sign {isSignUp ? "in" : "up"} instead
             </button>
-            <form ref={formRef} onSubmit={(e) => e.preventDefault()}>
+            <form
+                onSubmit={(event) => {
+                    event.preventDefault();
+                    isSignUp ? signUpHandler(event) : signInHandler(event);
+                }}
+            >
                 {isSignUp && (
                     <>
                         <label>
@@ -158,9 +159,7 @@ export default function Login({
                     <input name="password" type="password" required />
                 </label>
                 <br />
-                <button onClick={isSignUp ? signUpHandler : signInHandler}>
-                    sign {isSignUp ? "up" : "in"}
-                </button>
+                <button type="submit">sign {isSignUp ? "up" : "in"}</button>
             </form>
             <hr />
             <em>{errorMessage || (username && !isVerified && missingEmail)}</em>
@@ -188,4 +187,8 @@ async function getAllUsernames(errorCallback) {
     }
 }
 
-export { SignOut, getAllUsernames };
+function getFormData(formElem) {
+    return Object.fromEntries(new FormData(formElem));
+}
+
+export { SignOut, getAllUsernames, getFormData };
