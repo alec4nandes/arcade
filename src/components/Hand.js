@@ -21,10 +21,7 @@ export default function Hand({
 
     return (
         <div className="hand">
-            <h2>
-                {title}
-                {isActiveHand && <>*</>}
-            </h2>
+            <h2 className={isActiveHand ? "active" : ""}>{title}</h2>
             <h3>({drawn.length} cards)</h3>
             <div className="hand-container" style={{ height: containerHeight }}>
                 {[...drawn].sort(sortHand).map((pair, i) => (

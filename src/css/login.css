@@ -1,0 +1,11 @@
+.login {
+  text-align: center;
+}
+.login table {
+  margin: 20px auto 0;
+}
+.login table label {
+  width: 100%;
+  display: inline-block;
+  text-align: right;
+}/*# sourceMappingURL=login.css.map */

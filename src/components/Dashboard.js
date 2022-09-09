@@ -5,7 +5,7 @@ import {
     deleteDoc,
     doc,
     getDoc,
-    getDocs,
+    onSnapshot,
     setDoc,
 } from "firebase/firestore";
 import { firestore } from "../database";
@@ -14,25 +14,19 @@ import { SignOut, getAllUsernames, getFormData } from "./Login";
 import KingsCorner from "./KingsCorner";
 
 export default function Dashboard({ username }) {
-    const [dashboardError, setDashboardError] = useState(),
-        [currentGameKey, setCurrentGameKey] = useState(),
-        [gamesInProgress, setGamesInProgress] = useState();
+    const [allGameKeys, setAllGameKeys] = useState([]),
+        [dashboardError, setDashboardError] = useState(),
+        [currentGameKey, setCurrentGameKey] = useState();
 
     useEffect(() => {
-        const result = [];
-        getDocs(collection(firestore, "Kings Corner")).then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                const starting = `${username}-`,
-                    middle = `-${username}-`,
-                    ending = `-${username}`;
-                (doc.id.indexOf(starting) === 0 ||
-                    doc.id.includes(middle) ||
-                    doc.id.indexOf(ending) + ending.length === doc.id.length) &&
-                    result.push(doc.id);
-            });
-            setGamesInProgress(result);
+        // listen for changes
+        onSnapshot(collection(firestore, "Kings Corner"), (querySnapshot) => {
+            const gameKeys = [];
+            // map doesn't work. use forEach instead
+            querySnapshot.forEach((doc) => gameKeys.push(doc.id));
+            setAllGameKeys(gameKeys);
         });
-    }, [setGamesInProgress, username]);
+    }, []);
 
     async function findOpponentHandler(event) {
         const opponents = Object.values(getFormData(event.target))
@@ -63,9 +57,6 @@ export default function Dashboard({ username }) {
                         getGameData(username, allPlayers)
                     );
                 }
-                setGamesInProgress((gamesInProgress) => [
-                    ...new Set([...gamesInProgress, gameKey]),
-                ]);
                 setCurrentGameKey(gameKey);
             } catch (error) {
                 setDashboardError(error.message);
@@ -79,11 +70,20 @@ export default function Dashboard({ username }) {
         }
     }
 
-    async function endGameHandler(gameKey) {
-        await deleteDoc(doc(firestore, "Kings Corner", gameKey));
-        setGamesInProgress((gamesInProgress) =>
-            gamesInProgress.filter((key) => key !== gameKey)
+    function getGamesInProgress() {
+        const starting = `${username}-`,
+            middle = `-${username}-`,
+            ending = `-${username}`;
+        return allGameKeys.filter(
+            (key) =>
+                key.indexOf(starting) === 0 ||
+                key.includes(middle) ||
+                key.indexOf(ending) + ending.length === key.length
         );
+    }
+
+    function endGameHandler(gameKey) {
+        deleteDoc(doc(firestore, "Kings Corner", gameKey));
     }
 
     return currentGameKey ? (
@@ -112,17 +112,21 @@ export default function Dashboard({ username }) {
                 <button type="submit">start game</button>
             </form>
             <hr />
-            <h3>Games In Progress</h3>
-            <ul>
-                {gamesInProgress?.map((key) => (
-                    <li key={`${key} in progress`}>
-                        <button onClick={() => setCurrentGameKey(key)}>
-                            {key.split("-").join(" and ")}
-                        </button>
-                        <button onClick={() => endGameHandler(key)}>X</button>
-                    </li>
-                ))}
-            </ul>
+            <div className="games-in-progress">
+                <h3>Games In Progress</h3>
+                <ul>
+                    {getGamesInProgress().map((key) => (
+                        <li key={`${key} in progress`}>
+                            <button onClick={() => setCurrentGameKey(key)}>
+                                {key.split("-").join(" and ")}
+                            </button>
+                            <button onClick={() => endGameHandler(key)}>
+                                X
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
             <hr />
             <em>{dashboardError}</em>
         </div>

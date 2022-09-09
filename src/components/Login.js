@@ -1,3 +1,4 @@
+import "../css/login.css";
 import { useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
@@ -23,8 +24,7 @@ export default function Login({
     async function signInHandler(event) {
         try {
             const { email, password } = getFormData(event.target);
-            const log = await signInWithEmailAndPassword(auth, email, password);
-            console.log(log);
+            await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             rewriteError(error);
         }
@@ -131,7 +131,12 @@ export default function Login({
     return (
         <div className="login">
             <h1>Sign {isSignUp ? "Up" : "In"}</h1>
-            <button onClick={() => setIsSignUp((isSignUp) => !isSignUp)}>
+            <button
+                onClick={() => {
+                    setIsSignUp((isSignUp) => !isSignUp);
+                    setErrorMessage();
+                }}
+            >
                 sign {isSignUp ? "in" : "up"} instead
             </button>
             <form
@@ -140,25 +145,51 @@ export default function Login({
                     isSignUp ? signUpHandler(event) : signInHandler(event);
                 }}
             >
-                {isSignUp && (
-                    <>
-                        <label>
-                            username
-                            <input name="username" type="text" required />
-                        </label>
-                        <br />
-                    </>
-                )}
-                <label>
-                    email
-                    <input name="email" type="email" required />
-                </label>
-                <br />
-                <label>
-                    password
-                    <input name="password" type="password" required />
-                </label>
-                <br />
+                <table>
+                    <tbody>
+                        {isSignUp && (
+                            <tr>
+                                <td>
+                                    <label htmlFor="username">username</label>
+                                </td>
+                                <td>
+                                    <input
+                                        id="username"
+                                        name="username"
+                                        type="text"
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                        )}
+                        <tr>
+                            <td>
+                                <label htmlFor="email">email</label>
+                            </td>
+                            <td>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    required
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label htmlFor="password">password</label>
+                            </td>
+                            <td>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    required
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 <button type="submit">sign {isSignUp ? "up" : "in"}</button>
             </form>
             <hr />

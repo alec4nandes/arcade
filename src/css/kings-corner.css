@@ -18,6 +18,9 @@
   position: relative;
   text-align: center;
 }
+.kings-corner .hand h2.active {
+  background-color: yellow;
+}
 .kings-corner .hand .pair {
   margin: auto;
 }

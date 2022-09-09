@@ -19,6 +19,10 @@
         position: relative;
         text-align: center;
 
+        h2.active {
+            background-color: yellow;
+        }
+
         .pair {
             margin: auto;
         }

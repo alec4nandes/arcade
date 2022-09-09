@@ -15,6 +15,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
         [onTheBoard, setOnTheBoard] = useState(),
         [drawPile, setDrawPile] = useState(),
         [selected, setSelected] = useState(),
+        [isGameCancelled, setIsGameCancelled] = useState(false),
         drawnCardRef = useRef(),
         isYourTurn = currentPlayer === username;
 
@@ -131,6 +132,9 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
     // load game and set Firebase listener on first render
     useEffect(() => {
         function updateGame(gameData) {
+            if (!gameData) {
+                return;
+            }
             const { currentPlayer, allHands, onTheBoard, drawPile } = gameData;
             setCurrentPlayer(currentPlayer);
             setAllHands(allHands);
@@ -142,10 +146,18 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
             updateGame(doc.data())
         );
         // listen for changes
-        onSnapshot(doc(firestore, "Kings Corner", gameKey), (doc) =>
-            updateGame(doc.data())
-        );
-    }, [gameKey, username]);
+        onSnapshot(doc(firestore, "Kings Corner", gameKey), (doc) => {
+            setIsGameCancelled(!doc.data());
+            updateGame(doc.data());
+        });
+    }, [gameKey, setCurrentGameKey]);
+
+    useEffect(() => {
+        if (isGameCancelled) {
+            alert("Game has been cancelled by another player.");
+            setCurrentGameKey();
+        }
+    }, [isGameCancelled, setCurrentGameKey]);
 
     // announce winner
     useEffect(() => {

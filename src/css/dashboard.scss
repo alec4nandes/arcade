@@ -7,4 +7,15 @@
         flex-direction: column;
         margin: auto;
     }
+
+    .games-in-progress {
+        ul {
+            width: fit-content;
+            margin: auto;
+
+            li {
+                text-align: left;
+            }
+        }
+    }
 }
