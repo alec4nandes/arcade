@@ -20,8 +20,6 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
         drawnCardRef = useRef(),
         isYourTurn = currentPlayer === username;
 
-    useEffect(() => console.log(successfulPlay), [successfulPlay]);
-
     const cpuOrHuman = useCallback(
         () => (currentPlayer === "$cpu" ? "$cpu" : username),
         [currentPlayer, username]
@@ -56,6 +54,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
             } else if (currentPlayer !== "$cpu" && !targetIsEmpty) {
                 setSelected(target);
                 setPlayerPicks([target]);
+                setSuccessfulPlay();
             }
 
             function makeMove() {
@@ -71,6 +70,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                 currentPlayer === "$cpu" && setSelected(selected);
 
                 if (topCardOnBoard) {
+                    // a successful play
                     if (currentPlayer === "$cpu") {
                         setPlayerPicks([selected]);
                         // delayed effect for computer double-highlight
