@@ -227,10 +227,14 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
             updateGame(doc.data())
         );
         // listen for changes
-        onSnapshot(doc(firestore, "Kings Corner", gameKey), (doc) => {
-            setIsGameCancelled(!doc.data());
-            updateGame(doc.data());
-        });
+        const unsubscribe = onSnapshot(
+            doc(firestore, "Kings Corner", gameKey),
+            (doc) => {
+                setIsGameCancelled(!doc.data());
+                updateGame(doc.data());
+            }
+        );
+        return unsubscribe;
     }, [gameKey, setCurrentGameKey]);
 
     useEffect(() => {

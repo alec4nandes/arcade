@@ -20,12 +20,16 @@ export default function Dashboard({ username }) {
 
     useEffect(() => {
         // listen for changes
-        onSnapshot(collection(firestore, "Kings Corner"), (querySnapshot) => {
-            const gameKeys = [];
-            // map doesn't work. use forEach instead
-            querySnapshot.forEach((doc) => gameKeys.push(doc.id));
-            setAllGameKeys(gameKeys);
-        });
+        const unsubscribe = onSnapshot(
+            collection(firestore, "Kings Corner"),
+            (querySnapshot) => {
+                const gameKeys = [];
+                // map doesn't work. use forEach instead
+                querySnapshot.forEach((doc) => gameKeys.push(doc.id));
+                setAllGameKeys(gameKeys);
+            }
+        );
+        return unsubscribe;
     }, []);
 
     async function findOpponentHandler(event) {
