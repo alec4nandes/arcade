@@ -1,11 +1,16 @@
 .dashboard {
   text-align: center;
 }
-.dashboard form.opponents {
+.dashboard .pick-opponents {
   width: 200px;
+  margin: auto;
+}
+.dashboard .pick-opponents button {
+  width: 100%;
+}
+.dashboard .pick-opponents form {
   display: flex;
   flex-direction: column;
-  margin: auto;
 }
 .dashboard .games-in-progress ul {
   width: -webkit-fit-content;

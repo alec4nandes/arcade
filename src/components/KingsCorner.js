@@ -240,7 +240,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
 
     useEffect(() => {
         if (isGameCancelled) {
-            alert("Game has been cancelled by another player.");
+            alert("Another player has cancelled the game.");
             setCurrentGameKey();
         }
     }, [isGameCancelled, setCurrentGameKey]);

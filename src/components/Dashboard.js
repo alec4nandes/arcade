@@ -105,24 +105,26 @@ export default function Dashboard({ username }) {
                 <h2>Hi, {username}!</h2>
                 <SignOut />
             </div>
-            <form
-                className="opponents"
-                onSubmit={(event) => {
-                    event.preventDefault();
-                    findOpponentHandler(event);
-                }}
-            >
+            <div className="pick-opponents">
                 <h3>Challenge Opponents</h3>
                 <button onClick={() => playOpponents(["$cpu"])}>
                     play against computer
                 </button>
                 <br />
+                <br />
                 <em>or challenge users (up to 3)</em>
-                <input name="opponent1" type="text" />
-                <input name="opponent2" type="text" />
-                <input name="opponent3" type="text" />
-                <button type="submit">start game</button>
-            </form>
+                <form
+                    onSubmit={(event) => {
+                        event.preventDefault();
+                        findOpponentHandler(event);
+                    }}
+                >
+                    <input name="opponent1" type="text" />
+                    <input name="opponent2" type="text" />
+                    <input name="opponent3" type="text" />
+                    <button type="submit">start game</button>
+                </form>
+            </div>
             <hr />
             <div className="games-in-progress">
                 <h3>Games In Progress</h3>
