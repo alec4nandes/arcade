@@ -15,12 +15,25 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
         [onTheBoard, setOnTheBoard] = useState(),
         [drawPile, setDrawPile] = useState(),
         [selected, setSelected] = useState(),
+        [successfulPlay, setSuccessfulPlay] = useState(),
         [isGameCancelled, setIsGameCancelled] = useState(false),
         drawnCardRef = useRef(),
         isYourTurn = currentPlayer === username;
 
+    useEffect(() => console.log(successfulPlay), [successfulPlay]);
+
+    const cpuOrHuman = useCallback(
+        () => (currentPlayer === "$cpu" ? "$cpu" : username),
+        [currentPlayer, username]
+    );
+
+    const getHand = useCallback(
+        () => allHands[cpuOrHuman()],
+        [allHands, cpuOrHuman]
+    );
+
     const isGameOver = useCallback(() => {
-        return Object.values(allHands).find((hand) => !hand.length);
+        return allHands && Object.values(allHands).find((hand) => !hand.length);
     }, [allHands]);
 
     const pairClickHandlerHelper = useCallback(
@@ -40,7 +53,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                       target.bottom.color !== selected.top.color)
             ) {
                 return makeMove();
-            } else if (!targetIsEmpty) {
+            } else if (currentPlayer !== "$cpu" && !targetIsEmpty) {
                 setSelected(target);
                 setPlayerPicks([target]);
             }
@@ -55,14 +68,42 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                     bothInHand = [target, selected].every(
                         (p) => !onTheBoard.includes(p)
                     );
+                currentPlayer === "$cpu" && setSelected(selected);
+
                 if (topCardOnBoard) {
-                    updateBoard(paired);
-                    bottomCardInHand && removeFromHand();
+                    if (currentPlayer === "$cpu") {
+                        setPlayerPicks([selected]);
+                        // delayed effect for computer double-highlight
+                        setTimeout(onSuccess, 400);
+                    } else {
+                        onSuccess();
+                    }
                     return true;
-                } else if (bothInHand) {
+                } else if (currentPlayer !== "$cpu" && bothInHand) {
                     setSelected(paired);
                     setPlayerPicks((playerPicks) => [...playerPicks, target]);
                 }
+
+                function onSuccess() {
+                    bottomCardInHand && removeFromHand();
+                    updateBoard(paired);
+                    setSelected();
+                    setPlayerPicks([]);
+                    setSuccessfulPlay(paired);
+                }
+            }
+
+            function removeFromHand() {
+                const result = getHand()
+                        .filter((p) =>
+                            currentPlayer === "$cpu"
+                                ? p !== selected
+                                : !playerPicks.includes(p)
+                        )
+                        .map((p) => ({ ...p, isNew: false })),
+                    update = { allHands: { ...allHands } };
+                update.allHands[cpuOrHuman()] = result;
+                updateDoc(doc(firestore, "Kings Corner", gameKey), update);
             }
 
             function updateBoard(paired) {
@@ -75,17 +116,16 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                     onTheBoard: boardCopy,
                 });
             }
-
-            function removeFromHand() {
-                const result = allHands[username]
-                        .filter((p) => !playerPicks.includes(p))
-                        .map((p) => ({ ...p, isNew: false })),
-                    update = { allHands: { ...allHands } };
-                update.allHands[username] = result;
-                updateDoc(doc(firestore, "Kings Corner", gameKey), update);
-            }
         },
-        [allHands, gameKey, onTheBoard, playerPicks, username]
+        [
+            allHands,
+            cpuOrHuman,
+            currentPlayer,
+            gameKey,
+            getHand,
+            onTheBoard,
+            playerPicks,
+        ]
     );
 
     const pairClickHandler = useCallback(
@@ -100,13 +140,13 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
             update = { allHands: { ...allHands } };
         if (nextCard) {
             const result = [
-                ...allHands[username].map((target) => ({
-                    ...target,
+                ...getHand().map((pair) => ({
+                    ...pair,
                     isNew: false,
                 })),
                 { ...nextCard, isNew: true },
             ];
-            update.allHands[username] = result;
+            update.allHands[cpuOrHuman()] = result;
         } else if (isYourTurn) {
             alert("NO MORE CARDS TO DRAW");
         }
@@ -122,12 +162,53 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
         currentPlayer,
         drawPile,
         gameKey,
+        getHand,
         isYourTurn,
         players,
-        username,
+        cpuOrHuman,
     ]);
 
+    /* COMPUTER PLAYS */
+
+    const computerPlays = useCallback(() => {
+        const hand = allHands["$cpu"];
+        return (
+            hand.length &&
+            onTheBoard.find((target, i) =>
+                [...onTheBoard, ...hand].find((selected, j) => {
+                    const targetInCorner = cornerIndexes.includes(i),
+                        selectedInCorner = cornerIndexes.includes(j);
+                    return (
+                        // don't needlessly move corners about empty spaces,
+                        // and then don't move side cards around empty spaces
+                        !(
+                            target.top.name === emptyPair.top.name &&
+                            (selectedInCorner ||
+                                (!targetInCorner && j < onTheBoard.length))
+                        ) && pairClickHandlerHelper(target, i, selected)
+                    );
+                })
+            )
+        );
+    }, [allHands, onTheBoard, pairClickHandlerHelper]);
+
+    /* END COMPUTER PLAYS */
+
     /* USE EFFECTS */
+
+    // show computer moves
+    useEffect(() => {
+        let timeout;
+        if (currentPlayer === "$cpu") {
+            timeout = setTimeout(
+                () =>
+                    computerPlays() ||
+                    (allHands["$cpu"].length && drawPileHandler()),
+                800
+            );
+        }
+        return () => clearTimeout(timeout);
+    }, [allHands, computerPlays, currentPlayer, drawPileHandler, getHand]);
 
     // load game and set Firebase listener on first render
     useEffect(() => {
@@ -161,7 +242,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
 
     // announce winner
     useEffect(() => {
-        if (allHands && isGameOver()) {
+        if (isGameOver()) {
             alert(`YOU ${allHands[username].length ? "LOST" : "WON"}`);
         }
     }, [allHands, isGameOver, username]);
@@ -198,7 +279,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                     gameOver
                         ? updateDoc(
                               doc(firestore, "Kings Corner", gameKey),
-                              getGameData(username)
+                              getGameData(username, players)
                           )
                         : drawPileHandler()
                 }
@@ -237,6 +318,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                             onTheBoard,
                             drawPile: <DrawPile />,
                             playerPicks,
+                            successfulPlay,
                             pairClickHandler,
                         }}
                     />

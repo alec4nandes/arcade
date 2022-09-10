@@ -6,13 +6,16 @@ export default function Pair({
     style,
     playerPicks,
     drawnCardRef,
+    successfulPlay,
     isOpponent,
     pairClickHandler,
 }) {
     const otherRef = useRef();
 
     const className = `${
-        playerPicks.includes(pair)
+        successfulPlay?.top.name === pair.top.name
+            ? "success"
+            : playerPicks.map((pair) => pair.top.name).includes(pair.top.name)
             ? "selected"
             : isOpponent
             ? "backside"

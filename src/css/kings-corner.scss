@@ -55,6 +55,10 @@
             background-color: lightpink;
         }
 
+        &.success .card {
+            background-color: yellow;
+        }
+
         .card {
             height: $card-height;
             width: 100%;

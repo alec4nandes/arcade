@@ -7,6 +7,7 @@ export default function Board({
     onTheBoard,
     drawPile,
     playerPicks,
+    successfulPlay,
     isOpponent,
     pairClickHandler,
 }) {
@@ -37,6 +38,7 @@ export default function Board({
                         {...{
                             pair,
                             playerPicks,
+                            successfulPlay,
                             isOpponent,
                             pairClickHandler: () =>
                                 pairClickHandler(pair, index),

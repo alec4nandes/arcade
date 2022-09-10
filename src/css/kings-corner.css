@@ -44,6 +44,9 @@
 .kings-corner .pair.selected .card {
   background-color: lightpink;
 }
+.kings-corner .pair.success .card {
+  background-color: yellow;
+}
 .kings-corner .pair .card {
   height: 150px;
   width: 100%;

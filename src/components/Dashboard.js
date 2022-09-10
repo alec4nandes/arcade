@@ -46,27 +46,31 @@ export default function Dashboard({ username }) {
                 allUsernames.includes(opp)
             );
         if (opponentsExist) {
-            try {
-                const allPlayers = [username, ...opponents].sort(),
-                    gameKey = allPlayers.join("-"),
-                    theDoc = doc(firestore, "Kings Corner", gameKey),
-                    checkDoc = await getDoc(theDoc);
-                if (!checkDoc.exists()) {
-                    await setDoc(
-                        doc(firestore, "Kings Corner", gameKey),
-                        getGameData(username, allPlayers)
-                    );
-                }
-                setCurrentGameKey(gameKey);
-            } catch (error) {
-                setDashboardError(error.message);
-            }
+            playOpponents(opponents);
         } else {
             alert(
                 `User${
                     opponents.length === 1 ? " is" : "s are"
                 } not registered.`
             );
+        }
+    }
+
+    async function playOpponents(opponents) {
+        try {
+            const allPlayers = [username, ...opponents].sort(),
+                gameKey = allPlayers.join("-"),
+                theDoc = doc(firestore, "Kings Corner", gameKey),
+                checkDoc = await getDoc(theDoc);
+            if (!checkDoc.exists()) {
+                await setDoc(
+                    doc(firestore, "Kings Corner", gameKey),
+                    getGameData(username, allPlayers)
+                );
+            }
+            setCurrentGameKey(gameKey);
+        } catch (error) {
+            setDashboardError(error.message);
         }
     }
 
@@ -105,7 +109,11 @@ export default function Dashboard({ username }) {
                 }}
             >
                 <h3>Challenge Opponents</h3>
-                <em>(up to 3)</em>
+                <button onClick={() => playOpponents(["$cpu"])}>
+                    play against computer
+                </button>
+                <br />
+                <em>or challenge users (up to 3)</em>
                 <input name="opponent1" type="text" />
                 <input name="opponent2" type="text" />
                 <input name="opponent3" type="text" />
