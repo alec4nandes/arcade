@@ -103,7 +103,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                         .map((p) => ({ ...p, isNew: false })),
                     update = { allHands: { ...allHands } };
                 update.allHands[cpuOrHuman()] = result;
-                updateDoc(doc(firestore, "Kings Corner", gameKey), update);
+                updateDoc(doc(firestore, "Games", gameKey), update);
             }
 
             function updateBoard(paired) {
@@ -112,7 +112,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                 if (boardCopy.includes(selected)) {
                     boardCopy[boardCopy.indexOf(selected)] = emptyPair;
                 }
-                updateDoc(doc(firestore, "Kings Corner", gameKey), {
+                updateDoc(doc(firestore, "Games", gameKey), {
                     onTheBoard: boardCopy,
                 });
             }
@@ -151,7 +151,8 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
             alert("NO MORE CARDS TO DRAW");
         }
         setPlayerPicks([]);
-        updateDoc(doc(firestore, "Kings Corner", gameKey), {
+        setSuccessfulPlay();
+        updateDoc(doc(firestore, "Games", gameKey), {
             ...update,
             drawPile: pileCopy,
             currentPlayer:
@@ -223,12 +224,12 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
             setDrawPile(drawPile);
         }
         // load game from Firebase
-        getDoc(doc(firestore, "Kings Corner", gameKey)).then((doc) =>
+        getDoc(doc(firestore, "Games", gameKey)).then((doc) =>
             updateGame(doc.data())
         );
         // listen for changes
         const unsubscribe = onSnapshot(
-            doc(firestore, "Kings Corner", gameKey),
+            doc(firestore, "Games", gameKey),
             (doc) => {
                 setIsGameCancelled(!doc.data());
                 updateGame(doc.data());
@@ -246,9 +247,15 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
 
     // announce winner
     useEffect(() => {
+        let timeout;
         if (isGameOver()) {
-            alert(`YOU ${allHands[username].length ? "LOST" : "WON"}`);
+            timeout = setTimeout(
+                () =>
+                    alert(`YOU ${allHands[username].length ? "LOST" : "WON"}`),
+                1000
+            );
         }
+        return () => clearTimeout(timeout);
     }, [allHands, isGameOver, username]);
 
     // scroll to newly drawn card in player's hand
@@ -282,7 +289,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                 onClick={() =>
                     gameOver
                         ? updateDoc(
-                              doc(firestore, "Kings Corner", gameKey),
+                              doc(firestore, "Games", gameKey),
                               getGameData(username, players)
                           )
                         : drawPileHandler()

@@ -21,7 +21,7 @@ export default function Dashboard({ username }) {
     useEffect(() => {
         // listen for changes
         const unsubscribe = onSnapshot(
-            collection(firestore, "Kings Corner"),
+            collection(firestore, "Games"),
             (querySnapshot) => {
                 const gameKeys = [];
                 // map doesn't work. use forEach instead
@@ -64,11 +64,11 @@ export default function Dashboard({ username }) {
         try {
             const allPlayers = [username, ...opponents].sort(),
                 gameKey = allPlayers.join("-"),
-                theDoc = doc(firestore, "Kings Corner", gameKey),
+                theDoc = doc(firestore, "Games", gameKey),
                 checkDoc = await getDoc(theDoc);
             if (!checkDoc.exists()) {
                 await setDoc(
-                    doc(firestore, "Kings Corner", gameKey),
+                    doc(firestore, "Games", gameKey),
                     getGameData(username, allPlayers)
                 );
             }
@@ -91,7 +91,7 @@ export default function Dashboard({ username }) {
     }
 
     function endGameHandler(gameKey) {
-        deleteDoc(doc(firestore, "Kings Corner", gameKey));
+        deleteDoc(doc(firestore, "Games", gameKey));
     }
 
     return currentGameKey ? (
