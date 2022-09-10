@@ -48,15 +48,15 @@
         }
 
         &.new .card {
-            background-color: lightgreen;
-        }
-
-        &.selected .card {
             background-color: lightpink;
         }
 
-        &.success .card {
+        &.selected .card {
             background-color: yellow;
+        }
+
+        &.success .card {
+            background-color: lightgreen;
         }
 
         .card {

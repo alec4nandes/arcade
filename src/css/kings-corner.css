@@ -39,13 +39,13 @@
   background-color: #444;
 }
 .kings-corner .pair.new .card {
-  background-color: lightgreen;
-}
-.kings-corner .pair.selected .card {
   background-color: lightpink;
 }
-.kings-corner .pair.success .card {
+.kings-corner .pair.selected .card {
   background-color: yellow;
+}
+.kings-corner .pair.success .card {
+  background-color: lightgreen;
 }
 .kings-corner .pair .card {
   height: 150px;
