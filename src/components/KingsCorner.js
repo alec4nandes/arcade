@@ -307,23 +307,25 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
         <div className="kings-corner">
             {allHands && (
                 <>
-                    {players.map((player, i) => (
-                        <Hand
-                            {...{
-                                key: `hand-${i + 1}`,
-                                drawn: allHands[player],
-                                title: player,
-                                playerPicks,
-                                drawnCardRef,
-                                isActiveHand: currentPlayer === player,
-                                isOpponent: player !== username,
-                                pairClickHandler:
-                                    player === username
-                                        ? pairClickHandler
-                                        : () => "",
-                            }}
-                        />
-                    ))}
+                    <div className="all-hands">
+                        {players.map((player, i) => (
+                            <Hand
+                                {...{
+                                    key: `hand-${i + 1}`,
+                                    drawn: allHands[player],
+                                    title: player,
+                                    playerPicks,
+                                    drawnCardRef,
+                                    isActiveHand: currentPlayer === player,
+                                    isOpponent: player !== username,
+                                    pairClickHandler:
+                                        player === username
+                                            ? pairClickHandler
+                                            : () => "",
+                                }}
+                            />
+                        ))}
+                    </div>
                     <Board
                         {...{
                             onTheBoard,

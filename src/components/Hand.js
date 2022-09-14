@@ -20,10 +20,12 @@ export default function Hand({
         cardHeight + (cardHeight - overlapFactor) * drawn.length + "px";
 
     return (
-        <div className="hand">
-            <h2 className={isActiveHand ? "active" : ""}>{title}</h2>
-            <h3>({drawn.length} cards)</h3>
-            <div className="hand-container" style={{ height: containerHeight }}>
+        <div className="hand-container">
+            <div className="player-summary">
+                <h2 className={isActiveHand ? "active" : ""}>{title}</h2>
+                <h3>({drawn.length} cards)</h3>
+            </div>
+            <div className="hand" style={{ height: containerHeight }}>
                 {[...drawn].sort(sortHand).map((pair, i) => (
                     <Pair
                         {...{

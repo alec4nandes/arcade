@@ -3,7 +3,6 @@
     width: 100vw;
     background-color: #333;
     display: flex;
-    gap: 10px;
 
     .back-to-dashboard {
         position: absolute;
@@ -11,20 +10,35 @@
         right: 0;
     }
 
-    .hand {
-        height: 100%;
-        width: 150px;
-        background-color: #555;
-        overflow: auto;
-        position: relative;
-        text-align: center;
+    .all-hands {
+        display: flex;
+        gap: 10px;
 
-        h2.active {
-            background-color: yellow;
-        }
+        .hand-container {
+            height: 100%;
+            width: 150px;
+            background-color: #555;
+            overflow: auto;
+            position: relative;
+            text-align: center;
 
-        .pair {
-            margin: auto;
+            .player-summary {
+                margin: 10px 0;
+
+                * {
+                    margin: 0;
+                }
+
+                h2.active {
+                    background-color: yellow;
+                }
+            }
+
+            .hand {
+                .pair {
+                    margin: auto;
+                }
+            }
         }
     }
 
@@ -77,6 +91,57 @@
 
             &:nth-child(2) {
                 top: -120px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .kings-corner {
+        .all-hands {
+            .hand-container {
+                width: 100px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 825px) {
+    .kings-corner {
+        flex-direction: column-reverse;
+
+        .all-hands {
+            width: 100%;
+            flex-direction: column;
+
+            .hand-container {
+                height: 75px;
+                width: 100%;
+                display: flex;
+                overflow-x: auto;
+                overflow-y: hidden;
+
+                .player-summary {
+                    height: 100%;
+                    min-width: 100px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    margin: 0;
+
+                    * {
+                        font-size: 1rem;
+                    }
+                }
+
+                .hand {
+                    height: fit-content !important;
+                    display: flex;
+
+                    .pair {
+                        top: 0 !important;
+                    }
+                }
             }
         }
     }
