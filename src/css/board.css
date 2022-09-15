@@ -1,9 +1,11 @@
 .board-container {
-  height: 100%;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
   overflow: auto;
-  padding: 60px;
+  padding: 25px;
 }
 .board-container .board {
   max-height: 450px;
@@ -87,4 +89,17 @@
 }
 .board-container .board .square.draw-pile button:disabled {
   opacity: 0.5;
+}
+
+@media only screen and (max-width: 1000px) {
+  .board-container .board {
+    max-height: 315px;
+    max-width: 315px;
+    min-height: 315px;
+    min-width: 315px;
+  }
+  .board-container .board .square {
+    height: 105px;
+    width: 105px;
+  }
 }/*# sourceMappingURL=board.css.map */

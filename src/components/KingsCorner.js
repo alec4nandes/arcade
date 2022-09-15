@@ -262,19 +262,35 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
     const myHand = allHands?.[username];
     useEffect(() => {
         if (drawnCardRef.current) {
-            const { offsetHeight, offsetTop } = drawnCardRef.current,
-                offsetBottom = offsetHeight + offsetTop,
-                scrollTop =
-                    offsetBottom > window.innerHeight / 2
-                        ? offsetTop -
-                          window.innerHeight / 2 +
-                          offsetHeight / 2 -
-                          50
-                        : 0;
-            drawnCardRef.current.parentNode.parentNode.scrollTo({
-                top: scrollTop,
-                behavior: "smooth",
-            });
+            if (window.innerWidth > 1000) {
+                const { offsetHeight, offsetTop } = drawnCardRef.current,
+                    offsetBottom = offsetHeight + offsetTop,
+                    scrollTop =
+                        offsetBottom > window.innerHeight / 2
+                            ? offsetTop -
+                              window.innerHeight / 2 +
+                              offsetHeight / 2 -
+                              50
+                            : 0;
+                drawnCardRef.current.parentNode.parentNode.scrollTo({
+                    top: scrollTop,
+                    behavior: "smooth",
+                });
+            } else {
+                const { offsetWidth, offsetLeft } = drawnCardRef.current,
+                    offsetRight = offsetWidth + offsetLeft,
+                    scrollLeft =
+                        offsetRight > window.innerWidth / 2
+                            ? offsetLeft -
+                              window.innerWidth / 2 +
+                              offsetWidth / 2
+                            : 0;
+                drawnCardRef.current.parentNode.parentNode.scrollTo({
+                    top: 0,
+                    left: scrollLeft,
+                    behavior: "smooth",
+                });
+            }
         }
     }, [myHand]);
 
