@@ -1,0 +1,119 @@
+.sign-in {
+  min-height: 100%;
+  background-image: url("../images/sign-in-bg.jpg");
+  background-position: center;
+  background-size: auto 45vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+@media only screen and (max-height: 500px) {
+  .sign-in {
+    background-size: auto 70vh;
+  }
+}
+.sign-in::before {
+  background-color: #7d85cb;
+  content: "";
+  opacity: 0.9;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+.sign-in .sign-in-form-container {
+  width: 250px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-sizing: border-box;
+  margin: 20px;
+  text-align: center;
+  padding: 30px;
+  position: relative;
+  z-index: 1;
+}
+.sign-in .sign-in-form-container .logo {
+  height: 100px;
+}
+.sign-in .sign-in-form-container h1 {
+  font-size: 36px;
+  font-weight: 400;
+  margin: 10px 0;
+}
+.sign-in .sign-in-form-container button,
+.sign-in .sign-in-form-container input {
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+.sign-in .sign-in-form-container form::-moz-selection {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  text-align: center;
+}
+.sign-in .sign-in-form-container form::selection,
+.sign-in .sign-in-form-container button.instead,
+.sign-in .sign-in-form-container input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  text-align: center;
+}
+.sign-in .sign-in-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.sign-in .sign-in-form-container form::-moz-selection {
+  font-size: 20px;
+}
+.sign-in .sign-in-form-container form::selection,
+.sign-in .sign-in-form-container form button[type=submit],
+.sign-in .sign-in-form-container form input {
+  font-size: 20px;
+}
+.sign-in .sign-in-form-container form::-moz-selection {
+  border-bottom: 1px solid #555;
+}
+.sign-in .sign-in-form-container form::selection,
+.sign-in .sign-in-form-container form input {
+  border-bottom: 1px solid #555;
+}
+.sign-in .sign-in-form-container form button[type=submit] {
+  height: 30px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: #7d85cb;
+  border: 0;
+  border-radius: 5px;
+  color: #fff;
+  margin: 5px auto;
+  padding: 0 8px;
+}
+.sign-in .sign-in-form-container form input[type=password] {
+  font-family: "Arial", sans-serif !important;
+}
+.sign-in .sign-in-form-container form input[type=password]::-moz-placeholder {
+  font-family: "Rajdhani", sans-serif;
+}
+.sign-in .sign-in-form-container form input[type=password]:-ms-input-placeholder {
+  font-family: "Rajdhani", sans-serif;
+}
+.sign-in .sign-in-form-container form input[type=password]::placeholder {
+  font-family: "Rajdhani", sans-serif;
+}
+.sign-in .sign-in-form-container button:hover {
+  cursor: pointer;
+  color: black !important;
+}
+.sign-in .sign-in-form-container button.instead {
+  color: #7d85cb;
+  font-size: 16px;
+  margin-top: 10px;
+  text-decoration: underline;
+}/*# sourceMappingURL=sign-in.css.map */
