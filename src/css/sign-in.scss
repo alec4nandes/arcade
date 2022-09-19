@@ -131,6 +131,12 @@
                     }
                 }
             }
+
+            button {
+                &.instead:hover {
+                    color: white !important;
+                }
+            }
         }
     }
 }

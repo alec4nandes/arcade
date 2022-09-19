@@ -141,4 +141,7 @@
   .sign-in .sign-in-form-container form input::placeholder {
     color: #aaa;
   }
+  .sign-in .sign-in-form-container button.instead:hover {
+    color: white !important;
+  }
 }/*# sourceMappingURL=sign-in.css.map */
