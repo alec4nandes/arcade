@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../database";
 import { getGameData } from "../cards";
-import { SignOut, getAllUsernames, getFormData } from "./Login";
+import { SignOut, getAllUsernames, getFormData } from "./SignIn";
 import KingsCorner from "./KingsCorner";
 
 export default function Dashboard({ username }) {
