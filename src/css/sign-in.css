@@ -116,4 +116,29 @@
   font-size: 16px;
   margin-top: 10px;
   text-decoration: underline;
+}
+@media (prefers-color-scheme: dark) {
+  .sign-in .sign-in-form-container {
+    background-color: #000;
+    color: #fff;
+  }
+  .sign-in .sign-in-form-container form::-moz-selection {
+    border-bottom: 1px solid #fff;
+  }
+  .sign-in .sign-in-form-container form::selection,
+.sign-in .sign-in-form-container form input {
+    border-bottom: 1px solid #fff;
+  }
+  .sign-in .sign-in-form-container form input {
+    color: white;
+  }
+  .sign-in .sign-in-form-container form input::-moz-placeholder {
+    color: #aaa;
+  }
+  .sign-in .sign-in-form-container form input:-ms-input-placeholder {
+    color: #aaa;
+  }
+  .sign-in .sign-in-form-container form input::placeholder {
+    color: #aaa;
+  }
 }/*# sourceMappingURL=sign-in.css.map */

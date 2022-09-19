@@ -11,6 +11,7 @@ import {
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, firestore } from "../database";
 import logo from "../images/kings-corner-logo-purple-small.png";
+import nightLogo from "../images/kings-corner-logo-purple-nightmode-small.png";
 
 export default function SignIn({
     username,
@@ -134,7 +135,13 @@ export default function SignIn({
             <div className="sign-in-form-container">
                 <img
                     className="logo"
-                    src={logo}
+                    src={
+                        window.matchMedia &&
+                        window.matchMedia("(prefers-color-scheme: dark)")
+                            .matches
+                            ? nightLogo
+                            : logo
+                    }
                     alt="Four overlapping crowns with the four playing card suit symbols."
                 />
                 <h1>Kings Corner</h1>
@@ -143,7 +150,7 @@ export default function SignIn({
                         event.preventDefault();
                         isSignUp ? signUpHandler(event) : signInHandler(event);
                     }}
-                    spellcheck="false"
+                    spellCheck="false"
                 >
                     {isSignUp && (
                         <input
