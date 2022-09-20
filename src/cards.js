@@ -1,3 +1,6 @@
+import logo from "./images/kings-corner-logo-purple-small.png";
+import nightLogo from "./images/kings-corner-logo-purple-nightmode-small.png";
+
 const ranks = ["Ace", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Jack", "Queen", "King"],
     suits = ["Spades", "Hearts", "Clubs", "Diamonds"],
     emptySpace = { name: "" },
@@ -86,6 +89,18 @@ function getGameData(username, players) {
         drawPile,
     };
 }
+
+/* CHANGE LOGOS WITH DARK MODE */
+
+window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", (event) => {
+        [...document.getElementsByClassName("logo")].forEach((img) => {
+            img.src = event.matches ? nightLogo : logo;
+        });
+    });
+
+/* END CHANGE LOGOS WITH DARK MODE */
 
 export default cards;
 export {

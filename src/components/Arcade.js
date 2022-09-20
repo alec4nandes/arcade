@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Dashboard from "./Dashboard";
-import Login from "./Login";
+import SignIn from "./SignIn";
 
 export default function Arcade() {
     const [username, setUsername] = useState(),
@@ -10,7 +10,7 @@ export default function Arcade() {
     return isVerified ? (
         <Dashboard {...{ username }} />
     ) : (
-        <Login
+        <SignIn
             {...{ username, setUsername, setEmail, isVerified, setIsVerified }}
         />
     );

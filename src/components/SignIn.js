@@ -1,4 +1,4 @@
-import "../css/login.css";
+import "../css/sign-in.css";
 import { useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
@@ -10,8 +10,10 @@ import {
 } from "firebase/auth";
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, firestore } from "../database";
+import logo from "../images/kings-corner-logo-purple-small.png";
+import nightLogo from "../images/kings-corner-logo-purple-nightmode-small.png";
 
-export default function Login({
+export default function SignIn({
     username,
     setUsername,
     setEmail,
@@ -128,72 +130,79 @@ export default function Login({
         });
     }, [setEmail, setIsVerified, setUsername]);
 
+    /* NESTED COMPONENTS */
+
+    function ErrorMessage() {
+        const message =
+            errorMessage || (username && !isVerified && missingEmail);
+        return message ? (
+            <div className="error-message">
+                <em>{message}</em>
+            </div>
+        ) : (
+            <></>
+        );
+    }
+
+    /* END NESTED COMPONENTS */
+
     return (
-        <div className="login">
-            <h1>Sign {isSignUp ? "Up" : "In"}</h1>
-            <button
-                onClick={() => {
-                    setIsSignUp((isSignUp) => !isSignUp);
-                    setErrorMessage();
-                }}
-            >
-                sign {isSignUp ? "in" : "up"} instead
-            </button>
-            <form
-                onSubmit={(event) => {
-                    event.preventDefault();
-                    isSignUp ? signUpHandler(event) : signInHandler(event);
-                }}
-            >
-                <table>
-                    <tbody>
-                        {isSignUp && (
-                            <tr>
-                                <td>
-                                    <label htmlFor="username">username</label>
-                                </td>
-                                <td>
-                                    <input
-                                        id="username"
-                                        name="username"
-                                        type="text"
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                        )}
-                        <tr>
-                            <td>
-                                <label htmlFor="email">email</label>
-                            </td>
-                            <td>
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    required
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label htmlFor="password">password</label>
-                            </td>
-                            <td>
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    required
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <button type="submit">sign {isSignUp ? "up" : "in"}</button>
-            </form>
-            <hr />
-            <em>{errorMessage || (username && !isVerified && missingEmail)}</em>
+        <div className="sign-in">
+            <div className="sign-in-form-container">
+                <img
+                    className="logo"
+                    src={
+                        window.matchMedia?.("(prefers-color-scheme: dark)")
+                            .matches
+                            ? nightLogo
+                            : logo
+                    }
+                    alt="Four overlapping crowns with the four playing card suit symbols."
+                />
+                <h1>Kings Corner</h1>
+                <form
+                    onSubmit={(event) => {
+                        event.preventDefault();
+                        isSignUp ? signUpHandler(event) : signInHandler(event);
+                    }}
+                    spellCheck="false"
+                >
+                    {isSignUp && (
+                        <input
+                            id="username"
+                            name="username"
+                            placeholder="username"
+                            type="text"
+                            required
+                        />
+                    )}
+                    <input
+                        id="email"
+                        name="email"
+                        placeholder="email"
+                        type="email"
+                        required
+                    />
+                    <input
+                        id="password"
+                        name="password"
+                        placeholder="password"
+                        type="password"
+                        required
+                    />
+                    <button type="submit">sign {isSignUp ? "up" : "in"}</button>
+                    <ErrorMessage />
+                </form>
+                <button
+                    className="instead"
+                    onClick={() => {
+                        setIsSignUp((isSignUp) => !isSignUp);
+                        setErrorMessage();
+                    }}
+                >
+                    sign {isSignUp ? "in" : "up"} instead
+                </button>
+            </div>
         </div>
     );
 }
