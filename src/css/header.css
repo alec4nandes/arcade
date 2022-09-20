@@ -1,0 +1,44 @@
+.header {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+}
+.header .logo {
+  height: 50px;
+  width: 50px;
+}
+.header .header-text {
+  text-align: left;
+}
+.header .header-text h1 {
+  font-size: 30px;
+  font-weight: 400;
+  margin: 0;
+}
+.header .header-text .navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.header .header-text .navigation button {
+  background-color: transparent;
+  border: 0;
+  color: #7d85cb;
+  font-size: 16px;
+  padding: 0;
+  text-decoration: underline;
+}
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    background-color: #000;
+  }
+  .header .header-text h1 {
+    color: #fff;
+  }
+  .header .header-text .navigation button {
+    color: #979ed5;
+  }
+}/*# sourceMappingURL=header.css.map */

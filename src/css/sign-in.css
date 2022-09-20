@@ -44,11 +44,6 @@
   font-weight: 400;
   margin: 10px 0;
 }
-.sign-in .sign-in-form-container button,
-.sign-in .sign-in-form-container input {
-  border-radius: 0;
-  -webkit-appearance: none;
-}
 .sign-in .sign-in-form-container form::-moz-selection {
   background: transparent;
   border: 0;
@@ -121,7 +116,6 @@
   transition: background-color 600000s 0s, color 600000s 0s;
 }
 .sign-in .sign-in-form-container button:hover {
-  cursor: pointer;
   color: black !important;
 }
 .sign-in .sign-in-form-container button.instead {

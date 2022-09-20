@@ -84,9 +84,6 @@
   align-items: center;
   justify-content: center;
 }
-.board-container .board .square.draw-pile button:hover {
-  cursor: pointer;
-}
 .board-container .board .square.draw-pile button:disabled {
   opacity: 0.5;
 }

@@ -1,0 +1,55 @@
+.header {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px;
+
+    .logo {
+        height: 50px;
+        width: 50px;
+    }
+
+    .header-text {
+        text-align: left;
+
+        h1 {
+            font-size: 30px;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .navigation {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+
+            button {
+                background-color: transparent;
+                border: 0;
+                color: #7d85cb;
+                font-size: 16px;
+                padding: 0;
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .header {
+        background-color: #000;
+
+        .header-text {
+            h1 {
+                color: #fff;
+            }
+
+            .navigation {
+                button {
+                    color: #979ed5;
+                }
+            }
+        }
+    }
+}

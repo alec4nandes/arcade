@@ -125,10 +125,6 @@
                     align-items: center;
                     justify-content: center;
 
-                    &:hover {
-                        cursor: pointer;
-                    }
-
                     &:disabled {
                         opacity: 0.5;
                     }

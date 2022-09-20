@@ -12,6 +12,7 @@ import { firestore } from "../database";
 import { getGameData } from "../cards";
 import { SignOut, getAllUsernames, getFormData } from "./SignIn";
 import KingsCorner from "./KingsCorner";
+import Header from "./Header";
 
 export default function Dashboard({ username }) {
     const [allGameKeys, setAllGameKeys] = useState([]),
@@ -100,6 +101,7 @@ export default function Dashboard({ username }) {
         />
     ) : (
         <div className="dashboard">
+            <Header />
             <h1>Kings Corner</h1>
             <div className="user-info">
                 <h2>Hi, {username}!</h2>

@@ -46,12 +46,6 @@
             margin: 10px 0;
         }
 
-        button,
-        input {
-            border-radius: 0;
-            -webkit-appearance: none;
-        }
-
         form::selection,
         button.instead,
         input {
@@ -111,7 +105,6 @@
 
         button {
             &:hover {
-                cursor: pointer;
                 color: black !important;
             }
 
