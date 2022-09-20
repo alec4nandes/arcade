@@ -351,12 +351,6 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                             pairClickHandler,
                         }}
                     />
-                    <button
-                        className="back-to-dashboard"
-                        onClick={() => setCurrentGameKey()}
-                    >
-                        dashboard
-                    </button>
                 </>
             )}
         </div>

@@ -181,7 +181,9 @@ export default function SignIn({
                         type="password"
                         required
                     />
-                    <button type="submit">sign {isSignUp ? "up" : "in"}</button>
+                    <button className="cta-button" type="submit">
+                        sign {isSignUp ? "up" : "in"}
+                    </button>
                     <ErrorMessage />
                 </form>
                 <button
@@ -212,6 +214,7 @@ const Logo = () => (
 
 const SignOut = ({ setErrorMessage }) => (
     <button
+        className="sign-out-button"
         onClick={() => {
             signOut(auth);
             setErrorMessage?.();

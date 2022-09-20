@@ -1,3 +1,4 @@
+import "../../css/challenge.css";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { firestore } from "../../database";
 import { getGameData } from "../../cards";
@@ -55,24 +56,33 @@ export default function Challenge({
     }
 
     return (
-        <div className="pick-opponents">
-            <h3>Challenge Opponents</h3>
-            <button onClick={() => playOpponents(["$cpu"])}>
+        <div className="challenge">
+            <h2>Challenge Opponents</h2>
+            <button
+                className="cta-button"
+                onClick={() => playOpponents(["$cpu"])}
+            >
                 play against computer
             </button>
-            <br />
-            <br />
-            <em>or challenge users (up to 3)</em>
+            <p>or challenge users (up to 3)</p>
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
                     findOpponentHandler(event);
                 }}
             >
-                <input name="opponent1" type="text" />
-                <input name="opponent2" type="text" />
-                <input name="opponent3" type="text" />
-                <button type="submit">start game</button>
+                <div>
+                    1. <input name="opponent1" type="text" />
+                </div>
+                <div>
+                    2. <input name="opponent2" type="text" />
+                </div>
+                <div>
+                    3. <input name="opponent3" type="text" />
+                </div>
+                <button className="cta-button" type="submit">
+                    start game
+                </button>
             </form>
         </div>
     );

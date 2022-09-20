@@ -1,4 +1,5 @@
 .header {
+    width: 100%;
     background-color: #fff;
     display: flex;
     align-items: center;
@@ -22,19 +23,15 @@
         .navigation {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 0 18px;
 
             button {
-                background-color: transparent;
-                border: 0;
-                color: #7d85cb;
-                font-size: 16px;
-                padding: 0;
-                text-decoration: underline;
+                color: #979ed5;
 
                 &:disabled {
                     color: #aaa;
                     text-decoration: none;
+                    cursor: auto;
                 }
             }
         }
@@ -44,17 +41,5 @@
 @media (prefers-color-scheme: dark) {
     .header {
         background-color: #000;
-
-        .header-text {
-            h1 {
-                color: #fff;
-            }
-
-            .navigation {
-                button {
-                    color: #979ed5;
-                }
-            }
-        }
     }
 }

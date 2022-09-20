@@ -1,11 +1,12 @@
 import "../../css/dashboard.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { firestore } from "../../database";
 import KingsCorner from "../KingsCorner";
 import Header from "../Header";
 import Home from "./Home";
 import GamesInProgress from "./GamesInProgress";
+import Scoreboards from "./Scoreboards";
 import Challenge from "./Challenge";
 
 export default function Dashboard({ username }) {
@@ -28,29 +29,41 @@ export default function Dashboard({ username }) {
         return unsubscribe;
     }, []);
 
-    const display = {
-        home: () => <Home {...{ username, dashboardError }} />,
-        games: () => (
-            <GamesInProgress
-                {...{ username, allGameKeys, setCurrentGameKey }}
-            />
-        ),
-        scoreboards: () => <p>scoreboards coming soon</p>,
-        challenge: () => (
-            <Challenge
-                {...{ username, setDashboardError, setCurrentGameKey }}
-            />
-        ),
-    };
+    const display = useMemo(
+        () => ({
+            home: <Home {...{ username, setShowing }} />,
+            games: (
+                <GamesInProgress
+                    {...{ username, allGameKeys, setCurrentGameKey }}
+                />
+            ),
+            scoreboards: <Scoreboards />,
+            challenge: (
+                <Challenge
+                    {...{ username, setDashboardError, setCurrentGameKey }}
+                />
+            ),
+        }),
+        [allGameKeys, username]
+    );
 
-    return currentGameKey ? (
-        <KingsCorner
-            {...{ gameKey: currentGameKey, setCurrentGameKey, username }}
-        />
-    ) : (
+    return (
         <div className="dashboard">
-            <Header {...{ showing, setShowing }} />
-            {display[showing]()}
+            <Header {...{ showing, setCurrentGameKey, setShowing }} />
+            {currentGameKey ? (
+                <KingsCorner
+                    {...{
+                        gameKey: currentGameKey,
+                        setCurrentGameKey,
+                        username,
+                    }}
+                />
+            ) : (
+                <>
+                    {display[showing]}
+                    <em>{dashboardError}</em>
+                </>
+            )}
         </div>
     );
 }

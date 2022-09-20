@@ -1,33 +1,8 @@
 .dashboard {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
     text-align: center;
-
-    h2.greeting {
-        font-size: 28px;
-        font-weight: 400;
-    }
-
-    .pick-opponents {
-        width: 200px;
-        margin: auto;
-
-        button {
-            width: 100%;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-    }
-
-    .games-in-progress {
-        ul {
-            width: fit-content;
-            margin: auto;
-
-            li {
-                text-align: left;
-            }
-        }
-    }
 }

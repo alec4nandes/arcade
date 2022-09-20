@@ -1,7 +1,7 @@
 import { Logo } from "./SignIn";
 import "../css/header.css";
 
-export default function Header({ showing, setShowing }) {
+export default function Header({ showing, setCurrentGameKey, setShowing }) {
     const buttonsText = ["home", "games", "scoreboards", "challenge"];
 
     return (
@@ -13,7 +13,10 @@ export default function Header({ showing, setShowing }) {
                     {buttonsText.map((text) => (
                         <button
                             key={`nav button ${text}`}
-                            onClick={() => setShowing(text)}
+                            onClick={() => {
+                                setCurrentGameKey();
+                                setShowing(text);
+                            }}
                             disabled={showing === text}
                         >
                             {text}

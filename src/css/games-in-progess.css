@@ -1,0 +1,16 @@
+.games-in-progress ul {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  list-style-type: none;
+  margin: auto;
+  padding: 0;
+}
+.games-in-progress ul li {
+  text-align: left;
+}
+.games-in-progress ul li .end-game-button {
+  font-weight: bold;
+  padding: 10px;
+  text-decoration: none;
+}/*# sourceMappingURL=games-in-progess.css.map */

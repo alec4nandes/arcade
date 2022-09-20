@@ -1,0 +1,20 @@
+.challenge {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 auto;
+}
+.challenge h2 {
+  margin-bottom: 0;
+}
+.challenge p {
+  margin: 0;
+}
+.challenge form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.challenge form input {
+  width: 200px;
+}/*# sourceMappingURL=challenge.css.map */

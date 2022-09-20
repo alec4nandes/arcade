@@ -1,0 +1,21 @@
+.home button.sign-out-button {
+  margin-top: 50px;
+}
+.home .game-options {
+  max-width: 600px;
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.home .game-options button {
+  height: 100%;
+  flex: 1;
+  font-size: 24px;
+}
+.home .game-options .vertical-divider {
+  height: 100%;
+  width: 1.5px;
+  background-color: #7d85cb;
+}/*# sourceMappingURL=home.css.map */

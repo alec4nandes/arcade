@@ -1,3 +1,4 @@
+import "../../css/games-in-progess.css";
 import { deleteDoc, doc } from "firebase/firestore";
 import { firestore } from "../../database";
 
@@ -24,14 +25,22 @@ export default function GamesInProgress({
 
     return (
         <div className="games-in-progress">
-            <h3>Games In Progress</h3>
+            <h2>Games In Progress</h2>
             <ul>
                 {getGamesInProgress().map((key) => (
                     <li key={`${key} in progress`}>
-                        <button onClick={() => setCurrentGameKey(key)}>
-                            {key.split("-").join(" and ")}
+                        <button
+                            className="end-game-button"
+                            onClick={() => endGameHandler(key)}
+                        >
+                            X
                         </button>
-                        <button onClick={() => endGameHandler(key)}>X</button>
+                        <button
+                            className="cta-button"
+                            onClick={() => setCurrentGameKey(key)}
+                        >
+                            {key.split("-").join(" • ")}
+                        </button>
                     </li>
                 ))}
             </ul>
