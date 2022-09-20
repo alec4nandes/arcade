@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 10px;
+  padding: 10px 10px 10px 15px;
 }
 .header .logo {
   height: 50px;
@@ -29,6 +29,10 @@
   font-size: 16px;
   padding: 0;
   text-decoration: underline;
+}
+.header .header-text .navigation button:disabled {
+  color: #aaa;
+  text-decoration: none;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,6 +1,10 @@
 .dashboard {
   text-align: center;
 }
+.dashboard h2.greeting {
+  font-size: 28px;
+  font-weight: 400;
+}
 .dashboard .pick-opponents {
   width: 200px;
   margin: auto;
