@@ -95,6 +95,15 @@
   margin: 5px auto;
   padding: 0 8px;
 }
+.sign-in .sign-in-form-container form input::-moz-placeholder {
+  color: #aaa;
+}
+.sign-in .sign-in-form-container form input:-ms-input-placeholder {
+  color: #aaa;
+}
+.sign-in .sign-in-form-container form input::placeholder {
+  color: #aaa;
+}
 .sign-in .sign-in-form-container form input[type=password] {
   font-family: "Arial", sans-serif !important;
 }
@@ -106,6 +115,10 @@
 }
 .sign-in .sign-in-form-container form input[type=password]::placeholder {
   font-family: "Rajdhani", sans-serif;
+}
+.sign-in .sign-in-form-container form input:-webkit-autofill, .sign-in .sign-in-form-container form input:-webkit-autofill:focus {
+  -webkit-transition: background-color 600000s 0s, color 600000s 0s;
+  transition: background-color 600000s 0s, color 600000s 0s;
 }
 .sign-in .sign-in-form-container button:hover {
   cursor: pointer;
@@ -131,15 +144,6 @@
   }
   .sign-in .sign-in-form-container form input {
     color: white;
-  }
-  .sign-in .sign-in-form-container form input::-moz-placeholder {
-    color: #aaa;
-  }
-  .sign-in .sign-in-form-container form input:-ms-input-placeholder {
-    color: #aaa;
-  }
-  .sign-in .sign-in-form-container form input::placeholder {
-    color: #aaa;
   }
   .sign-in .sign-in-form-container button.instead:hover {
     color: white !important;

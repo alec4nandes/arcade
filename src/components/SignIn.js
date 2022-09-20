@@ -130,6 +130,22 @@ export default function SignIn({
         });
     }, [setEmail, setIsVerified, setUsername]);
 
+    /* NESTED COMPONENTS */
+
+    function ErrorMessage() {
+        const message =
+            errorMessage || (username && !isVerified && missingEmail);
+        return message ? (
+            <div className="error-message">
+                <em>{message}</em>
+            </div>
+        ) : (
+            <></>
+        );
+    }
+
+    /* END NESTED COMPONENTS */
+
     return (
         <div className="sign-in">
             <div className="sign-in-form-container">
@@ -175,6 +191,7 @@ export default function SignIn({
                         required
                     />
                     <button type="submit">sign {isSignUp ? "up" : "in"}</button>
+                    <ErrorMessage />
                 </form>
                 <button
                     className="instead"
@@ -185,9 +202,6 @@ export default function SignIn({
                 >
                     sign {isSignUp ? "in" : "up"} instead
                 </button>
-                <em>
-                    {errorMessage || (username && !isVerified && missingEmail)}
-                </em>
             </div>
         </div>
     );

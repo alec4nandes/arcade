@@ -88,11 +88,23 @@
                 padding: 0 8px;
             }
 
-            input[type="password"] {
-                font-family: "Arial", sans-serif !important;
-
+            input {
                 &::placeholder {
-                    font-family: "Rajdhani", sans-serif;
+                    color: #aaa;
+                }
+
+                &[type="password"] {
+                    font-family: "Arial", sans-serif !important;
+
+                    &::placeholder {
+                        font-family: "Rajdhani", sans-serif;
+                    }
+                }
+
+                // for Chrome autocomplete
+                &:-webkit-autofill,
+                &:-webkit-autofill:focus {
+                    transition: background-color 600000s 0s, color 600000s 0s;
                 }
             }
         }
@@ -125,10 +137,6 @@
 
                 input {
                     color: white;
-
-                    &::placeholder {
-                        color: #aaa;
-                    }
                 }
             }
 
