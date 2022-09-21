@@ -74,8 +74,8 @@ export default function Scoreboards({
         return (
             <div className="my-scores">
                 <h3>
-                    wins: {winLoss[username].wins || 0} / losses:{" "}
-                    {winLoss[username].losses || 0}
+                    wins: {winLoss[username]?.wins || 0} / losses:{" "}
+                    {winLoss[username]?.losses || 0}
                 </h3>
                 <div className="game-scores">
                     {myScoreboards

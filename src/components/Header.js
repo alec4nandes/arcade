@@ -2,7 +2,7 @@ import { Logo } from "./SignIn";
 import "../css/header.css";
 
 export default function Header({ showing, setCurrentGameKey, setShowing }) {
-    const buttonsText = ["home", "games", "scoreboards", "challenge"];
+    const buttonsText = ["home", "games", "scores", "challenge"];
 
     return (
         <header className="header">

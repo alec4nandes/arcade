@@ -42,7 +42,7 @@ export default function Dashboard({ username }) {
                     }}
                 />
             ),
-            scoreboards: (
+            scores: (
                 <Scoreboards {...{ username, setCurrentGameKey, setShowing }} />
             ),
             challenge: (
