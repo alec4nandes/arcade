@@ -62,7 +62,7 @@ button:not(:disabled):hover {
 }
 
 .cta-button:hover {
-    color: black !important;
+    color: #000 !important;
 }
 
 code {

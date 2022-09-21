@@ -1,21 +1,60 @@
-.scoreboards .game-scores table {
+.scoreboards h3 {
+  font-size: 20px;
+}
+.scoreboards .my-scores .game-scores table {
   min-width: 200px;
   margin: auto;
 }
-.scoreboards .game-scores table tr:last-child td {
+.scoreboards .my-scores .game-scores table tr:last-child td {
   font-weight: bold;
 }
-.scoreboards .game-scores table tr th,
-.scoreboards .game-scores table tr td {
+.scoreboards .my-scores .game-scores table tr th,
+.scoreboards .my-scores .game-scores table tr td {
   padding: 2px 8px;
 }
-.scoreboards .game-scores table tr th {
+.scoreboards .my-scores .game-scores table tr th {
   background-color: #7d85cb;
 }
-.scoreboards .game-scores table tr th button {
+.scoreboards .my-scores .game-scores table tr th button {
   width: 100%;
+  color: #fff;
   font-weight: bold;
 }
-.scoreboards .game-scores table tr td {
+.scoreboards .my-scores .game-scores table tr th button:hover {
+  color: #000 !important;
+}
+.scoreboards .my-scores .game-scores table tr td {
   background-color: lavender;
+}
+@media (prefers-color-scheme: dark) {
+  .scoreboards .my-scores .game-scores table tr td {
+    background-color: #979ed5;
+    color: #000;
+  }
+}
+.scoreboards .top-scores p,
+.scoreboards .top-scores ol {
+  color: #d2d2ff;
+  font-weight: bold;
+}
+.scoreboards .top-scores ol {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 20px;
+  margin: 20px auto 0;
+  padding-left: 20px;
+  text-align: left;
+}
+.scoreboards .top-scores ol li span {
+  color: #000;
+}
+@media (prefers-color-scheme: dark) {
+  .scoreboards .top-scores p,
+.scoreboards .top-scores ol {
+    color: #999;
+  }
+  .scoreboards .top-scores ol li span {
+    color: #fff;
+  }
 }/*# sourceMappingURL=scoreboard.css.map */
