@@ -18,6 +18,7 @@ export default function KingsCorner({
         [playerPicks, setPlayerPicks] = useState([]), // player can pick multiple ascending cards
         // new state: all hands
         [allHands, setAllHands] = useState(),
+        [wins, setWins] = useState(),
         [onTheBoard, setOnTheBoard] = useState(),
         [drawPile, setDrawPile] = useState(),
         [selected, setSelected] = useState(),
@@ -231,18 +232,12 @@ export default function KingsCorner({
             setOnTheBoard(onTheBoard);
             setDrawPile(drawPile);
         }
-        // load game from Firebase
-        getDoc(doc(firestore, "Games", gameKey)).then((doc) =>
-            updateGame(doc.data())
-        );
-        // listen for changes
-        const unsubscribe = onSnapshot(
-            doc(firestore, "Games", gameKey),
-            (doc) => {
-                setIsGameCancelled(!doc.data());
-                updateGame(doc.data());
-            }
-        );
+        const theDoc = doc(firestore, "Games", gameKey);
+        // load the game and listen for changes
+        const unsubscribe = onSnapshot(theDoc, (doc) => {
+            setIsGameCancelled(!doc.data());
+            updateGame(doc.data());
+        });
         return unsubscribe;
     }, [gameKey, setCurrentGameKey]);
 
@@ -272,14 +267,16 @@ export default function KingsCorner({
                             scoreboard = await getDoc(theDoc),
                             update = scoreboard.exists()
                                 ? scoreboard.data()
-                                : players.reduce(
-                                      (a, v) => ({ ...a, [v]: 0 }),
-                                      {}
-                                  );
+                                : {
+                                      wins: players.reduce(
+                                          (a, v) => ({ ...a, [v]: 0 }),
+                                          {}
+                                      ),
+                                  };
                         if (update.lastGame && update.lastGame === gameId) {
                             return;
                         }
-                        update[
+                        update.wins[
                             playingComputer && !iWon ? "$cpu" : username
                         ] += 1;
                         update.lastGame = gameId;
@@ -330,6 +327,15 @@ export default function KingsCorner({
         }
     }, [myHand]);
 
+    // get game win tallies to display with usernames
+    useEffect(() => {
+        const theDoc = doc(firestore, "Scoreboards", gameKey),
+            unsubscribe = onSnapshot(theDoc, (doc) =>
+                setWins(doc.data()?.wins || {})
+            );
+        return unsubscribe;
+    }, [gameKey]);
+
     /* END USE EFFECTS */
 
     /* NESTED COMPONENTS */
@@ -364,26 +370,33 @@ export default function KingsCorner({
 
     return (
         <div className="kings-corner">
-            {allHands && (
+            {allHands && wins && (
                 <>
                     <div className="all-hands">
-                        {players.map((player, i) => (
-                            <Hand
-                                {...{
-                                    key: `hand-${i + 1}`,
-                                    drawn: allHands[player],
-                                    title: player,
-                                    playerPicks,
-                                    drawnCardRef,
-                                    isActiveHand: currentPlayer === player,
-                                    isOpponent: player !== username,
-                                    pairClickHandler:
-                                        player === username
-                                            ? pairClickHandler
-                                            : () => "",
-                                }}
-                            />
-                        ))}
+                        {players
+                            // winners on top
+                            .sort(
+                                (a, b) =>
+                                    wins[b] - wins[a] || a.localeCompare(b)
+                            )
+                            .map((player, i) => (
+                                <Hand
+                                    {...{
+                                        key: `hand-${i + 1}`,
+                                        drawn: allHands[player],
+                                        title: player,
+                                        wins: wins[player],
+                                        playerPicks,
+                                        drawnCardRef,
+                                        isActiveHand: currentPlayer === player,
+                                        isOpponent: player !== username,
+                                        pairClickHandler:
+                                            player === username
+                                                ? pairClickHandler
+                                                : () => "",
+                                    }}
+                                />
+                            ))}
                     </div>
                     <Board
                         {...{

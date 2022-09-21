@@ -1,0 +1,32 @@
+.scoreboards {
+    .game-scores {
+        table {
+            min-width: 200px;
+            margin: auto;
+
+            tr {
+                &:last-child td {
+                    font-weight: bold;
+                }
+
+                th,
+                td {
+                    padding: 2px 8px;
+                }
+
+                th {
+                    background-color: #7d85cb;
+
+                    button {
+                        width: 100%;
+                        font-weight: bold;
+                    }
+                }
+
+                td {
+                    background-color: lavender;
+                }
+            }
+        }
+    }
+}

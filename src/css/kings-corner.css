@@ -21,18 +21,33 @@
   background-color: lavender;
 }
 .kings-corner .all-hands .hand-container .player-summary {
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 .kings-corner .all-hands .hand-container .player-summary * {
   margin: 0;
   white-space: nowrap;
 }
-.kings-corner .all-hands .hand-container .player-summary h2 {
+.kings-corner .all-hands .hand-container .player-summary > div {
+  display: flex;
   font-weight: bold;
+  margin-bottom: 12px;
 }
-.kings-corner .all-hands .hand-container .player-summary h2.active {
+.kings-corner .all-hands .hand-container .player-summary > div.active h2 {
   background-color: lightgreen;
   color: #000;
+}
+.kings-corner .all-hands .hand-container .player-summary > div:not(.active) h2 {
+  background-color: rgb(126, 157, 249);
+}
+.kings-corner .all-hands .hand-container .player-summary > div h2 {
+  flex: 1;
+}
+.kings-corner .all-hands .hand-container .player-summary > div .wins {
+  min-width: 25px;
+  background-color: #c3d4ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .kings-corner .all-hands .hand-container .player-summary h3 {
   font-weight: 400;
@@ -45,6 +60,12 @@
     background-color: #888;
   }
   .kings-corner .all-hands .hand-container:not(.mine) {
+    background-color: #333;
+  }
+  .kings-corner .all-hands .hand-container .player-summary > div .wins {
+    background-color: #444;
+  }
+  .kings-corner .all-hands .hand-container .player-summary > div:not(.active) h2 {
     background-color: #222;
   }
 }
@@ -140,12 +161,14 @@
   .kings-corner .all-hands .hand-container:not(.mine) {
     height: 40px;
   }
+  .kings-corner .all-hands .hand-container:not(.mine) .player-summary > div {
+    margin-bottom: 0;
+  }
   .kings-corner .all-hands .hand-container .player-summary {
     height: 100%;
     min-width: 100px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     margin: 0;
   }
   .kings-corner .all-hands .hand-container .hand {

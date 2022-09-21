@@ -1,0 +1,21 @@
+.scoreboards .game-scores table {
+  min-width: 200px;
+  margin: auto;
+}
+.scoreboards .game-scores table tr:last-child td {
+  font-weight: bold;
+}
+.scoreboards .game-scores table tr th,
+.scoreboards .game-scores table tr td {
+  padding: 2px 8px;
+}
+.scoreboards .game-scores table tr th {
+  background-color: #7d85cb;
+}
+.scoreboards .game-scores table tr th button {
+  width: 100%;
+  font-weight: bold;
+}
+.scoreboards .game-scores table tr td {
+  background-color: lavender;
+}/*# sourceMappingURL=scoreboard.css.map */
