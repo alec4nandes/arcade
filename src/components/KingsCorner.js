@@ -1,6 +1,6 @@
 import "../css/kings-corner.css";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../database";
 import { cornerIndexes, emptyPair, getGameData, getPlayers } from "../cards";
 import Board from "./Board";
@@ -14,6 +14,7 @@ export default function KingsCorner({
 }) {
     const players = getPlayers(gameKey),
         [currentPlayer, setCurrentPlayer] = useState(),
+        [gameId, setGameId] = useState(),
         [playerPicks, setPlayerPicks] = useState([]), // player can pick multiple ascending cards
         // new state: all hands
         [allHands, setAllHands] = useState(),
@@ -222,7 +223,9 @@ export default function KingsCorner({
             if (!gameData) {
                 return;
             }
-            const { currentPlayer, allHands, onTheBoard, drawPile } = gameData;
+            const { id, currentPlayer, allHands, onTheBoard, drawPile } =
+                gameData;
+            setGameId(id);
             setCurrentPlayer(currentPlayer);
             setAllHands(allHands);
             setOnTheBoard(onTheBoard);
@@ -251,18 +254,45 @@ export default function KingsCorner({
         }
     }, [isGameCancelled, setCurrentGameKey, setShowing]);
 
-    // announce winner
+    // announce winner and update scores
     useEffect(() => {
         let timeout;
         if (isGameOver()) {
+            const iWon = !allHands[username].length,
+                playingComputer = players.includes("$cpu");
             timeout = setTimeout(
-                () =>
-                    alert(`YOU ${allHands[username].length ? "LOST" : "WON"}`),
+                () => alert(`YOU ${iWon ? "WON" : "LOST"}`),
                 1000
             );
+            // only the computer or winner updates the scoreboard
+            if (iWon || playingComputer) {
+                async function updateScores() {
+                    try {
+                        const theDoc = doc(firestore, "Scoreboards", gameKey),
+                            scoreboard = await getDoc(theDoc),
+                            update = scoreboard.exists()
+                                ? scoreboard.data()
+                                : players.reduce(
+                                      (a, v) => ({ ...a, [v]: 0 }),
+                                      {}
+                                  );
+                        if (update.lastGame && update.lastGame === gameId) {
+                            return;
+                        }
+                        update[
+                            playingComputer && !iWon ? "$cpu" : username
+                        ] += 1;
+                        update.lastGame = gameId;
+                        await setDoc(theDoc, update);
+                    } catch (error) {
+                        console.warn(error);
+                    }
+                }
+                updateScores();
+            }
         }
         return () => clearTimeout(timeout);
-    }, [allHands, isGameOver, username]);
+    }, [allHands, gameId, gameKey, isGameOver, players, username]);
 
     // scroll to newly drawn card in player's hand
     const myHand = allHands?.[username];
