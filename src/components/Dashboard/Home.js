@@ -13,11 +13,9 @@ export default function Home({ username, setShowing }) {
                 </button>
                 <div className="vertical-divider"></div>
                 <button onClick={() => setShowing("challenge")}>
-                    play
-                    <br />
-                    someone
-                    <br />
                     new
+                    <br />
+                    game
                 </button>
             </div>
             <div className="info" data-accordion>
