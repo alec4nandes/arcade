@@ -58,11 +58,10 @@ export default function Dashboard({ username }) {
                         username,
                     }}
                 />
+            ) : dashboardError ? (
+                <em>{dashboardError}</em>
             ) : (
-                <>
-                    {display[showing]}
-                    <em>{dashboardError}</em>
-                </>
+                display[showing]
             )}
         </div>
     );

@@ -1,6 +1,7 @@
 .header {
   width: 100%;
   background-color: #fff;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -20,7 +21,6 @@
 }
 .header .header-text .navigation {
   display: flex;
-  flex-wrap: wrap;
   gap: 0 18px;
 }
 .header .header-text .navigation button {

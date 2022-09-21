@@ -1,9 +1,6 @@
 .kings-corner {
-  height: 100%;
-  width: 100%;
   background-color: #333;
   display: flex;
-  flex: 1;
 }
 .kings-corner .back-to-dashboard {
   position: absolute;
