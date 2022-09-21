@@ -5,7 +5,7 @@ import Pair from "./Pair";
 
 export default function Board({
     onTheBoard,
-    drawPile,
+    DrawPileButton,
     playerPicks,
     successfulPlay,
     isOpponent,
@@ -46,7 +46,9 @@ export default function Board({
                     />
                 </div>
                 {index === 3 && (
-                    <div className="square draw-pile">{drawPile}</div>
+                    <div className="square draw-pile">
+                        <DrawPileButton />
+                    </div>
                 )}
             </>
         );

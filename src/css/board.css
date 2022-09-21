@@ -79,7 +79,7 @@
   width: 66%;
   background-color: #7d85cb;
   border-radius: 10px;
-  color: white;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,7 +90,7 @@
   opacity: 0.5;
 }
 .board-container .board .square.draw-pile button:hover {
-  color: #000 !important;
+  color: #fff !important;
 }
 
 @media only screen and (max-width: 1000px) {

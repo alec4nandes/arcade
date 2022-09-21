@@ -1,10 +1,9 @@
 .kings-corner {
   display: flex;
 }
-.kings-corner .back-to-dashboard {
-  position: absolute;
-  top: 0;
-  right: 0;
+.kings-corner .all-hands .mine .card:hover,
+.kings-corner .board .card:hover {
+  cursor: pointer;
 }
 .kings-corner .all-hands {
   display: flex;

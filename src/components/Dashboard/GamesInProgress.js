@@ -24,29 +24,43 @@ export default function GamesInProgress({
         deleteDoc(doc(firestore, "Games", gameKey));
     }
 
+    const inProgress = getGamesInProgress();
+
     return (
         <div className="games-in-progress">
             <h2>Games In Progress</h2>
             <ul>
-                {getGamesInProgress().map((key) => (
-                    <li key={`${key} in progress`}>
-                        <button
-                            className="end-game-button"
-                            onClick={() => endGameHandler(key)}
-                        >
-                            X
-                        </button>
-                        <button
-                            className="cta-button"
-                            onClick={() => {
-                                setCurrentGameKey(key);
-                                setShowing();
-                            }}
-                        >
-                            {key.split("-").join(" • ")}
-                        </button>
-                    </li>
-                ))}
+                {inProgress.length ? (
+                    inProgress.map((key) => (
+                        <li key={`${key} in progress`}>
+                            <button
+                                className="end-game-button"
+                                onClick={() => endGameHandler(key)}
+                            >
+                                X
+                            </button>
+                            <button
+                                className="cta-button"
+                                onClick={() => {
+                                    setCurrentGameKey(key);
+                                    setShowing();
+                                }}
+                            >
+                                {key.split("-").join(" • ")}
+                            </button>
+                        </li>
+                    ))
+                ) : (
+                    <>
+                        <p>You're not playing anyone at the moment.</p>
+                        <p>
+                            <button onClick={() => setShowing("challenge")}>
+                                Click here
+                            </button>{" "}
+                            to challenge someone.
+                        </p>
+                    </>
+                )}
             </ul>
         </div>
     );
