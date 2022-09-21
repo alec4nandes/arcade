@@ -8,6 +8,7 @@ export default function Challenge({
     username,
     setDashboardError,
     setCurrentGameKey,
+    setShowing,
 }) {
     async function findOpponentHandler(event) {
         const opponents = Object.values(getFormData(event.target))
@@ -50,6 +51,7 @@ export default function Challenge({
                 );
             }
             setCurrentGameKey(gameKey);
+            setShowing();
         } catch (error) {
             setDashboardError(error.message);
         }

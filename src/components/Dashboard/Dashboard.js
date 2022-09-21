@@ -34,13 +34,23 @@ export default function Dashboard({ username }) {
             home: <Home {...{ username, setShowing }} />,
             games: (
                 <GamesInProgress
-                    {...{ username, allGameKeys, setCurrentGameKey }}
+                    {...{
+                        username,
+                        allGameKeys,
+                        setCurrentGameKey,
+                        setShowing,
+                    }}
                 />
             ),
             scoreboards: <Scoreboards />,
             challenge: (
                 <Challenge
-                    {...{ username, setDashboardError, setCurrentGameKey }}
+                    {...{
+                        username,
+                        setDashboardError,
+                        setCurrentGameKey,
+                        setShowing,
+                    }}
                 />
             ),
         }),

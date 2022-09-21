@@ -5,11 +5,11 @@ export default function Header({ showing, setCurrentGameKey, setShowing }) {
     const buttonsText = ["home", "games", "scoreboards", "challenge"];
 
     return (
-        <div className="header">
+        <header className="header">
             <Logo />
             <div className="header-text">
                 <h1>Kings Corner</h1>
-                <div className="navigation">
+                <nav className="navigation">
                     {buttonsText.map((text) => (
                         <button
                             key={`nav button ${text}`}
@@ -22,8 +22,8 @@ export default function Header({ showing, setCurrentGameKey, setShowing }) {
                             {text}
                         </button>
                     ))}
-                </div>
+                </nav>
             </div>
-        </div>
+        </header>
     );
 }

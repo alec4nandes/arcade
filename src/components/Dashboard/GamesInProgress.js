@@ -6,6 +6,7 @@ export default function GamesInProgress({
     username,
     allGameKeys,
     setCurrentGameKey,
+    setShowing,
 }) {
     function getGamesInProgress() {
         const starting = `${username}-`,
@@ -37,7 +38,10 @@ export default function GamesInProgress({
                         </button>
                         <button
                             className="cta-button"
-                            onClick={() => setCurrentGameKey(key)}
+                            onClick={() => {
+                                setCurrentGameKey(key);
+                                setShowing();
+                            }}
                         >
                             {key.split("-").join(" • ")}
                         </button>
