@@ -48,6 +48,11 @@ export default function KingsCorner({
                 selectedIsEmpty = selected?.top.name === emptyPair.top.name;
 
             if (
+                // NOT selected on board and target in hand
+                !(
+                    onTheBoard.includes(selected) &&
+                    !onTheBoard.includes(target)
+                ) &&
                 selected &&
                 (targetIsEmpty
                     ? targetInCorner
