@@ -1,5 +1,4 @@
 .kings-corner {
-  background-color: #333;
   display: flex;
 }
 .kings-corner .back-to-dashboard {
@@ -14,72 +13,98 @@
 .kings-corner .all-hands .hand-container {
   height: 100%;
   width: 150px;
-  background-color: #555;
+  background-color: #7d85cb;
   overflow: auto;
   position: relative;
   text-align: center;
 }
 .kings-corner .all-hands .hand-container.mine {
-  background-color: #888;
+  background-color: lavender;
 }
 .kings-corner .all-hands .hand-container .player-summary {
   margin: 10px 0;
 }
 .kings-corner .all-hands .hand-container .player-summary * {
   margin: 0;
+  white-space: nowrap;
+}
+.kings-corner .all-hands .hand-container .player-summary h2 {
+  font-weight: bold;
 }
 .kings-corner .all-hands .hand-container .player-summary h2.active {
-  background-color: yellow;
+  background-color: lightgreen;
+  color: #000;
+}
+.kings-corner .all-hands .hand-container .player-summary h3 {
+  font-weight: 400;
 }
 .kings-corner .all-hands .hand-container .hand .pair {
   margin: auto;
+}
+@media (prefers-color-scheme: dark) {
+  .kings-corner .all-hands .hand-container.mine {
+    background-color: #888;
+  }
+  .kings-corner .all-hands .hand-container:not(.mine) {
+    background-color: #222;
+  }
 }
 .kings-corner .pair {
   height: 150px;
   width: 100px;
   position: relative;
 }
-.kings-corner .pair .card.red {
-  color: red;
-}
 .kings-corner .pair.backside .card {
   background-color: rgb(126, 157, 249);
 }
 .kings-corner .pair.empty .card {
-  background-color: #444;
+  background-color: #7d85cb;
+  border: 0;
 }
-.kings-corner .pair.new .card {
+.kings-corner .pair.new .card::after {
   background-color: lightpink;
 }
-.kings-corner .pair.selected .card {
+.kings-corner .pair.selected .card::after {
   background-color: yellow;
 }
-.kings-corner .pair.success .card {
+.kings-corner .pair.success .card::after {
   background-color: lightgreen;
 }
 .kings-corner .pair .card {
   height: 150px;
   width: 100%;
-  background-color: antiquewhite;
-  border: 1px solid black;
-  border-radius: 10px;
+  background-size: 100% 100%;
+  border: 0.5px solid #444;
+  border-radius: 5px;
   box-sizing: border-box;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  font-size: 0.75rem;
-  font-weight: bold;
-  line-height: 0.75rem;
   position: relative;
-  text-align: center;
 }
 .kings-corner .pair .card:nth-child(2) {
   top: -120px;
 }
+.kings-corner .pair .card::after {
+  border-radius: 5px;
+  content: "";
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+@media (prefers-color-scheme: dark) {
+  .kings-corner .pair.empty .card {
+    background-color: #333;
+    border: 0;
+  }
+}
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1100px) {
   .kings-corner .all-hands .hand-container {
-    width: 100px;
+    width: 90px;
+  }
+  .kings-corner .all-hands .hand-container .player-summary * {
+    font-size: 16px;
   }
   .kings-corner .all-hands .hand-container .hand .pair {
     top: 0 !important;
@@ -111,10 +136,10 @@
     overflow-y: hidden;
   }
   .kings-corner .all-hands .hand-container.mine {
-    height: 75px;
+    height: 65px;
   }
   .kings-corner .all-hands .hand-container:not(.mine) {
-    height: 50px;
+    height: 40px;
   }
   .kings-corner .all-hands .hand-container .player-summary {
     height: 100%;
@@ -123,9 +148,6 @@
     flex-direction: column;
     justify-content: center;
     margin: 0;
-  }
-  .kings-corner .all-hands .hand-container .player-summary * {
-    font-size: 1rem;
   }
   .kings-corner .all-hands .hand-container .hand {
     height: -webkit-fit-content !important;

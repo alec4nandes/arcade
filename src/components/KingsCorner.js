@@ -312,7 +312,14 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                 }
                 disabled={gameOver ? false : !isYourTurn}
             >
-                {gameOver ? "NEW GAME" : `DRAW CARD (${drawPile.length})`}
+                {gameOver ? (
+                    "NEW GAME"
+                ) : (
+                    <>
+                        DRAW CARD
+                        <br />({drawPile.length} left)
+                    </>
+                )}
             </button>
         );
     }

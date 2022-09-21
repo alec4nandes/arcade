@@ -118,15 +118,21 @@
                 button {
                     height: 66%;
                     width: 66%;
-                    background-color: black;
+                    background-color: #7d85cb;
                     border-radius: 10px;
                     color: white;
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                    font-weight: bold;
+                    text-decoration: none;
 
                     &:disabled {
                         opacity: 0.5;
+                    }
+
+                    &:hover {
+                        color: #000 !important;
                     }
                 }
             }
