@@ -1,0 +1,82 @@
+.home button.sign-out-button {
+  margin-top: 30px;
+}
+.home .game-options {
+  max-width: 600px;
+  height: 125px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.home .game-options button {
+  height: 100%;
+  flex: 1;
+  font-size: 24px;
+}
+.home .game-options .vertical-divider {
+  height: 100%;
+  width: 1.5px;
+  background-color: #7d85cb;
+}
+.home .info {
+  max-width: 700px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin: auto;
+  text-align: left;
+  padding: 30px;
+}
+.home .info details {
+  color: #fff;
+}
+.home .info details[open], .home .info details:hover {
+  color: #000;
+}
+.home .info details[open] summary, .home .info details:hover summary {
+  border-bottom: 1px solid #000;
+}
+.home .info details summary {
+  border-bottom: 1px solid #fff;
+}
+.home .info details summary:hover {
+  cursor: pointer;
+}
+.home .info details p {
+  color: #000;
+}
+.home .info details p a {
+  color: #fff;
+}
+.home .info details p a:hover {
+  color: #000;
+}
+
+@media (prefers-color-scheme: dark) {
+  .home .game-options .vertical-divider {
+    background-color: #444;
+  }
+  .home .info details {
+    color: #7d85cb;
+  }
+  .home .info details[open], .home .info details:hover {
+    color: #fff;
+  }
+  .home .info details[open] summary, .home .info details:hover summary {
+    border-bottom: 1px solid #fff;
+  }
+  .home .info details summary {
+    border-bottom: 1px solid #7d85cb;
+  }
+  .home .info details p {
+    color: #fff;
+  }
+  .home .info details p a {
+    color: #7d85cb;
+  }
+  .home .info details p a:hover {
+    color: #fff;
+  }
+}/*# sourceMappingURL=home.css.map */

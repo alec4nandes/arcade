@@ -1,28 +1,27 @@
 .dashboard {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
     text-align: center;
 
-    .pick-opponents {
-        width: 200px;
-        margin: auto;
+    --header-height: 80px;
 
-        button {
-            width: 100%;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
+    .header {
+        height: var(--header-height);
     }
 
-    .games-in-progress {
-        ul {
-            width: fit-content;
-            margin: auto;
+    & > *:not(.header) {
+        min-height: calc(100% - var(--header-height));
+        max-height: calc(100% - var(--header-height));
+        width: 100%;
+        box-sizing: border-box;
+        flex: 1;
+        overflow: auto;
 
-            li {
-                text-align: left;
-            }
+        &:not(.kings-corner) {
+            padding-bottom: 30px;
         }
     }
 }

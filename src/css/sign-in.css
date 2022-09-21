@@ -44,23 +44,8 @@
   font-weight: 400;
   margin: 10px 0;
 }
-.sign-in .sign-in-form-container button,
-.sign-in .sign-in-form-container input {
-  border-radius: 0;
-  -webkit-appearance: none;
-}
-.sign-in .sign-in-form-container form::-moz-selection {
-  background: transparent;
-  border: 0;
-  outline: 0;
-  text-align: center;
-}
-.sign-in .sign-in-form-container form::selection,
 .sign-in .sign-in-form-container button.instead,
 .sign-in .sign-in-form-container input {
-  background: transparent;
-  border: 0;
-  outline: 0;
   text-align: center;
 }
 .sign-in .sign-in-form-container form {
@@ -68,32 +53,11 @@
   flex-direction: column;
   gap: 15px;
 }
-.sign-in .sign-in-form-container form::-moz-selection {
-  font-size: 20px;
-}
-.sign-in .sign-in-form-container form::selection,
-.sign-in .sign-in-form-container form button[type=submit],
 .sign-in .sign-in-form-container form input {
   font-size: 20px;
 }
-.sign-in .sign-in-form-container form::-moz-selection {
-  border-bottom: 1px solid #555;
-}
-.sign-in .sign-in-form-container form::selection,
 .sign-in .sign-in-form-container form input {
-  border-bottom: 1px solid #555;
-}
-.sign-in .sign-in-form-container form button[type=submit] {
-  height: 30px;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  background-color: #7d85cb;
-  border: 0;
-  border-radius: 5px;
-  color: #fff;
-  margin: 5px auto;
-  padding: 0 8px;
+  /* for Chrome autocomplete */
 }
 .sign-in .sign-in-form-container form input::-moz-placeholder {
   color: #aaa;
@@ -117,35 +81,24 @@
   font-family: "Rajdhani", sans-serif;
 }
 .sign-in .sign-in-form-container form input:-webkit-autofill, .sign-in .sign-in-form-container form input:-webkit-autofill:focus {
-  -webkit-transition: background-color 600000s 0s, color 600000s 0s;
-  transition: background-color 600000s 0s, color 600000s 0s;
-}
-.sign-in .sign-in-form-container button:hover {
-  cursor: pointer;
-  color: black !important;
+  box-shadow: 0 0 0px 1000px #fff inset;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  -webkit-text-fill-color: #000;
 }
 .sign-in .sign-in-form-container button.instead {
-  color: #7d85cb;
-  font-size: 16px;
+  color: #979ed5;
   margin-top: 10px;
-  text-decoration: underline;
 }
 @media (prefers-color-scheme: dark) {
   .sign-in .sign-in-form-container {
     background-color: #000;
-    color: #fff;
-  }
-  .sign-in .sign-in-form-container form::-moz-selection {
-    border-bottom: 1px solid #fff;
-  }
-  .sign-in .sign-in-form-container form::selection,
-.sign-in .sign-in-form-container form input {
-    border-bottom: 1px solid #fff;
   }
   .sign-in .sign-in-form-container form input {
-    color: white;
+    /* for Chrome autocomplete */
   }
-  .sign-in .sign-in-form-container button.instead:hover {
-    color: white !important;
+  .sign-in .sign-in-form-container form input:-webkit-autofill, .sign-in .sign-in-form-container form input:-webkit-autofill:focus {
+    box-shadow: 0 0 0px 1000px #000 inset;
+    -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+    -webkit-text-fill-color: #fff;
   }
 }/*# sourceMappingURL=sign-in.css.map */

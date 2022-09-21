@@ -38,5 +38,39 @@ export default function Pair({
 }
 
 function Card({ card }) {
-    return <div className={`card ${card.color}`}>{card.name}</div>;
+    return (
+        <div
+            className={`card ${
+                card.name === emptyPair.top.name ? "empty" : card.color
+            }`}
+            style={{ backgroundImage: `url(${getCardImage(card)})` }}
+            alt={`${card.rank} of ${card.suit}`}
+        />
+    );
 }
+
+/* GET CARD IMAGE */
+
+function importAll(r) {
+    let images = {};
+    r.keys().forEach((item) => {
+        images[item.replace("./", "")] = r(item);
+    });
+    return images;
+}
+
+const images = importAll(
+    require.context("../images/cards", false, /\.(png|jpe?g|svg)$/)
+);
+
+function getCardImage(card) {
+    if (card.name !== emptyPair.top.name) {
+        const { rank, suit } = card,
+            fileName =
+                [rank, suit].join("_of_").toLowerCase() +
+                (isNaN(rank) && rank !== "Ace" ? "2" : "");
+        return images[`${fileName}.png`];
+    }
+}
+
+/* END GET CARD IMAGE */

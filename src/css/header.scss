@@ -1,0 +1,45 @@
+.header {
+    width: 100%;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 10px 10px 15px;
+
+    .logo {
+        height: 50px;
+        width: 50px;
+    }
+
+    .header-text {
+        text-align: left;
+
+        h1 {
+            font-size: 30px;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 0 18px;
+
+            button {
+                color: #979ed5;
+
+                &:disabled {
+                    color: #aaa;
+                    text-decoration: none;
+                    cursor: auto;
+                }
+            }
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .header {
+        background-color: #000;
+    }
+}

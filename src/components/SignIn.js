@@ -149,16 +149,7 @@ export default function SignIn({
     return (
         <div className="sign-in">
             <div className="sign-in-form-container">
-                <img
-                    className="logo"
-                    src={
-                        window.matchMedia?.("(prefers-color-scheme: dark)")
-                            .matches
-                            ? nightLogo
-                            : logo
-                    }
-                    alt="Four overlapping crowns with the four playing card suit symbols."
-                />
+                <Logo />
                 <h1>Kings Corner</h1>
                 <form
                     onSubmit={(event) => {
@@ -190,7 +181,9 @@ export default function SignIn({
                         type="password"
                         required
                     />
-                    <button type="submit">sign {isSignUp ? "up" : "in"}</button>
+                    <button className="cta-button" type="submit">
+                        sign {isSignUp ? "up" : "in"}
+                    </button>
                     <ErrorMessage />
                 </form>
                 <button
@@ -207,8 +200,21 @@ export default function SignIn({
     );
 }
 
+const Logo = () => (
+    <img
+        className="logo"
+        src={
+            window.matchMedia?.("(prefers-color-scheme: dark)").matches
+                ? nightLogo
+                : logo
+        }
+        alt="Four overlapping crowns with the four playing card suit symbols."
+    />
+);
+
 const SignOut = ({ setErrorMessage }) => (
     <button
+        className="sign-out-button"
         onClick={() => {
             signOut(auth);
             setErrorMessage?.();
@@ -231,4 +237,4 @@ function getFormData(formElem) {
     return Object.fromEntries(new FormData(formElem));
 }
 
-export { SignOut, getAllUsernames, getFormData };
+export { Logo, SignOut, getAllUsernames, getFormData };

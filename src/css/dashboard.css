@@ -1,23 +1,23 @@
 .dashboard {
-  text-align: center;
-}
-.dashboard .pick-opponents {
-  width: 200px;
-  margin: auto;
-}
-.dashboard .pick-opponents button {
+  height: 100%;
   width: 100%;
-}
-.dashboard .pick-opponents form {
   display: flex;
   flex-direction: column;
-}
-.dashboard .games-in-progress ul {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
   margin: auto;
+  text-align: center;
+  --header-height: 80px;
 }
-.dashboard .games-in-progress ul li {
-  text-align: left;
+.dashboard .header {
+  height: var(--header-height);
+}
+.dashboard > *:not(.header) {
+  min-height: calc(100% - var(--header-height));
+  max-height: calc(100% - var(--header-height));
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  overflow: auto;
+}
+.dashboard > *:not(.header):not(.kings-corner) {
+  padding-bottom: 30px;
 }/*# sourceMappingURL=dashboard.css.map */

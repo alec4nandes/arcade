@@ -1,0 +1,113 @@
+.home {
+    button {
+        &.sign-out-button {
+            margin-top: 30px;
+        }
+    }
+
+    .game-options {
+        max-width: 600px;
+        height: 125px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+
+        button {
+            height: 100%;
+            flex: 1;
+            font-size: 24px;
+        }
+
+        .vertical-divider {
+            height: 100%;
+            width: 1.5px;
+            background-color: #7d85cb;
+        }
+    }
+
+    .info {
+        max-width: 700px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin: auto;
+        text-align: left;
+        padding: 30px;
+
+        details {
+            color: #fff;
+
+            &[open],
+            &:hover {
+                color: #000;
+
+                summary {
+                    border-bottom: 1px solid #000;
+                }
+            }
+
+            summary {
+                border-bottom: 1px solid #fff;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            p {
+                color: #000;
+
+                a {
+                    color: #fff;
+
+                    &:hover {
+                        color: #000;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .home {
+        .game-options {
+            .vertical-divider {
+                background-color: #444;
+            }
+        }
+
+        .info {
+            details {
+                color: #7d85cb;
+
+                &[open],
+                &:hover {
+                    color: #fff;
+
+                    summary {
+                        border-bottom: 1px solid #fff;
+                    }
+                }
+
+                summary {
+                    border-bottom: 1px solid #7d85cb;
+                }
+
+                p {
+                    color: #fff;
+
+                    a {
+                        color: #7d85cb;
+
+                        &:hover {
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

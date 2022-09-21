@@ -46,18 +46,8 @@
             margin: 10px 0;
         }
 
-        button,
-        input {
-            border-radius: 0;
-            -webkit-appearance: none;
-        }
-
-        form::selection,
         button.instead,
         input {
-            background: transparent;
-            border: 0;
-            outline: 0;
             text-align: center;
         }
 
@@ -66,26 +56,8 @@
             flex-direction: column;
             gap: 15px;
 
-            &::selection,
-            button[type="submit"],
             input {
                 font-size: 20px;
-            }
-
-            &::selection,
-            input {
-                border-bottom: 1px solid #555;
-            }
-
-            button[type="submit"] {
-                height: 30px;
-                width: fit-content;
-                background-color: #7d85cb;
-                border: 0;
-                border-radius: 5px;
-                color: #fff;
-                margin: 5px auto;
-                padding: 0 8px;
             }
 
             input {
@@ -101,25 +73,20 @@
                     }
                 }
 
-                // for Chrome autocomplete
+                /* for Chrome autocomplete */
                 &:-webkit-autofill,
                 &:-webkit-autofill:focus {
-                    transition: background-color 600000s 0s, color 600000s 0s;
+                    box-shadow: 0 0 0px 1000px #fff inset;
+                    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+                    -webkit-text-fill-color: #000;
                 }
             }
         }
 
         button {
-            &:hover {
-                cursor: pointer;
-                color: black !important;
-            }
-
             &.instead {
-                color: #7d85cb;
-                font-size: 16px;
+                color: #979ed5;
                 margin-top: 10px;
-                text-decoration: underline;
             }
         }
     }
@@ -127,22 +94,16 @@
     @media (prefers-color-scheme: dark) {
         .sign-in-form-container {
             background-color: #000;
-            color: #fff;
 
             form {
-                &::selection,
                 input {
-                    border-bottom: 1px solid #fff;
-                }
-
-                input {
-                    color: white;
-                }
-            }
-
-            button {
-                &.instead:hover {
-                    color: white !important;
+                    /* for Chrome autocomplete */
+                    &:-webkit-autofill,
+                    &:-webkit-autofill:focus {
+                        box-shadow: 0 0 0px 1000px #000 inset;
+                        -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+                        -webkit-text-fill-color: #fff;
+                    }
                 }
             }
         }

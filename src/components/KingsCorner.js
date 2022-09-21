@@ -6,7 +6,12 @@ import { cornerIndexes, emptyPair, getGameData, getPlayers } from "../cards";
 import Board from "./Board";
 import Hand from "./Hand";
 
-export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
+export default function KingsCorner({
+    gameKey,
+    setCurrentGameKey,
+    setShowing,
+    username,
+}) {
     const players = getPlayers(gameKey),
         [currentPlayer, setCurrentPlayer] = useState(),
         [playerPicks, setPlayerPicks] = useState([]), // player can pick multiple ascending cards
@@ -242,8 +247,9 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
         if (isGameCancelled) {
             alert("Another player has cancelled the game.");
             setCurrentGameKey();
+            setShowing("games");
         }
-    }, [isGameCancelled, setCurrentGameKey]);
+    }, [isGameCancelled, setCurrentGameKey, setShowing]);
 
     // announce winner
     useEffect(() => {
@@ -298,7 +304,7 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
 
     /* NESTED COMPONENTS */
 
-    function DrawPile() {
+    function DrawPileButton() {
         const gameOver = isGameOver();
         return (
             <button
@@ -312,7 +318,14 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                 }
                 disabled={gameOver ? false : !isYourTurn}
             >
-                {gameOver ? "NEW GAME" : `DRAW CARD (${drawPile.length})`}
+                {gameOver ? (
+                    "NEW GAME"
+                ) : (
+                    <>
+                        DRAW CARD
+                        <br />({drawPile?.length} left)
+                    </>
+                )}
             </button>
         );
     }
@@ -345,18 +358,12 @@ export default function KingsCorner({ gameKey, setCurrentGameKey, username }) {
                     <Board
                         {...{
                             onTheBoard,
-                            drawPile: <DrawPile />,
+                            DrawPileButton,
                             playerPicks,
                             successfulPlay,
                             pairClickHandler,
                         }}
                     />
-                    <button
-                        className="back-to-dashboard"
-                        onClick={() => setCurrentGameKey()}
-                    >
-                        dashboard
-                    </button>
                 </>
             )}
         </div>

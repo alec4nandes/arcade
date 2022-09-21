@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Dashboard from "./Dashboard";
+import Dashboard from "./Dashboard/Dashboard";
 import SignIn from "./SignIn";
 
 export default function Arcade() {
