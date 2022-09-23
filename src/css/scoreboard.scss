@@ -1,4 +1,8 @@
 .scoreboards {
+    .toggle-scoreboard {
+        font-weight: bold;
+    }
+
     h3 {
         font-size: 20px;
     }
@@ -34,12 +38,16 @@
                     }
 
                     td {
-                        background-color: lavender;
+                        background-color: #c6cbff;
+
+                        &:last-child {
+                            width: 40px;
+                        }
                     }
 
                     @media (prefers-color-scheme: dark) {
                         td {
-                            background-color: #979ed5;
+                            background-color: #c6cbff;
                             color: #000;
                         }
                     }
@@ -51,7 +59,7 @@
     .top-scores {
         p,
         ol {
-            color: #d2d2ff;
+            color: #000;
             font-weight: bold;
         }
 
@@ -61,26 +69,12 @@
             margin: 20px auto 0;
             padding-left: 20px;
             text-align: left;
-
-            li {
-                span {
-                    color: #000;
-                }
-            }
         }
 
         @media (prefers-color-scheme: dark) {
             p,
             ol {
-                color: #999;
-            }
-
-            ol {
-                li {
-                    span {
-                        color: #fff;
-                    }
-                }
+                color: #fff;
             }
         }
     }

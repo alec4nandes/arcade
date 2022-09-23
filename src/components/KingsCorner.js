@@ -300,7 +300,7 @@ export default function KingsCorner({
     const myHand = allHands?.[username];
     useEffect(() => {
         if (drawnCardRef.current) {
-            if (window.innerWidth > 1000) {
+            if (window.innerWidth > 700) {
                 const { offsetHeight, offsetTop } = drawnCardRef.current,
                     offsetBottom = offsetHeight + offsetTop,
                     scrollTop =

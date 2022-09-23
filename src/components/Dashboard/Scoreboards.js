@@ -2,6 +2,7 @@ import "../../css/scoreboard.css";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { firestore } from "../../database";
+import { playOpponents } from "./Challenge";
 
 export default function Scoreboards({
     username,
@@ -45,30 +46,6 @@ export default function Scoreboards({
         );
         return unsubscribe;
     }, [username]);
-
-    function TopScores() {
-        return (
-            <div className="top-scores">
-                <p>(win/loss)</p>
-                <ol>
-                    {Object.entries(winLoss)
-                        .sort(
-                            (a, b) =>
-                                b[1].wins - a[1].wins ||
-                                a[1].losses - b[1].losses
-                        )
-                        // only show top 50 scores
-                        .slice(0, 50)
-                        .map(([player, stats]) => (
-                            <li key={`top player ${player}`}>
-                                <span>{player}</span> ({stats.wins}/
-                                {stats.losses})
-                            </li>
-                        ))}
-                </ol>
-            </div>
-        );
-    }
 
     function MyScores() {
         return (
@@ -132,10 +109,52 @@ export default function Scoreboards({
         );
     }
 
+    function TopScores() {
+        return (
+            <div className="top-scores">
+                <p>(win/loss)</p>
+                <ol>
+                    {Object.entries(winLoss)
+                        .sort(
+                            (a, b) =>
+                                b[1].wins - a[1].wins ||
+                                a[1].losses - b[1].losses
+                        )
+                        // only show top 50 scores
+                        .slice(0, 50)
+                        .map(([player, stats]) => (
+                            <li key={`top player ${player}`}>
+                                <button
+                                    className="cta-button"
+                                    onClick={() =>
+                                        username === player
+                                            ? alert("You can't play yourself!")
+                                            : playOpponents({
+                                                  username,
+                                                  allPlayers: [
+                                                      username,
+                                                      player,
+                                                  ],
+                                                  setCurrentGameKey,
+                                                  setShowing,
+                                              })
+                                    }
+                                >
+                                    {player}
+                                </button>{" "}
+                                ({stats.wins}/{stats.losses})
+                            </li>
+                        ))}
+                </ol>
+            </div>
+        );
+    }
+
     return winLoss ? (
         <div className="scoreboards">
             <h2>{topScoresShowing ? "Top" : "My"} Scores</h2>
             <button
+                className="toggle-scoreboard"
                 onClick={() =>
                     setTopScoresShowing((topScoresShowing) => !topScoresShowing)
                 }

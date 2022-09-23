@@ -24,7 +24,7 @@
   gap: 0 18px;
 }
 .header .header-text .navigation button {
-  color: #979ed5;
+  font-weight: bold;
 }
 .header .header-text .navigation button:disabled {
   color: #aaa;

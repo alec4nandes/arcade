@@ -12,13 +12,10 @@
 .kings-corner .all-hands .hand-container {
   height: 100%;
   width: 150px;
-  background-color: #7d85cb;
+  background-color: #c6cbff;
   overflow: auto;
   position: relative;
   text-align: center;
-}
-.kings-corner .all-hands .hand-container.mine {
-  background-color: lavender;
 }
 .kings-corner .all-hands .hand-container .player-summary {
   margin-bottom: 10px;
@@ -37,14 +34,15 @@
   color: #000;
 }
 .kings-corner .all-hands .hand-container .player-summary > div:not(.active) h2 {
-  background-color: rgb(126, 157, 249);
+  background-color: #9fa9ff;
 }
 .kings-corner .all-hands .hand-container .player-summary > div h2 {
   flex: 1;
 }
 .kings-corner .all-hands .hand-container .player-summary > div .wins {
   min-width: 25px;
-  background-color: #c3d4ff;
+  background-color: #fff;
+  color: #7d85cb;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,14 +54,16 @@
   margin: auto;
 }
 @media (prefers-color-scheme: dark) {
-  .kings-corner .all-hands .hand-container.mine {
-    background-color: #888;
-  }
-  .kings-corner .all-hands .hand-container:not(.mine) {
-    background-color: #333;
+  .kings-corner .all-hands .hand-container {
+    background-color: #444;
   }
   .kings-corner .all-hands .hand-container .player-summary > div .wins {
-    background-color: #444;
+    background-color: #000;
+    color: #c6cbff;
+  }
+  .kings-corner .all-hands .hand-container .player-summary > div.active h2 {
+    background-color: #c6cbff;
+    color: #000;
   }
   .kings-corner .all-hands .hand-container .player-summary > div:not(.active) h2 {
     background-color: #222;
@@ -75,10 +75,12 @@
   position: relative;
 }
 .kings-corner .pair.backside .card {
-  background-color: rgb(126, 157, 249);
+  background-image: url("../images/kings-corner-card-back.png") !important;
+  background-size: cover;
+  border: 2px solid #7d85cb;
 }
 .kings-corner .pair.empty .card {
-  background-color: #7d85cb;
+  background-color: #c6cbff;
   border: 0;
 }
 .kings-corner .pair.new .card::after {
@@ -94,7 +96,7 @@
   height: 150px;
   width: 100%;
   background-size: 100% 100%;
-  border: 0.5px solid #444;
+  border: 0.5px solid #7d85cb;
   border-radius: 5px;
   box-sizing: border-box;
   position: relative;

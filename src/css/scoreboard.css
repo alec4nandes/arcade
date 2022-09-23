@@ -1,3 +1,6 @@
+.scoreboards .toggle-scoreboard {
+  font-weight: bold;
+}
 .scoreboards h3 {
   font-size: 20px;
 }
@@ -24,17 +27,20 @@
   color: #000 !important;
 }
 .scoreboards .my-scores .game-scores table tr td {
-  background-color: lavender;
+  background-color: #c6cbff;
+}
+.scoreboards .my-scores .game-scores table tr td:last-child {
+  width: 40px;
 }
 @media (prefers-color-scheme: dark) {
   .scoreboards .my-scores .game-scores table tr td {
-    background-color: #979ed5;
+    background-color: #c6cbff;
     color: #000;
   }
 }
 .scoreboards .top-scores p,
 .scoreboards .top-scores ol {
-  color: #d2d2ff;
+  color: #000;
   font-weight: bold;
 }
 .scoreboards .top-scores ol {
@@ -46,15 +52,9 @@
   padding-left: 20px;
   text-align: left;
 }
-.scoreboards .top-scores ol li span {
-  color: #000;
-}
 @media (prefers-color-scheme: dark) {
   .scoreboards .top-scores p,
 .scoreboards .top-scores ol {
-    color: #999;
-  }
-  .scoreboards .top-scores ol li span {
     color: #fff;
   }
 }/*# sourceMappingURL=scoreboard.css.map */

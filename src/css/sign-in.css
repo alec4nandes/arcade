@@ -15,7 +15,7 @@
   }
 }
 .sign-in::before {
-  background-color: #7d85cb;
+  background-color: #c6cbff;
   content: "";
   opacity: 0.9;
   position: absolute;
@@ -86,7 +86,7 @@
   -webkit-text-fill-color: #000;
 }
 .sign-in .sign-in-form-container button.instead {
-  color: #979ed5;
+  color: #c6cbff;
   margin-top: 10px;
 }
 @media (prefers-color-scheme: dark) {

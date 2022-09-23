@@ -7,9 +7,6 @@
   text-align: center;
   --header-height: 80px;
 }
-.dashboard .header {
-  height: var(--header-height);
-}
 .dashboard > *:not(.header) {
   min-height: calc(100% - var(--header-height));
   max-height: calc(100% - var(--header-height));
@@ -20,4 +17,7 @@
 }
 .dashboard > *:not(.header):not(.kings-corner) {
   padding-bottom: 30px;
+}
+.dashboard > *.header {
+  height: var(--header-height);
 }/*# sourceMappingURL=dashboard.css.map */

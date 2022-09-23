@@ -14,7 +14,7 @@
     }
 
     &::before {
-        background-color: #7d85cb;
+        background-color: #c6cbff;
         content: "";
         opacity: 0.9;
         position: absolute;
@@ -85,7 +85,7 @@
 
         button {
             &.instead {
-                color: #979ed5;
+                color: #c6cbff;
                 margin-top: 10px;
             }
         }
