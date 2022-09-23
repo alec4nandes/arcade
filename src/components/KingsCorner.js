@@ -297,7 +297,6 @@ export default function KingsCorner({
     }, [allHands, gameId, gameKey, isGameOver, players, username]);
 
     // scroll to newly drawn card in player's hand
-    const myHand = allHands?.[username];
     useEffect(() => {
         if (drawnCardRef.current) {
             if (window.innerWidth > 700) {
@@ -330,7 +329,7 @@ export default function KingsCorner({
                 });
             }
         }
-    }, [myHand]);
+    }, [currentPlayer]);
 
     // get game win tallies to display with usernames
     useEffect(() => {
