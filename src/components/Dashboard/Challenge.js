@@ -28,7 +28,12 @@ export default function Challenge({
                 allUsernames.includes(opp)
             );
         if (opponentsExist) {
-            playOpponents(opponents);
+            playOpponents({
+                username,
+                allPlayers: [username, ...opponents],
+                setCurrentGameKey,
+                setShowing,
+            });
         } else {
             alert(
                 `User${
@@ -38,31 +43,19 @@ export default function Challenge({
         }
     }
 
-    async function playOpponents(opponents) {
-        try {
-            const allPlayers = [username, ...opponents].sort(),
-                gameKey = allPlayers.join("-"),
-                theDoc = doc(firestore, "Games", gameKey),
-                checkDoc = await getDoc(theDoc);
-            if (!checkDoc.exists()) {
-                await setDoc(
-                    doc(firestore, "Games", gameKey),
-                    getGameData(username, allPlayers)
-                );
-            }
-            setCurrentGameKey(gameKey);
-            setShowing();
-        } catch (error) {
-            setDashboardError(error.message);
-        }
-    }
-
     return (
         <div className="challenge">
             <h2>Challenge Opponents</h2>
             <button
                 className="cta-button"
-                onClick={() => playOpponents(["$cpu"])}
+                onClick={() =>
+                    playOpponents({
+                        username,
+                        allPlayers: ["$cpu", username],
+                        setCurrentGameKey,
+                        setShowing,
+                    })
+                }
             >
                 play against computer
             </button>
@@ -89,3 +82,24 @@ export default function Challenge({
         </div>
     );
 }
+
+async function playOpponents({
+    username,
+    allPlayers,
+    setCurrentGameKey,
+    setShowing,
+}) {
+    const gameKey = allPlayers.sort().join("-"),
+        theDoc = doc(firestore, "Games", gameKey),
+        checkDoc = await getDoc(theDoc);
+    if (!checkDoc.exists()) {
+        await setDoc(
+            doc(firestore, "Games", gameKey),
+            getGameData(username, allPlayers)
+        );
+    }
+    setCurrentGameKey(gameKey);
+    setShowing();
+}
+
+export { playOpponents };

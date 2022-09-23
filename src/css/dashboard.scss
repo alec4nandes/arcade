@@ -8,20 +8,22 @@
 
     --header-height: 80px;
 
-    .header {
-        height: var(--header-height);
-    }
+    & > * {
+        &:not(.header) {
+            min-height: calc(100% - var(--header-height));
+            max-height: calc(100% - var(--header-height));
+            width: 100%;
+            box-sizing: border-box;
+            flex: 1;
+            overflow: auto;
 
-    & > *:not(.header) {
-        min-height: calc(100% - var(--header-height));
-        max-height: calc(100% - var(--header-height));
-        width: 100%;
-        box-sizing: border-box;
-        flex: 1;
-        overflow: auto;
+            &:not(.kings-corner) {
+                padding-bottom: 30px;
+            }
+        }
 
-        &:not(.kings-corner) {
-            padding-bottom: 30px;
+        &.header {
+            height: var(--header-height);
         }
     }
 }

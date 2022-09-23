@@ -17,29 +17,46 @@
         .hand-container {
             height: 100%;
             width: 150px;
-            background-color: #7d85cb;
+            background-color: #c6cbff;
             overflow: auto;
             position: relative;
             text-align: center;
 
-            &.mine {
-                background-color: lavender;
-            }
-
             .player-summary {
-                margin: 10px 0;
+                margin-bottom: 10px;
 
                 * {
                     margin: 0;
                     white-space: nowrap;
                 }
 
-                h2 {
+                & > div {
+                    display: flex;
                     font-weight: bold;
+                    margin-bottom: 12px;
 
                     &.active {
-                        background-color: lightgreen;
-                        color: #000;
+                        h2 {
+                            background-color: lightgreen;
+                            color: #000;
+                        }
+                    }
+
+                    &:not(.active) h2 {
+                        background-color: #9fa9ff;
+                    }
+
+                    h2 {
+                        flex: 1;
+                    }
+
+                    .wins {
+                        min-width: 25px;
+                        background-color: #fff;
+                        color: #7d85cb;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
                 }
 
@@ -55,12 +72,28 @@
             }
 
             @media (prefers-color-scheme: dark) {
-                &.mine {
-                    background-color: #888;
+                & {
+                    background-color: #444;
                 }
 
-                &:not(.mine) {
-                    background-color: #222;
+                .player-summary {
+                    & > div {
+                        .wins {
+                            background-color: #000;
+                            color: #c6cbff;
+                        }
+
+                        &.active {
+                            h2 {
+                                background-color: #c6cbff;
+                                color: #000;
+                            }
+                        }
+
+                        &:not(.active) h2 {
+                            background-color: #222;
+                        }
+                    }
                 }
             }
         }
@@ -74,11 +107,13 @@
         position: relative;
 
         &.backside .card {
-            background-color: rgb(126, 157, 249);
+            background-image: url("../images/kings-corner-card-back.png") !important;
+            background-size: cover;
+            border: 2px solid #7d85cb;
         }
 
         &.empty .card {
-            background-color: #7d85cb;
+            background-color: #c6cbff;
             border: 0;
         }
 
@@ -98,7 +133,7 @@
             height: $card-height;
             width: 100%;
             background-size: 100% 100%;
-            border: 0.5px solid #444;
+            border: 0.5px solid #7d85cb;
             border-radius: 5px;
             box-sizing: border-box;
             position: relative;
@@ -186,6 +221,12 @@
 
                 &:not(.mine) {
                     height: 40px;
+
+                    .player-summary {
+                        & > div {
+                            margin-bottom: 0;
+                        }
+                    }
                 }
 
                 .player-summary {
@@ -193,7 +234,6 @@
                     min-width: 100px;
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
                     margin: 0;
                 }
 

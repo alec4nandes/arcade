@@ -9,13 +9,8 @@
   flex-wrap: wrap;
   position: relative;
 }
-@media only screen and (max-height: 500px) {
-  .sign-in {
-    background-size: auto 70vh;
-  }
-}
 .sign-in::before {
-  background-color: #7d85cb;
+  background-color: #c6cbff;
   content: "";
   opacity: 0.9;
   position: absolute;
@@ -86,7 +81,7 @@
   -webkit-text-fill-color: #000;
 }
 .sign-in .sign-in-form-container button.instead {
-  color: #979ed5;
+  color: #7d85cb;
   margin-top: 10px;
 }
 @media (prefers-color-scheme: dark) {
@@ -100,5 +95,13 @@
     box-shadow: 0 0 0px 1000px #000 inset;
     -webkit-box-shadow: 0 0 0px 1000px #000 inset;
     -webkit-text-fill-color: #fff;
+  }
+  .sign-in .sign-in-form-container button.instead {
+    color: #c6cbff;
+  }
+}
+@media only screen and (max-height: 500px) {
+  .sign-in {
+    background-size: auto 70vh;
   }
 }/*# sourceMappingURL=sign-in.css.map */

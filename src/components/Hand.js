@@ -10,6 +10,7 @@ const cardHeight = 150,
 export default function Hand({
     drawn,
     title,
+    wins,
     playerPicks,
     drawnCardRef,
     isActiveHand,
@@ -22,7 +23,10 @@ export default function Hand({
     return (
         <div className={`hand-container ${isOpponent ? "" : "mine"}`}>
             <div className="player-summary">
-                <h2 className={isActiveHand ? "active" : ""}>{title}</h2>
+                <div className={isActiveHand ? "active" : ""}>
+                    {(wins || wins === 0) && <div className="wins">{wins}</div>}
+                    <h2>{title}</h2>
+                </div>
                 <h3>({drawn.length} cards)</h3>
             </div>
             <div className="hand" style={{ height: containerHeight }}>

@@ -84,6 +84,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  line-height: 18px;
   text-decoration: none;
 }
 .board-container .board .square.draw-pile button:disabled {

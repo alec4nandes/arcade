@@ -22,7 +22,7 @@
         .vertical-divider {
             height: 100%;
             width: 1.5px;
-            background-color: #7d85cb;
+            background-color: #c6cbff;
         }
     }
 
@@ -37,7 +37,7 @@
         padding: 30px;
 
         details {
-            color: #fff;
+            color: #7d85cb;
 
             &[open],
             &:hover {
@@ -49,7 +49,8 @@
             }
 
             summary {
-                border-bottom: 1px solid #fff;
+                border-bottom: 1px solid #7d85cb;
+                font-weight: bold;
 
                 &:hover {
                     cursor: pointer;
@@ -60,7 +61,8 @@
                 color: #000;
 
                 a {
-                    color: #fff;
+                    color: #7d85cb;
+                    font-weight: bold;
 
                     &:hover {
                         color: #000;
@@ -81,7 +83,7 @@
 
         .info {
             details {
-                color: #7d85cb;
+                color: #c6cbff;
 
                 &[open],
                 &:hover {
@@ -93,14 +95,14 @@
                 }
 
                 summary {
-                    border-bottom: 1px solid #7d85cb;
+                    border-bottom: 1px solid #c6cbff;
                 }
 
                 p {
                     color: #fff;
 
                     a {
-                        color: #7d85cb;
+                        color: #c6cbff;
 
                         &:hover {
                             color: #fff;

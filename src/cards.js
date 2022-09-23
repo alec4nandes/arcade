@@ -83,6 +83,7 @@ function getGameData(username, players) {
         onTheBoard = getStartingBoard(allHandsCards),
         drawPile = getStartingHand([...allHandsCards, ...onTheBoard]);
     return {
+        id: new Date().getTime(),
         currentPlayer: username,
         allHands,
         onTheBoard,

@@ -9,12 +9,8 @@
     flex-wrap: wrap;
     position: relative;
 
-    @media only screen and (max-height: 500px) {
-        background-size: auto 70vh;
-    }
-
     &::before {
-        background-color: #7d85cb;
+        background-color: #c6cbff;
         content: "";
         opacity: 0.9;
         position: absolute;
@@ -85,7 +81,7 @@
 
         button {
             &.instead {
-                color: #979ed5;
+                color: #7d85cb;
                 margin-top: 10px;
             }
         }
@@ -106,6 +102,16 @@
                     }
                 }
             }
+
+            button {
+                &.instead {
+                    color: #c6cbff;
+                }
+            }
         }
+    }
+
+    @media only screen and (max-height: 500px) {
+        background-size: auto 70vh;
     }
 }

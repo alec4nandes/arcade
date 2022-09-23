@@ -1,6 +1,6 @@
 import "../css/kings-corner.css";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../database";
 import { cornerIndexes, emptyPair, getGameData, getPlayers } from "../cards";
 import Board from "./Board";
@@ -14,9 +14,11 @@ export default function KingsCorner({
 }) {
     const players = getPlayers(gameKey),
         [currentPlayer, setCurrentPlayer] = useState(),
+        [gameId, setGameId] = useState(),
         [playerPicks, setPlayerPicks] = useState([]), // player can pick multiple ascending cards
         // new state: all hands
         [allHands, setAllHands] = useState(),
+        [wins, setWins] = useState(),
         [onTheBoard, setOnTheBoard] = useState(),
         [drawPile, setDrawPile] = useState(),
         [selected, setSelected] = useState(),
@@ -46,6 +48,11 @@ export default function KingsCorner({
                 selectedIsEmpty = selected?.top.name === emptyPair.top.name;
 
             if (
+                // NOT selected on board and target in hand
+                !(
+                    onTheBoard.includes(selected) &&
+                    !onTheBoard.includes(target)
+                ) &&
                 selected &&
                 (targetIsEmpty
                     ? targetInCorner
@@ -222,24 +229,20 @@ export default function KingsCorner({
             if (!gameData) {
                 return;
             }
-            const { currentPlayer, allHands, onTheBoard, drawPile } = gameData;
+            const { id, currentPlayer, allHands, onTheBoard, drawPile } =
+                gameData;
+            setGameId(id);
             setCurrentPlayer(currentPlayer);
             setAllHands(allHands);
             setOnTheBoard(onTheBoard);
             setDrawPile(drawPile);
         }
-        // load game from Firebase
-        getDoc(doc(firestore, "Games", gameKey)).then((doc) =>
-            updateGame(doc.data())
-        );
-        // listen for changes
-        const unsubscribe = onSnapshot(
-            doc(firestore, "Games", gameKey),
-            (doc) => {
-                setIsGameCancelled(!doc.data());
-                updateGame(doc.data());
-            }
-        );
+        const theDoc = doc(firestore, "Games", gameKey);
+        // load the game and listen for changes
+        const unsubscribe = onSnapshot(theDoc, (doc) => {
+            setIsGameCancelled(!doc.data());
+            updateGame(doc.data());
+        });
         return unsubscribe;
     }, [gameKey, setCurrentGameKey]);
 
@@ -251,24 +254,52 @@ export default function KingsCorner({
         }
     }, [isGameCancelled, setCurrentGameKey, setShowing]);
 
-    // announce winner
+    // announce winner and update scores
     useEffect(() => {
         let timeout;
         if (isGameOver()) {
+            const iWon = !allHands[username].length,
+                playingComputer = players.includes("$cpu");
             timeout = setTimeout(
-                () =>
-                    alert(`YOU ${allHands[username].length ? "LOST" : "WON"}`),
+                () => alert(`YOU ${iWon ? "WON" : "LOST"}`),
                 1000
             );
+            // only the computer or winner updates the scoreboard
+            if (iWon || playingComputer) {
+                async function updateScores() {
+                    try {
+                        const theDoc = doc(firestore, "Scoreboards", gameKey),
+                            scoreboard = await getDoc(theDoc),
+                            update = scoreboard.exists()
+                                ? scoreboard.data()
+                                : {
+                                      wins: players.reduce(
+                                          (a, v) => ({ ...a, [v]: 0 }),
+                                          {}
+                                      ),
+                                  };
+                        if (update.lastGame && update.lastGame === gameId) {
+                            return;
+                        }
+                        update.wins[
+                            playingComputer && !iWon ? "$cpu" : username
+                        ] += 1;
+                        update.lastGame = gameId;
+                        await setDoc(theDoc, update);
+                    } catch (error) {
+                        console.warn(error);
+                    }
+                }
+                updateScores();
+            }
         }
         return () => clearTimeout(timeout);
-    }, [allHands, isGameOver, username]);
+    }, [allHands, gameId, gameKey, isGameOver, players, username]);
 
     // scroll to newly drawn card in player's hand
-    const myHand = allHands?.[username];
     useEffect(() => {
         if (drawnCardRef.current) {
-            if (window.innerWidth > 1000) {
+            if (window.innerWidth > 700) {
                 const { offsetHeight, offsetTop } = drawnCardRef.current,
                     offsetBottom = offsetHeight + offsetTop,
                     scrollTop =
@@ -298,7 +329,16 @@ export default function KingsCorner({
                 });
             }
         }
-    }, [myHand]);
+    }, [currentPlayer]);
+
+    // get game win tallies to display with usernames
+    useEffect(() => {
+        const theDoc = doc(firestore, "Scoreboards", gameKey),
+            unsubscribe = onSnapshot(theDoc, (doc) =>
+                setWins(doc.data()?.wins || {})
+            );
+        return unsubscribe;
+    }, [gameKey]);
 
     /* END USE EFFECTS */
 
@@ -334,26 +374,33 @@ export default function KingsCorner({
 
     return (
         <div className="kings-corner">
-            {allHands && (
+            {allHands && wins && (
                 <>
                     <div className="all-hands">
-                        {players.map((player, i) => (
-                            <Hand
-                                {...{
-                                    key: `hand-${i + 1}`,
-                                    drawn: allHands[player],
-                                    title: player,
-                                    playerPicks,
-                                    drawnCardRef,
-                                    isActiveHand: currentPlayer === player,
-                                    isOpponent: player !== username,
-                                    pairClickHandler:
-                                        player === username
-                                            ? pairClickHandler
-                                            : () => "",
-                                }}
-                            />
-                        ))}
+                        {players
+                            // winners on top
+                            .sort(
+                                (a, b) =>
+                                    wins[b] - wins[a] || a.localeCompare(b)
+                            )
+                            .map((player, i) => (
+                                <Hand
+                                    {...{
+                                        key: `hand-${i + 1}`,
+                                        drawn: allHands[player],
+                                        title: player,
+                                        wins: wins[player],
+                                        playerPicks,
+                                        drawnCardRef,
+                                        isActiveHand: currentPlayer === player,
+                                        isOpponent: player !== username,
+                                        pairClickHandler:
+                                            player === username
+                                                ? pairClickHandler
+                                                : () => "",
+                                    }}
+                                />
+                            ))}
                     </div>
                     <Board
                         {...{

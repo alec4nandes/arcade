@@ -40,9 +40,7 @@ export default function Pair({
 function Card({ card }) {
     return (
         <div
-            className={`card ${
-                card.name === emptyPair.top.name ? "empty" : card.color
-            }`}
+            className={`card ${card.color || ""}`}
             style={{ backgroundImage: `url(${getCardImage(card)})` }}
             alt={`${card.rank} of ${card.suit}`}
         />
@@ -60,7 +58,7 @@ function importAll(r) {
 }
 
 const images = importAll(
-    require.context("../images/cards", false, /\.(png|jpe?g|svg)$/)
+    require.context("../images/cards", false, /\.(png|jpg|jpeg|svg)$/)
 );
 
 function getCardImage(card) {
@@ -69,7 +67,7 @@ function getCardImage(card) {
             fileName =
                 [rank, suit].join("_of_").toLowerCase() +
                 (isNaN(rank) && rank !== "Ace" ? "2" : "");
-        return images[`${fileName}.png`];
+        return images[`${fileName}.jpg`];
     }
 }
 
