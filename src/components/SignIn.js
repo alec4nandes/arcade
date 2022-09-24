@@ -13,6 +13,8 @@ import { auth, firestore } from "../database";
 import logo from "../images/kings-corner-logo-purple-small.png";
 import nightLogo from "../images/kings-corner-logo-purple-nightmode-small.png";
 
+const DEV_MODE = false;
+
 export default function SignIn({
     username,
     setUsername,
@@ -79,7 +81,9 @@ export default function SignIn({
     async function verifyEmail(email) {
         try {
             await sendEmailVerification(auth.currentUser, {
-                url: "http://localhost:3000",
+                url: DEV_MODE
+                    ? "http://localhost:3000/"
+                    : "https://fern.haus/arcade",
             });
             // The link was successfully sent. Inform the user.
             // Save the email locally so you don't need to ask the user for it again
