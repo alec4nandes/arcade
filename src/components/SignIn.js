@@ -36,8 +36,8 @@ export default function SignIn({
         try {
             const { username, email, password } = getFormData(event.target),
                 trimmed = username.trim().toLowerCase();
-            if (trimmed.length > 30) {
-                throw Error("Username is too long.");
+            if (trimmed.length > 15) {
+                throw Error("Username is too long. 15 characters max.");
             }
             if (!trimmed.match(/^[A-Za-z0-9_]+$/)) {
                 throw Error(
