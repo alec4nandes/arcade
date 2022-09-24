@@ -25,6 +25,15 @@ input {
     font-weight: 400;
 }
 
+a {
+    color: #7d85cb;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #000;
+}
+
 button,
 input {
     background: transparent;
@@ -91,6 +100,14 @@ input:-webkit-autofill:focus {
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #111;
+        color: #fff;
+    }
+
+    a {
+        color: #c6cbff;
+    }
+
+    a:hover {
         color: #fff;
     }
 

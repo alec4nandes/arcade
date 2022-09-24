@@ -38,22 +38,15 @@
 .home .info details[open] summary, .home .info details:hover summary {
   border-bottom: 1px solid #000;
 }
+.home .info details p {
+  color: #000;
+}
 .home .info details summary {
   border-bottom: 1px solid #7d85cb;
   font-weight: bold;
 }
 .home .info details summary:hover {
   cursor: pointer;
-}
-.home .info details p {
-  color: #000;
-}
-.home .info details p a {
-  color: #7d85cb;
-  font-weight: bold;
-}
-.home .info details p a:hover {
-  color: #000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -69,16 +62,10 @@
   .home .info details[open] summary, .home .info details:hover summary {
     border-bottom: 1px solid #fff;
   }
-  .home .info details summary {
-    border-bottom: 1px solid #c6cbff;
-  }
   .home .info details p {
     color: #fff;
   }
-  .home .info details p a {
-    color: #c6cbff;
-  }
-  .home .info details p a:hover {
-    color: #fff;
+  .home .info details summary {
+    border-bottom: 1px solid #c6cbff;
   }
 }/*# sourceMappingURL=home.css.map */

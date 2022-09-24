@@ -84,6 +84,12 @@
   color: #7d85cb;
   margin-top: 10px;
 }
+.sign-in .error-message p {
+  margin-bottom: 0;
+}
+.sign-in .sign-out-button {
+  margin-top: 10px;
+}
 @media (prefers-color-scheme: dark) {
   .sign-in .sign-in-form-container {
     background-color: #000;

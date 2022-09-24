@@ -87,6 +87,16 @@
         }
     }
 
+    .error-message {
+        p {
+            margin-bottom: 0;
+        }
+    }
+
+    .sign-out-button {
+        margin-top: 10px;
+    }
+
     @media (prefers-color-scheme: dark) {
         .sign-in-form-container {
             background-color: #000;

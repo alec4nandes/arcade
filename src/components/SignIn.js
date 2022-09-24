@@ -27,6 +27,7 @@ export default function SignIn({
 
     async function signInHandler(event) {
         try {
+            await signOut(auth);
             const { email, password } = getFormData(event.target);
             await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
@@ -97,9 +98,8 @@ export default function SignIn({
     const missingEmail = (
         <>
             Please click the verification link that was sent to your registered
-            email.
-            <br />
-            <SignOut {...{ setErrorMessage }} />
+            email. <u>Don't forget to check your spam folder</u>.
+            <SignOut />
         </>
     );
 
@@ -139,12 +139,14 @@ export default function SignIn({
     function ErrorMessage() {
         const message =
             errorMessage || (username && !isVerified && missingEmail);
-        return message ? (
-            <div className="error-message">
-                <em>{message}</em>
-            </div>
-        ) : (
-            <></>
+        return (
+            message && (
+                <div className="error-message">
+                    <p>
+                        <em>{message}</em>
+                    </p>
+                </div>
+            )
         );
     }
 
@@ -188,8 +190,25 @@ export default function SignIn({
                     <button className="cta-button" type="submit">
                         sign {isSignUp ? "up" : "in"}
                     </button>
-                    <ErrorMessage />
                 </form>
+                <ErrorMessage />
+                {!isSignUp && (
+                    <button
+                        className="instead"
+                        onClick={() =>
+                            setErrorMessage(
+                                <>
+                                    For password assistance, please contact{" "}
+                                    <a href="mailto:al@fern.haus">
+                                        al@fern.haus
+                                    </a>
+                                </>
+                            )
+                        }
+                    >
+                        password help
+                    </button>
+                )}
                 <button
                     className="instead"
                     onClick={() => {
@@ -216,14 +235,8 @@ const Logo = () => (
     />
 );
 
-const SignOut = ({ setErrorMessage }) => (
-    <button
-        className="sign-out-button"
-        onClick={() => {
-            signOut(auth);
-            setErrorMessage?.();
-        }}
-    >
+const SignOut = () => (
+    <button className="sign-out-button" onClick={() => signOut(auth)}>
         sign out
     </button>
 );

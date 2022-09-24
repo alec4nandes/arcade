@@ -21,7 +21,63 @@ export default function Home({ username, setShowing }) {
             <div className="info" data-accordion>
                 <details>
                     <summary>how to play</summary>
-                    <p>Instructions on how to play are coming soon.</p>
+                    <p>
+                        During your turn and when playing the computer, the
+                        following color key applies:
+                    </p>
+                    <ul>
+                        <li>Newly dealt cards are highlighted red.</li>
+                        <li>
+                            Selected cards are highlighted yellow.
+                            <ul>
+                                <li>
+                                    You can select multiple cards at once by
+                                    stacking them in your hand, just like you
+                                    would on the board{" "}
+                                    <em>
+                                        (placing a lower card on a higher card)
+                                    </em>
+                                    .
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Successful plays on the board are highlighted green.
+                        </li>
+                    </ul>
+                    <p>More instructions on how to play are coming soon.</p>
+                </details>
+                <details>
+                    <summary>faq</summary>
+                    <ul>
+                        <li>
+                            How can I change my username or password?
+                            <ul>
+                                <li>
+                                    You cannot change your username at this
+                                    time.
+                                </li>
+                                <li>
+                                    For password assistance, please contact{" "}
+                                    <a href="mailto:al@fern.haus">
+                                        al@fern.haus
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            How can I delete my account?
+                            <ul>
+                                <li>
+                                    To delete your account and game stats,
+                                    please contact{" "}
+                                    <a href="mailto:al@fern.haus">
+                                        al@fern.haus
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </details>
                 <details>
                     <summary>about</summary>

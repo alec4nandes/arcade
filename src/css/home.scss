@@ -48,25 +48,16 @@
                 }
             }
 
+            p {
+                color: #000;
+            }
+
             summary {
                 border-bottom: 1px solid #7d85cb;
                 font-weight: bold;
 
                 &:hover {
                     cursor: pointer;
-                }
-            }
-
-            p {
-                color: #000;
-
-                a {
-                    color: #7d85cb;
-                    font-weight: bold;
-
-                    &:hover {
-                        color: #000;
-                    }
                 }
             }
         }
@@ -94,20 +85,12 @@
                     }
                 }
 
-                summary {
-                    border-bottom: 1px solid #c6cbff;
-                }
-
                 p {
                     color: #fff;
+                }
 
-                    a {
-                        color: #c6cbff;
-
-                        &:hover {
-                            color: #fff;
-                        }
-                    }
+                summary {
+                    border-bottom: 1px solid #c6cbff;
                 }
             }
         }

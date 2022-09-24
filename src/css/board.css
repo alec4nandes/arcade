@@ -88,7 +88,7 @@
 .board-container .board .square .stacked .in-between-card {
   height: 3px;
   background-color: #fff;
-  border: 1.5px solid #7d85cb;
+  border: 1px solid #7d85cb;
   border-bottom: 0;
   border-radius: 5px 5px 0 0;
 }
