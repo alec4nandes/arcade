@@ -83,14 +83,24 @@
   background-color: #c6cbff;
   border: 0;
 }
-.kings-corner .pair.new .card::after {
+.kings-corner .pair.new > *::after {
   background-color: lightpink;
 }
-.kings-corner .pair.selected .card::after {
+.kings-corner .pair.selected > *::after {
   background-color: yellow;
 }
-.kings-corner .pair.success .card::after {
+.kings-corner .pair.success > *::after {
   background-color: lightgreen;
+}
+.kings-corner .pair > *::after {
+  border-radius: 5px;
+  content: "";
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 .kings-corner .pair .card {
   height: 150px;
@@ -100,19 +110,6 @@
   border-radius: 5px;
   box-sizing: border-box;
   position: relative;
-}
-.kings-corner .pair .card:nth-child(2) {
-  top: -120px;
-}
-.kings-corner .pair .card::after {
-  border-radius: 5px;
-  content: "";
-  opacity: 0.5;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
 }
 @media (prefers-color-scheme: dark) {
   .kings-corner .pair.empty .card {
@@ -139,8 +136,8 @@
     height: 105px;
     font-size: 0.7rem;
   }
-  .kings-corner .pair .card:nth-child(2) {
-    top: -80px;
+  .kings-corner .pair .stacked {
+    top: -90px !important;
   }
 }
 @media only screen and (max-width: 700px) {

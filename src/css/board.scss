@@ -31,41 +31,23 @@
 
                 &.top.left {
                     transform: rotate(135deg);
-
-                    .pair {
-                        &:nth-child(2) {
-                            top: -100px;
-                        }
-                    }
                 }
 
                 &.top.right {
                     transform: rotate(-135deg);
-
-                    .pair {
-                        &:nth-child(2) {
-                            top: -100px;
-                        }
-                    }
                 }
 
                 &.bottom.left {
                     transform: rotate(45deg);
-
-                    .pair {
-                        &:nth-child(2) {
-                            top: -100px;
-                        }
-                    }
                 }
 
                 &.bottom.right {
                     transform: rotate(-45deg);
+                }
 
-                    .pair {
-                        &:nth-child(2) {
-                            top: -100px;
-                        }
+                .pair {
+                    .stacked {
+                        top: -130px;
                     }
                 }
             }
@@ -75,8 +57,8 @@
                     transform: rotate(180deg);
 
                     .pair {
-                        &:nth-child(2) {
-                            top: -100px;
+                        .stacked {
+                            top: -130px;
                         }
                     }
                 }
@@ -85,9 +67,8 @@
                     transform: rotate(90deg);
 
                     .pair {
-                        &:nth-child(2) {
-                            top: -150px;
-                            left: -50px;
+                        .stacked {
+                            top: -130px;
                         }
                     }
                 }
@@ -96,17 +77,16 @@
                     transform: rotate(-90deg);
 
                     .pair {
-                        &:nth-child(2) {
-                            top: -150px;
-                            left: 50px;
+                        .stacked {
+                            top: -130px;
                         }
                     }
                 }
 
                 &.bottom {
                     .pair {
-                        &:nth-child(2) {
-                            top: -100px;
+                        .stacked {
+                            top: -130px;
                         }
                     }
                 }
@@ -135,6 +115,18 @@
                     &:hover {
                         color: #fff !important;
                     }
+                }
+            }
+
+            .stacked {
+                position: relative;
+
+                .in-between-card {
+                    height: 3px;
+                    background-color: #fff;
+                    border: 1.5px solid #7d85cb;
+                    border-bottom: 0;
+                    border-radius: 5px 5px 0 0;
                 }
             }
         }

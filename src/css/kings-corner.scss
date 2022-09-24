@@ -117,16 +117,27 @@
             border: 0;
         }
 
-        &.new .card::after {
+        &.new > *::after {
             background-color: lightpink;
         }
 
-        &.selected .card::after {
+        &.selected > *::after {
             background-color: yellow;
         }
 
-        &.success .card::after {
+        &.success > *::after {
             background-color: lightgreen;
+        }
+
+        & > *::after {
+            border-radius: 5px;
+            content: "";
+            opacity: 0.5;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
         }
 
         .card {
@@ -137,21 +148,6 @@
             border-radius: 5px;
             box-sizing: border-box;
             position: relative;
-
-            &:nth-child(2) {
-                top: -120px;
-            }
-
-            &::after {
-                border-radius: 5px;
-                content: "";
-                opacity: 0.5;
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-            }
         }
 
         @media (prefers-color-scheme: dark) {
@@ -192,10 +188,10 @@
             .card {
                 height: $card-height;
                 font-size: 0.7rem;
+            }
 
-                &:nth-child(2) {
-                    top: -80px;
-                }
+            .stacked {
+                top: -90px !important;
             }
         }
     }

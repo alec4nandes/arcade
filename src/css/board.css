@@ -27,49 +27,38 @@
 .board-container .board .square.corner.top.left {
   transform: rotate(135deg);
 }
-.board-container .board .square.corner.top.left .pair:nth-child(2) {
-  top: -100px;
-}
 .board-container .board .square.corner.top.right {
   transform: rotate(-135deg);
-}
-.board-container .board .square.corner.top.right .pair:nth-child(2) {
-  top: -100px;
 }
 .board-container .board .square.corner.bottom.left {
   transform: rotate(45deg);
 }
-.board-container .board .square.corner.bottom.left .pair:nth-child(2) {
-  top: -100px;
-}
 .board-container .board .square.corner.bottom.right {
   transform: rotate(-45deg);
 }
-.board-container .board .square.corner.bottom.right .pair:nth-child(2) {
-  top: -100px;
+.board-container .board .square.corner .pair .stacked {
+  top: -130px;
 }
 .board-container .board .square.side.top {
   transform: rotate(180deg);
 }
-.board-container .board .square.side.top .pair:nth-child(2) {
-  top: -100px;
+.board-container .board .square.side.top .pair .stacked {
+  top: -130px;
 }
 .board-container .board .square.side.left {
   transform: rotate(90deg);
 }
-.board-container .board .square.side.left .pair:nth-child(2) {
-  top: -150px;
-  left: -50px;
+.board-container .board .square.side.left .pair .stacked {
+  top: -130px;
 }
 .board-container .board .square.side.right {
   transform: rotate(-90deg);
 }
-.board-container .board .square.side.right .pair:nth-child(2) {
-  top: -150px;
-  left: 50px;
+.board-container .board .square.side.right .pair .stacked {
+  top: -130px;
 }
-.board-container .board .square.side.bottom .pair:nth-child(2) {
-  top: -100px;
+.board-container .board .square.side.bottom .pair .stacked {
+  top: -130px;
 }
 .board-container .board .square.draw-pile {
   justify-content: center;
@@ -92,6 +81,16 @@
 }
 .board-container .board .square.draw-pile button:hover {
   color: #fff !important;
+}
+.board-container .board .square .stacked {
+  position: relative;
+}
+.board-container .board .square .stacked .in-between-card {
+  height: 3px;
+  background-color: #fff;
+  border: 1.5px solid #7d85cb;
+  border-bottom: 0;
+  border-radius: 5px 5px 0 0;
 }
 
 @media only screen and (max-width: 1000px) {

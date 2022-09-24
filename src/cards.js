@@ -105,6 +105,7 @@ window
 
 export default cards;
 export {
+    ranks,
     cornerIndexes,
     emptyPair,
     getGameData,

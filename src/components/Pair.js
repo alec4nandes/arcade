@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { emptyPair } from "../cards";
+import { ranks, emptyPair } from "../cards";
 
 export default function Pair({
     pair,
@@ -24,6 +24,23 @@ export default function Pair({
             : ""
     }`;
 
+    function InBetweenCards() {
+        const ranksBetween =
+            pair.top.name !== emptyPair.top.name &&
+            ranks.indexOf(pair.top.rank) - ranks.indexOf(pair.bottom.rank);
+        return (
+            ranksBetween &&
+            new Array(ranksBetween - 1)
+                .fill(0)
+                .map((_, i) => (
+                    <div
+                        key={`in between card ${pair.top}-${pair.bottom} ${i}`}
+                        className="in-between-card"
+                    ></div>
+                ))
+        );
+    }
+
     return (
         <div
             className={`pair ${className} ${pair.isNew ? "new" : ""}`}
@@ -32,7 +49,12 @@ export default function Pair({
             ref={pair.isNew ? drawnCardRef : otherRef}
         >
             <Card card={pair.top} />
-            {pair.top.name !== pair.bottom.name && <Card card={pair.bottom} />}
+            {pair.top.name !== pair.bottom.name && (
+                <div className="stacked">
+                    <InBetweenCards />
+                    <Card card={pair.bottom} />
+                </div>
+            )}
         </div>
     );
 }
