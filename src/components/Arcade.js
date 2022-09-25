@@ -11,7 +11,13 @@ export default function Arcade() {
         <Dashboard {...{ username }} />
     ) : (
         <SignIn
-            {...{ username, setUsername, setEmail, isVerified, setIsVerified }}
+            {...{
+                username,
+                setUsername,
+                setEmail,
+                isVerified,
+                setIsVerified,
+            }}
         />
     );
 }

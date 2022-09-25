@@ -23,7 +23,8 @@ export default function SignIn({
     setIsVerified,
 }) {
     const [errorMessage, setErrorMessage] = useState(),
-        [isSignUp, setIsSignUp] = useState(false);
+        [isSignUp, setIsSignUp] = useState(false),
+        [isLoaded, setIsLoaded] = useState(false);
 
     async function signInHandler(event) {
         try {
@@ -131,8 +132,9 @@ export default function SignIn({
                 setEmail();
                 setIsVerified(false);
             }
+            !isLoaded && setIsLoaded(true);
         });
-    }, [setEmail, setIsVerified, setUsername]);
+    }, [isLoaded, setEmail, setIsLoaded, setIsVerified, setUsername]);
 
     /* NESTED COMPONENTS */
 
@@ -153,73 +155,77 @@ export default function SignIn({
     /* END NESTED COMPONENTS */
 
     return (
-        <div className="sign-in">
-            <div className="sign-in-form-container">
-                <Logo />
-                <h1>Kings Corner</h1>
-                <form
-                    onSubmit={(event) => {
-                        event.preventDefault();
-                        isSignUp ? signUpHandler(event) : signInHandler(event);
-                    }}
-                    spellCheck="false"
-                >
-                    {isSignUp && (
+        isLoaded && (
+            <div className="sign-in">
+                <div className="sign-in-form-container">
+                    <Logo />
+                    <h1>Kings Corner</h1>
+                    <form
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            isSignUp
+                                ? signUpHandler(event)
+                                : signInHandler(event);
+                        }}
+                        spellCheck="false"
+                    >
+                        {isSignUp && (
+                            <input
+                                id="username"
+                                name="username"
+                                placeholder="username"
+                                type="text"
+                                required
+                            />
+                        )}
                         <input
-                            id="username"
-                            name="username"
-                            placeholder="username"
-                            type="text"
+                            id="email"
+                            name="email"
+                            placeholder="email"
+                            type="email"
                             required
                         />
+                        <input
+                            id="password"
+                            name="password"
+                            placeholder="password"
+                            type="password"
+                            required
+                        />
+                        <button className="cta-button" type="submit">
+                            sign {isSignUp ? "up" : "in"}
+                        </button>
+                    </form>
+                    <ErrorMessage />
+                    {!isSignUp && (
+                        <button
+                            className="instead"
+                            onClick={() =>
+                                setErrorMessage(
+                                    <>
+                                        For password assistance, please contact{" "}
+                                        <a href="mailto:al@fern.haus">
+                                            al@fern.haus
+                                        </a>
+                                    </>
+                                )
+                            }
+                        >
+                            password help
+                        </button>
                     )}
-                    <input
-                        id="email"
-                        name="email"
-                        placeholder="email"
-                        type="email"
-                        required
-                    />
-                    <input
-                        id="password"
-                        name="password"
-                        placeholder="password"
-                        type="password"
-                        required
-                    />
-                    <button className="cta-button" type="submit">
-                        sign {isSignUp ? "up" : "in"}
-                    </button>
-                </form>
-                <ErrorMessage />
-                {!isSignUp && (
                     <button
                         className="instead"
-                        onClick={() =>
-                            setErrorMessage(
-                                <>
-                                    For password assistance, please contact{" "}
-                                    <a href="mailto:al@fern.haus">
-                                        al@fern.haus
-                                    </a>
-                                </>
-                            )
-                        }
+                        onClick={() => {
+                            setIsSignUp((isSignUp) => !isSignUp);
+                            setErrorMessage();
+                        }}
                     >
-                        password help
+                        sign {isSignUp ? "in" : "up"} instead
                     </button>
-                )}
-                <button
-                    className="instead"
-                    onClick={() => {
-                        setIsSignUp((isSignUp) => !isSignUp);
-                        setErrorMessage();
-                    }}
-                >
-                    sign {isSignUp ? "in" : "up"} instead
-                </button>
+                </div>
             </div>
-        </div>
+        )
     );
 }
 

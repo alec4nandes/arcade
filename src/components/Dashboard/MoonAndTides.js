@@ -6,10 +6,11 @@ export default function MoonAndTides({ localData, setLocalData }) {
 
     useEffect(() => {
         let phases = lune.phase_hunt();
-        const nextNewMoon = new Date(phases.nextnew_date),
+        const currentPhase = lune.phase(),
+            nextNewMoon = new Date(phases.nextnew_date),
             fullMoon = new Date(phases.full_date);
         if (fullMoon.getTime() > new Date().getTime()) {
-            setMoonData({ nextNewMoon, nextFullMoon: fullMoon });
+            setMoonData({ currentPhase, nextNewMoon, nextFullMoon: fullMoon });
             return;
         }
         const dayAfterNew = new Date(
@@ -18,7 +19,11 @@ export default function MoonAndTides({ localData, setLocalData }) {
             nextNewMoon.getDate() + 1
         );
         phases = lune.phase_hunt(dayAfterNew);
-        setMoonData({ nextNewMoon, nextFullMoon: phases.full_date });
+        setMoonData({
+            currentPhase,
+            nextNewMoon,
+            nextFullMoon: phases.full_date,
+        });
     }, []);
 
     function getLocalData() {
@@ -200,9 +205,11 @@ export default function MoonAndTides({ localData, setLocalData }) {
             <p>
                 <strong>the moon:</strong>
             </p>
-            <ul>
-                {moonData &&
-                    Object.entries(moonData)
+            {moonData && (
+                <ul>
+                    <li>currentPhase: {moonData.currentPhase.phase}</li>
+                    {Object.entries(moonData)
+                        .filter(([key]) => key !== "currentPhase")
                         .sort((a, b) => a[1].getTime() - b[1].getTime())
                         .map(([key, value]) => (
                             <li key={key}>
@@ -210,7 +217,8 @@ export default function MoonAndTides({ localData, setLocalData }) {
                                 moon: {formatMoonDate(value)}
                             </li>
                         ))}
-            </ul>
+                </ul>
+            )}
             <p>
                 <strong>tides and other local stats:</strong>
             </p>
