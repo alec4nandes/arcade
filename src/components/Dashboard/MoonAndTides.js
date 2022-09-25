@@ -27,7 +27,7 @@ export default function MoonAndTides({ localData, setLocalData }) {
         );
         phases = lune.phase_hunt(dayAfterNew);
         setMoonData({ ...result, nextFullMoon: phases.full_date });
-    }, []);
+    }, [localData]);
 
     function getLocalData() {
         navigator.geolocation.getCurrentPosition(handleLocalData);
@@ -35,6 +35,7 @@ export default function MoonAndTides({ localData, setLocalData }) {
 
     async function handleLocalData(position) {
         setLocalData();
+        setMoonData();
         const { coords } = position,
             { latitude, longitude } = coords,
             stations = await getNOAAStations(),
