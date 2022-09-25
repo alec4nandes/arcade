@@ -34,8 +34,8 @@ export default function MoonAndTides({ localData, setLocalData }) {
     }
 
     async function handleLocalData(position) {
+        localData && setMoonData();
         setLocalData();
-        setMoonData();
         const { coords } = position,
             { latitude, longitude } = coords,
             stations = await getNOAAStations(),
