@@ -109,7 +109,7 @@ export default function MoonAndTides({ localData, setLocalData }) {
         return results;
     }
 
-    function getTides({ isLow }) {
+    function displayTides({ isLow }) {
         return (
             <>
                 {isLow ? "low" : "high"} tides:{" "}
@@ -231,8 +231,8 @@ export default function MoonAndTides({ localData, setLocalData }) {
                     </ul>
                     <p>tides</p>
                     <ul>
-                        <li>{getTides({ isLow: true })}</li>
-                        <li>{getTides({ isLow: false })}</li>
+                        <li>{displayTides({ isLow: true })}</li>
+                        <li>{displayTides({ isLow: false })}</li>
                         <li>
                             nearest station:{" "}
                             <a
