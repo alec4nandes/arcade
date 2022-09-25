@@ -92,16 +92,13 @@ function findNearestStation({ stations, latitude, longitude }) {
         .filter((station) => station.tidal)
         .forEach((station) => {
             const { lat, lng } = station,
-                distance = {
-                    x: Math.abs(longitude - lng),
-                    y: Math.abs(latitude - lat),
-                };
-            if (
-                !shortestDistance ||
-                (distance.x < shortestDistance.x &&
-                    distance.y < shortestDistance.y)
-            ) {
-                shortestDistance = distance;
+                // pythag theorem (distance is hypotenuse)
+                trigDist = Math.sqrt(
+                    Math.abs(latitude - lat) ** 2 +
+                        Math.abs(longitude - lng) ** 2
+                );
+            if (!shortestDistance || trigDist < shortestDistance) {
+                shortestDistance = trigDist;
                 nearestStation = station;
             }
         });
