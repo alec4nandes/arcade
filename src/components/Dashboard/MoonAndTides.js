@@ -1,4 +1,26 @@
+import lune from "lune";
+import { useEffect, useState } from "react";
+
 export default function MoonAndTides({ localData, setLocalData }) {
+    const [moonData, setMoonData] = useState();
+
+    useEffect(() => {
+        let phases = lune.phase_hunt();
+        const nextNewMoon = new Date(phases.nextnew_date),
+            fullMoon = new Date(phases.full_date);
+        if (fullMoon.getTime() > new Date().getTime()) {
+            setMoonData({ nextNewMoon, nextFullMoon: fullMoon });
+            return;
+        }
+        const dayAfterNew = new Date(
+            nextNewMoon.getFullYear(),
+            nextNewMoon.getMonth(),
+            nextNewMoon.getDate() + 1
+        );
+        phases = lune.phase_hunt(dayAfterNew);
+        setMoonData({ nextNewMoon, nextFullMoon: phases.full_date });
+    }, []);
+
     function getLocalData() {
         navigator.geolocation.getCurrentPosition(handleLocalData);
     }
@@ -86,9 +108,8 @@ export default function MoonAndTides({ localData, setLocalData }) {
         );
     }
 
-    function formatTodaysDate() {
-        const date = new Date(),
-            d = date.getDate(),
+    function formatDate(date) {
+        const d = date.getDate(),
             m = date.getMonth(),
             y = date.getFullYear(),
             months = [
@@ -108,14 +129,29 @@ export default function MoonAndTides({ localData, setLocalData }) {
         return `${months[m]} ${d}, ${y}`;
     }
 
-    function formatSunTime(sunTime) {
-        const time = convertSunTime(sunTime),
-            hour = time.getHours(),
-            minute = time.getMinutes(),
-            second = time.getSeconds();
+    function formatTodaysDate() {
+        return formatDate(new Date());
+    }
+
+    function formatMoonDate(moonDate) {
+        return moonDate && `${formatDate(moonDate)} at ${formatTime(moonDate)}`;
+    }
+
+    function padder(int) {
+        return ("" + int).padStart(2, "0");
+    }
+
+    function formatTime(time) {
+        const hour = padder(time.getHours()),
+            minute = padder(time.getMinutes()),
+            second = padder(time.getSeconds());
         return `${hour % 12 || 12}:${minute}:${second} ${
             hour < 12 ? "am" : "pm"
         }`;
+    }
+
+    function formatSunTime(sunTime) {
+        return formatTime(convertSunTime(sunTime));
     }
 
     function convertSunTime(sunTime, adjustDay) {
@@ -142,33 +178,76 @@ export default function MoonAndTides({ localData, setLocalData }) {
     return (
         <div className="moon-and-tides">
             <p>{formatTodaysDate()}</p>
+            <p>
+                <strong>the moon:</strong>
+            </p>
+            <ul>
+                {moonData &&
+                    Object.entries(moonData)
+                        .sort((a, b) => a[1].getTime() - b[1].getTime())
+                        .map(([key, value]) => (
+                            <li key={key}>
+                                next {key.includes("Full") ? "full" : "new"}{" "}
+                                moon: {formatMoonDate(value)}
+                            </li>
+                        ))}
+            </ul>
+            <p>
+                <strong>tides and other local stats:</strong>
+            </p>
             {localData && (
                 <>
                     <p>
-                        coordinates: ({localData.coords.latitude},{" "}
-                        {localData.coords.longitude})
+                        <a
+                            href={`https://www.google.com/maps/@${localData.coords.latitude},${localData.coords.longitude},15z`}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            coordinates
+                        </a>
                     </p>
+                    <ul>
+                        <li>latitude: {localData.coords.latitude}</li>
+                        <li>longitude: {localData.coords.longitude}</li>
+                    </ul>
                     <p>tides</p>
                     <ul>
-                        <li>
-                            nearest station: {localData.nearestStation.name} (
-                            {localData.nearestStation.lat},{" "}
-                            {localData.nearestStation.lng})
-                        </li>
                         <li>{getTides({ isLow: true })}</li>
                         <li>{getTides({ isLow: false })}</li>
+                        <li>
+                            nearest station:{" "}
+                            <a
+                                href={`https://www.google.com/maps/@${localData.nearestStation.lat},${localData.nearestStation.lng},15z`}
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                {localData.nearestStation.name}
+                            </a>
+                            <ul>
+                                <li>
+                                    latitude: {localData.nearestStation.lat}
+                                </li>
+                                <li>
+                                    longitude: {localData.nearestStation.lng}
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                     <p>sun</p>
                     <ul>
                         <li>
                             sunrise: {formatSunTime(localData.solar.sunrise)}
                         </li>
+                        <li>
+                            solar noon:{" "}
+                            {formatSunTime(localData.solar.solar_noon)}
+                        </li>
                         <li>sunset: {formatSunTime(localData.solar.sunset)}</li>
                     </ul>
                 </>
             )}
             <button onClick={getLocalData}>
-                {localData ? "refresh" : "get"} local data
+                <strong>{localData ? "refresh" : "get"} local data</strong>
             </button>
         </div>
     );
