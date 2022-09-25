@@ -28,7 +28,7 @@ export default function Home({
                 <details>
                     <summary>how to play</summary>
                     <p>
-                        During your turn and when playing the computer, the
+                        During your turn and when the computer plays, the
                         following color key applies:
                     </p>
                     <ul>
