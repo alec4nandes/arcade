@@ -153,7 +153,7 @@ function MoonData({ moonData }) {
             : "waxing";
 
     function formatMoonDate(moonDate) {
-        return moonDate && `${formatDate(moonDate)} at ${formatTime(moonDate)}`;
+        return `${formatDate(moonDate)} at ${formatTime(moonDate)}`;
     }
 
     return (
