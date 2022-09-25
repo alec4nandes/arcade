@@ -132,6 +132,8 @@ export default function SignIn({
                 setEmail();
                 setIsVerified(false);
             }
+            // this flag prevents the sign in form
+            // briefly showing when already signed in
             !isLoaded && setIsLoaded(true);
         });
     }, [isLoaded, setEmail, setIsLoaded, setIsVerified, setUsername]);
@@ -155,6 +157,8 @@ export default function SignIn({
     /* END NESTED COMPONENTS */
 
     return (
+        // this flag prevents the sign in form
+        // briefly showing when already signed in
         isLoaded && (
             <div className="sign-in">
                 <div className="sign-in-form-container">

@@ -48,6 +48,20 @@
 .home .info details summary:hover {
   cursor: pointer;
 }
+.home .moon-graphic {
+  height: 100px;
+  width: 100px;
+  background-color: #555;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+}
+.home .moon-graphic .illuminated {
+  height: 100%;
+  width: 100%;
+  background-color: antiquewhite;
+  position: absolute;
+}
 
 @media (prefers-color-scheme: dark) {
   .home .game-options .vertical-divider {
