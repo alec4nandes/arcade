@@ -13,7 +13,8 @@ export default function Dashboard({ username }) {
     const [allGameKeys, setAllGameKeys] = useState([]),
         [dashboardError, setDashboardError] = useState(),
         [currentGameKey, setCurrentGameKey] = useState(),
-        [showing, setShowing] = useState("home");
+        [showing, setShowing] = useState("home"),
+        [localData, setLocalData] = useState();
 
     useEffect(() => {
         // listen for changes
@@ -31,7 +32,9 @@ export default function Dashboard({ username }) {
 
     const display = useMemo(
         () => ({
-            home: <Home {...{ username, setShowing }} />,
+            home: (
+                <Home {...{ username, setShowing, localData, setLocalData }} />
+            ),
             games: (
                 <GamesInProgress
                     {...{
@@ -56,7 +59,7 @@ export default function Dashboard({ username }) {
                 />
             ),
         }),
-        [allGameKeys, username]
+        [allGameKeys, localData, username]
     );
 
     return (

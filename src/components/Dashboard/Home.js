@@ -1,7 +1,13 @@
 import "../../css/home.css";
 import { SignOut } from "../SignIn";
+import MoonAndTides from "./MoonAndTides";
 
-export default function Home({ username, setShowing }) {
+export default function Home({
+    username,
+    setShowing,
+    localData,
+    setLocalData,
+}) {
     return (
         <div className="home">
             <h2 className="greeting">hi, {username}!</h2>
@@ -89,7 +95,7 @@ export default function Home({ username, setShowing }) {
                 </details>
                 <details>
                     <summary>moon and tides</summary>
-                    <p>Stats on the moon and tides are coming soon.</p>
+                    <MoonAndTides {...{ localData, setLocalData }} />{" "}
                 </details>
             </div>
             <SignOut />
