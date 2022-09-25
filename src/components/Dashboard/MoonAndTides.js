@@ -143,8 +143,14 @@ async function getSolarData({ latitude, longitude, date }) {
 /* CHILD COMPONENTS */
 
 function MoonData({ moonData }) {
-    const getPercentIlluminated = () =>
-        (moonData.currentPhase.illuminated * 100).toFixed(2);
+    const percentIlluminated = (
+        moonData.currentPhase.illuminated * 100
+    ).toFixed(2);
+
+    const waxingOrWaning =
+        moonData.nextNewMoon.getTime() < moonData.nextFullMoon.getTime()
+            ? "waning"
+            : "waxing";
 
     function formatMoonDate(moonDate) {
         return moonDate && `${formatDate(moonDate)} at ${formatTime(moonDate)}`;
@@ -153,21 +159,18 @@ function MoonData({ moonData }) {
     return (
         <ul>
             <li>
-                illuminated: {getPercentIlluminated()}%
+                illuminated: {percentIlluminated}%
                 <div className="moon-graphic">
                     <div
                         className="illuminated"
                         style={{
-                            [moonData.currentPhase.phase < 0.5
-                                ? "left"
-                                : "right"]: 100 - getPercentIlluminated() + "%",
+                            [waxingOrWaning === "waxing" ? "left" : "right"]:
+                                100 - percentIlluminated + "%",
                         }}
                     ></div>
                 </div>
             </li>
-            <li>
-                phase: {moonData.currentPhase.phase < 0.5 ? "waxing" : "waning"}
-            </li>
+            <li>phase: {waxingOrWaning}</li>
             {Object.entries(moonData)
                 .filter(([key]) => key !== "currentPhase")
                 .sort((a, b) => a[1].getTime() - b[1].getTime())
