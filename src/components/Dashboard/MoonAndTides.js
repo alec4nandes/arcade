@@ -82,12 +82,31 @@ export default function MoonAndTides({ localData, setLocalData }) {
         return tides.predictions;
     }
 
-    async function getSolarData({ latitude, longitude }) {
-        const response =
-                await fetch(`https://api.sunrise-sunset.org/json?lat=${latitude}&lng=${longitude}
-        `),
-            solar = await response.json();
-        return solar.results;
+    async function getSolarData({ latitude, longitude, date }) {
+        const response = await fetch(
+            `https://api.sunrise-sunset.org/json?lat=${latitude}&lng=${longitude}${
+                date ? `&date=${date}` : ""
+            }`
+        );
+        let { results } = await response.json();
+        if (
+            !date &&
+            results.sunrise.includes("PM") &&
+            results.sunset.includes("AM")
+        ) {
+            // since the solar times are UTC, the readings can be a day off
+            // in further out timezones, but this fixes that
+            const d = new Date(),
+                d2 = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1);
+            results = await getSolarData({
+                latitude,
+                longitude,
+                date: `${d2.getFullYear()}-${
+                    d2.getMonth() + 1
+                }-${d2.getDate()}`,
+            });
+        }
+        return results;
     }
 
     function getTides({ isLow }) {
