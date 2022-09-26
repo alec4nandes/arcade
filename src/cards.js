@@ -103,6 +103,12 @@ window
 
 /* END CHANGE LOGOS WITH DARK MODE */
 
+window.addEventListener("orientationchange", (event) => {
+    [...document.getElementsByClassName("hand-container")].forEach((elem) =>
+        elem.scrollTo(0, 0)
+    );
+});
+
 export default cards;
 export {
     ranks,

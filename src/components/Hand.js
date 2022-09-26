@@ -21,9 +21,13 @@ export default function Hand({
         cardHeight + (cardHeight - overlapFactor) * drawn.length + "px";
 
     return (
-        <div className={`hand-container ${isOpponent ? "" : "mine"}`}>
+        <div
+            className={`hand-container ${
+                isOpponent ? "" : `mine ${isActiveHand ? "my-turn" : ""}`
+            }`}
+        >
             <div className="player-summary">
-                <div className={isActiveHand ? "active" : ""}>
+                <div className={`${isActiveHand ? "active" : ""}`}>
                     {(wins || wins === 0) && <div className="wins">{wins}</div>}
                     <h2>{title}</h2>
                 </div>
