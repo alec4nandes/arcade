@@ -17,36 +17,6 @@
   position: relative;
   text-align: center;
 }
-.kings-corner .all-hands .hand-container.my-turn {
-  -webkit-animation: blink;
-          animation: blink;
-  -webkit-animation-duration: 2s;
-          animation-duration: 2s;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-}
-@-webkit-keyframes blink {
-  0% {
-    background-color: rgb(144, 238, 144);
-  }
-  50% {
-    background-color: rgba(144, 238, 144, 0.4);
-  }
-  100% {
-    background-color: rgb(144, 238, 144);
-  }
-}
-@keyframes blink {
-  0% {
-    background-color: rgb(144, 238, 144);
-  }
-  50% {
-    background-color: rgba(144, 238, 144, 0.4);
-  }
-  100% {
-    background-color: rgb(144, 238, 144);
-  }
-}
 .kings-corner .all-hands .hand-container .player-summary {
   margin-bottom: 10px;
 }
@@ -86,36 +56,6 @@
 @media (prefers-color-scheme: dark) {
   .kings-corner .all-hands .hand-container {
     background-color: #444;
-  }
-  .kings-corner .all-hands .hand-container.my-turn {
-    -webkit-animation: blink-nightmode;
-            animation: blink-nightmode;
-    -webkit-animation-duration: 2s;
-            animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-            animation-iteration-count: infinite;
-  }
-  @-webkit-keyframes blink-nightmode {
-    0% {
-      background-color: rgb(198, 203, 255);
-    }
-    50% {
-      background-color: rgba(198, 203, 255, 0.4);
-    }
-    100% {
-      background-color: rgb(198, 203, 255);
-    }
-  }
-  @keyframes blink-nightmode {
-    0% {
-      background-color: rgb(198, 203, 255);
-    }
-    50% {
-      background-color: rgba(198, 203, 255, 0.4);
-    }
-    100% {
-      background-color: rgb(198, 203, 255);
-    }
   }
   .kings-corner .all-hands .hand-container .player-summary > div .wins {
     background-color: #000;

@@ -22,24 +22,6 @@
             position: relative;
             text-align: center;
 
-            &.my-turn {
-                animation: blink;
-                animation-duration: 2s;
-                animation-iteration-count: infinite;
-            }
-
-            @keyframes blink {
-                0% {
-                    background-color: rgba(144, 238, 144, 1);
-                }
-                50% {
-                    background-color: rgba(144, 238, 144, 0.4);
-                }
-                100% {
-                    background-color: rgba(144, 238, 144, 1);
-                }
-            }
-
             .player-summary {
                 margin-bottom: 10px;
 
@@ -92,24 +74,6 @@
             @media (prefers-color-scheme: dark) {
                 & {
                     background-color: #444;
-                }
-
-                &.my-turn {
-                    animation: blink-nightmode;
-                    animation-duration: 2s;
-                    animation-iteration-count: infinite;
-                }
-
-                @keyframes blink-nightmode {
-                    0% {
-                        background-color: rgba(198, 203, 255, 1);
-                    }
-                    50% {
-                        background-color: rgba(198, 203, 255, 0.4);
-                    }
-                    100% {
-                        background-color: rgba(198, 203, 255, 1);
-                    }
                 }
 
                 .player-summary {

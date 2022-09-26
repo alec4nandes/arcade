@@ -97,6 +97,27 @@ input:-webkit-autofill:focus {
     -webkit-text-fill-color: #000;
 }
 
+/* my turn flashing */
+
+.my-turn {
+    animation: blink;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    color: #000;
+}
+
+@keyframes blink {
+    0% {
+        background-color: rgba(144, 238, 144, 1);
+    }
+    50% {
+        background-color: rgba(144, 238, 144, 0.4);
+    }
+    100% {
+        background-color: rgba(144, 238, 144, 1);
+    }
+}
+
 @media (prefers-color-scheme: dark) {
     body {
         background-color: #111;
@@ -130,5 +151,24 @@ input:-webkit-autofill:focus {
         box-shadow: 0 0 0px 1000px #111 inset;
         -webkit-box-shadow: 0 0 0px 1000px #111 inset;
         -webkit-text-fill-color: #fff;
+    }
+
+    .my-turn {
+        animation: blink-nightmode;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+        color: #fff;
+    }
+
+    @keyframes blink-nightmode {
+        0% {
+            background-color: rgba(198, 203, 255, 1);
+        }
+        50% {
+            background-color: rgba(198, 203, 255, 0.4);
+        }
+        100% {
+            background-color: rgba(198, 203, 255, 1);
+        }
     }
 }

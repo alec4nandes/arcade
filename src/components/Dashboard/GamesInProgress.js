@@ -12,7 +12,7 @@ export default function GamesInProgress({
         const starting = `${username}-`,
             middle = `-${username}-`,
             ending = `-${username}`;
-        return allGameKeys.filter(
+        return Object.keys(allGameKeys).filter(
             (key) =>
                 key.indexOf(starting) === 0 ||
                 key.includes(middle) ||
@@ -40,7 +40,9 @@ export default function GamesInProgress({
                                 X
                             </button>
                             <button
-                                className="cta-button"
+                                className={`cta-button ${
+                                    allGameKeys[key] ? "my-turn" : ""
+                                }`}
                                 onClick={() => {
                                     setCurrentGameKey(key);
                                     setShowing();

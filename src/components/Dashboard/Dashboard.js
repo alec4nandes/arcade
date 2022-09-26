@@ -21,9 +21,12 @@ export default function Dashboard({ username }) {
         const unsubscribe = onSnapshot(
             collection(firestore, "Games"),
             (querySnapshot) => {
-                const gameKeys = [];
+                const gameKeys = {};
                 // map doesn't work. use forEach instead
-                querySnapshot.forEach((doc) => gameKeys.push(doc.id));
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    return (gameKeys[doc.id] = data.currentPlayer === username);
+                });
                 setAllGameKeys(gameKeys);
             }
         );
