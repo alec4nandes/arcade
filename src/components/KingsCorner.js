@@ -87,7 +87,6 @@ export default function KingsCorner({
                 if (topCardOnBoard) {
                     // a successful play
                     if (currentPlayer === "$cpu") {
-                        setPlayerPicks([selected]);
                         // delayed effect for computer double-highlight
                         setTimeout(onSuccess, 400);
                     } else {
