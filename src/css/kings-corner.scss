@@ -3,7 +3,8 @@
 
     .all-hands .mine,
     .board {
-        .card {
+        .card,
+        .stacked {
             &:hover {
                 cursor: pointer;
             }

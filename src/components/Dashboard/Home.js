@@ -27,10 +27,7 @@ export default function Home({
             <div className="info" data-accordion>
                 <details>
                     <summary>how to play</summary>
-                    <p>
-                        During your turn and when the computer plays, the
-                        following color key applies:
-                    </p>
+                    <p>Color key:</p>
                     <ul>
                         <li>Newly dealt cards are highlighted red.</li>
                         <li>
@@ -49,6 +46,18 @@ export default function Home({
                         </li>
                         <li>
                             Successful plays on the board are highlighted green.
+                        </li>
+                    </ul>
+                    <p>Player order:</p>
+                    <ul>
+                        <li>
+                            The player with the most wins in the current game
+                            goes first.
+                        </li>
+                        <li>The player with the fewest wins goes last.</li>
+                        <li>
+                            If players have the same score, then it's
+                            alphabetical by username.
                         </li>
                     </ul>
                     <p>More instructions on how to play are coming soon.</p>

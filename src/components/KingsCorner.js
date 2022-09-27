@@ -40,6 +40,11 @@ export default function KingsCorner({
         return allHands && Object.values(allHands).find((hand) => !hand.length);
     }, [allHands]);
 
+    const updateDocHelper = useCallback(
+        (update) => updateDoc(doc(firestore, "Games", gameKey), update),
+        [gameKey]
+    );
+
     const pairClickHandlerHelper = useCallback(
         (target, index, selected) => {
             const targetInCorner = cornerIndexes.includes(index),
@@ -47,12 +52,12 @@ export default function KingsCorner({
                 selectedIsEmpty = selected?.top.name === emptyPair.top.name;
 
             if (
+                selected &&
                 // NOT selected on board and target in hand
                 !(
                     onTheBoard.includes(selected) &&
                     !onTheBoard.includes(target)
                 ) &&
-                selected &&
                 (targetIsEmpty
                     ? targetInCorner
                         ? selected.top.rank === "King"
@@ -63,9 +68,8 @@ export default function KingsCorner({
             ) {
                 return makeMove();
             } else if (currentPlayer !== "$cpu" && !targetIsEmpty) {
-                setSelected(target);
+                updateDocHelper({ selected: target, successfulPlay: null });
                 setPlayerPicks([target]);
-                setSuccessfulPlay();
             }
 
             function makeMove() {
@@ -78,7 +82,7 @@ export default function KingsCorner({
                     bothInHand = [target, selected].every(
                         (p) => !onTheBoard.includes(p)
                     );
-                currentPlayer === "$cpu" && setSelected(selected);
+                currentPlayer === "$cpu" && updateDocHelper({ selected });
 
                 if (topCardOnBoard) {
                     // a successful play
@@ -91,51 +95,58 @@ export default function KingsCorner({
                     }
                     return true;
                 } else if (currentPlayer !== "$cpu" && bothInHand) {
-                    setSelected(paired);
+                    updateDocHelper({ selected: paired });
                     setPlayerPicks((playerPicks) => [...playerPicks, target]);
                 }
 
                 function onSuccess() {
-                    bottomCardInHand && removeFromHand();
-                    updateBoard(paired);
-                    setSelected();
+                    updateDocHelper({
+                        ...(bottomCardInHand ? removeFromHand() : {}),
+                        ...updateBoard(paired),
+                        selected: null,
+                        successfulPlay: paired,
+                    });
                     setPlayerPicks([]);
-                    setSuccessfulPlay(paired);
                 }
+            }
+
+            function getCopyIndex(arr, copy) {
+                return arr.map((pair) => pair.top.name).indexOf(copy.top.name);
             }
 
             function removeFromHand() {
                 const result = getHand()
                         .filter((p) =>
                             currentPlayer === "$cpu"
-                                ? p !== selected
-                                : !playerPicks.includes(p)
+                                ? p.top.name !== selected.top.name
+                                : getCopyIndex(playerPicks, p) === -1
                         )
                         .map((p) => ({ ...p, isNew: false })),
-                    update = { allHands: { ...allHands } };
+                    update = { allHands };
                 update.allHands[cpuOrHuman()] = result;
-                updateDoc(doc(firestore, "Games", gameKey), update);
+                return update;
             }
 
             function updateBoard(paired) {
-                const boardCopy = [...onTheBoard];
+                const boardCopy = [...onTheBoard],
+                    copyIndex = getCopyIndex(boardCopy, selected);
                 boardCopy[index] = paired;
-                if (boardCopy.includes(selected)) {
-                    boardCopy[boardCopy.indexOf(selected)] = emptyPair;
+                if (copyIndex !== -1) {
+                    boardCopy[copyIndex] = emptyPair;
                 }
-                updateDoc(doc(firestore, "Games", gameKey), {
+                return {
                     onTheBoard: boardCopy,
-                });
+                };
             }
         },
         [
             allHands,
             cpuOrHuman,
             currentPlayer,
-            gameKey,
             getHand,
             onTheBoard,
             playerPicks,
+            updateDocHelper,
         ]
     );
 
@@ -145,7 +156,7 @@ export default function KingsCorner({
         [isYourTurn, pairClickHandlerHelper, selected]
     );
 
-    const drawPileHandler = useCallback(() => {
+    const handleDrawPileHelper = useCallback(() => {
         const pileCopy = [...drawPile],
             nextCard = pileCopy.pop(),
             update = { allHands: { ...allHands } };
@@ -162,21 +173,22 @@ export default function KingsCorner({
             alert("NO MORE CARDS TO DRAW");
         }
         setPlayerPicks([]);
-        setSuccessfulPlay();
-        updateDoc(doc(firestore, "Games", gameKey), {
+        updateDocHelper({
             ...update,
             drawPile: pileCopy,
             currentPlayer:
                 players[players.indexOf(currentPlayer) + 1] || players[0],
+            selected: null,
+            successfulPlay: null,
         });
     }, [
-        allHands,
-        currentPlayer,
         drawPile,
-        gameKey,
-        getHand,
+        allHands,
         isYourTurn,
+        updateDocHelper,
         players,
+        currentPlayer,
+        getHand,
         cpuOrHuman,
     ]);
 
@@ -208,6 +220,14 @@ export default function KingsCorner({
 
     /* USE EFFECTS */
 
+    // update selected in db
+    useEffect(() => {
+        selected &&
+            updateDocHelper({
+                selected,
+            }).catch((err) => console.warn(err));
+    }, [selected, updateDocHelper]);
+
     // show computer moves
     useEffect(() => {
         let timeout;
@@ -215,12 +235,12 @@ export default function KingsCorner({
             timeout = setTimeout(
                 () =>
                     computerPlays() ||
-                    (allHands["$cpu"].length && drawPileHandler()),
+                    (allHands["$cpu"].length && handleDrawPileHelper()),
                 800
             );
         }
         return () => clearTimeout(timeout);
-    }, [allHands, computerPlays, currentPlayer, drawPileHandler, getHand]);
+    }, [allHands, computerPlays, currentPlayer, handleDrawPileHelper, getHand]);
 
     // load game and set Firebase listener on first render
     useEffect(() => {
@@ -228,13 +248,22 @@ export default function KingsCorner({
             if (!gameData) {
                 return;
             }
-            const { id, currentPlayer, allHands, onTheBoard, drawPile } =
-                gameData;
+            const {
+                id,
+                currentPlayer,
+                allHands,
+                onTheBoard,
+                drawPile,
+                selected,
+                successfulPlay,
+            } = gameData;
             setGameId(id);
             setCurrentPlayer(currentPlayer);
             setAllHands(allHands);
             setOnTheBoard(onTheBoard);
             setDrawPile(drawPile);
+            setSelected(selected);
+            setSuccessfulPlay(successfulPlay);
             !isGameLoaded && setIsGameLoaded(true);
         }
 
@@ -352,16 +381,16 @@ export default function KingsCorner({
 
     function DrawPileButton() {
         const gameOver = isGameOver();
+
+        function handleDrawPile() {
+            gameOver
+                ? updateDocHelper(getGameData(wins))
+                : handleDrawPileHelper();
+        }
+
         return (
             <button
-                onClick={() =>
-                    gameOver
-                        ? updateDoc(
-                              doc(firestore, "Games", gameKey),
-                              getGameData(wins)
-                          )
-                        : drawPileHandler()
-                }
+                onClick={handleDrawPile}
                 disabled={gameOver ? false : !isYourTurn}
             >
                 {gameOver ? (
@@ -413,7 +442,7 @@ export default function KingsCorner({
                         {...{
                             onTheBoard,
                             DrawPileButton,
-                            playerPicks,
+                            selected,
                             successfulPlay,
                             pairClickHandler,
                         }}

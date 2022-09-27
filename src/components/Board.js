@@ -6,7 +6,7 @@ import Pair from "./Pair";
 export default function Board({
     onTheBoard,
     DrawPileButton,
-    playerPicks,
+    selected,
     successfulPlay,
     isOpponent,
     pairClickHandler,
@@ -37,7 +37,7 @@ export default function Board({
                     <Pair
                         {...{
                             pair,
-                            playerPicks,
+                            playerPicks: selected && [selected],
                             successfulPlay,
                             isOpponent,
                             pairClickHandler: () =>

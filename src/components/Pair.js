@@ -15,7 +15,7 @@ export default function Pair({
     const className = `${
         successfulPlay?.top.name === pair.top.name
             ? "success"
-            : playerPicks.map((pair) => pair.top.name).includes(pair.top.name)
+            : playerPicks?.map((pair) => pair.top.name).includes(pair.top.name)
             ? "selected"
             : isOpponent
             ? "backside"

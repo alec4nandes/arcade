@@ -2,7 +2,9 @@
   display: flex;
 }
 .kings-corner .all-hands .mine .card:hover,
-.kings-corner .board .card:hover {
+.kings-corner .all-hands .mine .stacked:hover,
+.kings-corner .board .card:hover,
+.kings-corner .board .stacked:hover {
   cursor: pointer;
 }
 .kings-corner .all-hands {
