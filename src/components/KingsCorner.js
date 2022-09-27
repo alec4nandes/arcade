@@ -2,7 +2,7 @@ import "../css/kings-corner.css";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../database";
-import { cornerIndexes, emptyPair, getGameData, getPlayers } from "../cards";
+import { cornerIndexes, emptyPair, getGameData, sortPlayers } from "../cards";
 import Board from "./Board";
 import Hand from "./Hand";
 
@@ -12,18 +12,17 @@ export default function KingsCorner({
     setShowing,
     username,
 }) {
-    const players = getPlayers(gameKey),
+    const [players, setPlayers] = useState(),
         [currentPlayer, setCurrentPlayer] = useState(),
         [gameId, setGameId] = useState(),
         [playerPicks, setPlayerPicks] = useState([]), // player can pick multiple ascending cards
-        // new state: all hands
         [allHands, setAllHands] = useState(),
         [wins, setWins] = useState(),
         [onTheBoard, setOnTheBoard] = useState(),
         [drawPile, setDrawPile] = useState(),
+        [isGameLoaded, setIsGameLoaded] = useState(false),
         [selected, setSelected] = useState(),
         [successfulPlay, setSuccessfulPlay] = useState(),
-        [isGameCancelled, setIsGameCancelled] = useState(false),
         drawnCardRef = useRef(),
         isYourTurn = currentPlayer === username;
 
@@ -236,28 +235,33 @@ export default function KingsCorner({
             setAllHands(allHands);
             setOnTheBoard(onTheBoard);
             setDrawPile(drawPile);
+            !isGameLoaded && setIsGameLoaded(true);
         }
-        const theDoc = doc(firestore, "Games", gameKey);
-        // load the game and listen for changes
-        const unsubscribe = onSnapshot(theDoc, (doc) => {
-            setIsGameCancelled(!doc.data());
-            updateGame(doc.data());
-        });
-        return unsubscribe;
-    }, [gameKey, setCurrentGameKey]);
 
-    useEffect(() => {
-        if (isGameCancelled) {
-            alert("Another player has cancelled the game.");
-            setCurrentGameKey();
-            setShowing("games");
-        }
-    }, [isGameCancelled, setCurrentGameKey, setShowing]);
+        // load the game and listen for changes
+        const theDoc = doc(firestore, "Games", gameKey),
+            unsubscribe = onSnapshot(theDoc, (d) => {
+                if (d.exists()) {
+                    updateGame(d.data());
+                } else {
+                    if (isGameLoaded) {
+                        alert("Another player has cancelled the game.");
+                        setCurrentGameKey();
+                        setShowing("games");
+                    } else {
+                        const data = getGameData(null, gameKey.split("-"));
+                        setDoc(theDoc, data);
+                    }
+                }
+            });
+
+        return unsubscribe;
+    }, [gameKey, isGameLoaded, setCurrentGameKey, setShowing]);
 
     // announce winner and update scores
     useEffect(() => {
         let timeout;
-        if (isGameOver()) {
+        if (players && isGameOver()) {
             const iWon = !allHands[username].length,
                 playingComputer = players.includes("$cpu");
             timeout = setTimeout(
@@ -334,9 +338,11 @@ export default function KingsCorner({
     // get game win tallies to display with usernames
     useEffect(() => {
         const theDoc = doc(firestore, "Scoreboards", gameKey),
-            unsubscribe = onSnapshot(theDoc, (doc) =>
-                setWins(doc.data()?.wins || {})
-            );
+            unsubscribe = onSnapshot(theDoc, (doc) => {
+                const wins = doc.data()?.wins;
+                setWins(wins);
+                setPlayers(wins ? sortPlayers(wins) : gameKey.split("-"));
+            });
         return unsubscribe;
     }, [gameKey]);
 
@@ -352,7 +358,7 @@ export default function KingsCorner({
                     gameOver
                         ? updateDoc(
                               doc(firestore, "Games", gameKey),
-                              getGameData(username, players)
+                              getGameData(wins)
                           )
                         : drawPileHandler()
                 }
@@ -374,14 +380,15 @@ export default function KingsCorner({
 
     return (
         <div className="kings-corner">
-            {allHands && wins && (
+            {allHands && players && (
                 <>
                     <div className="all-hands">
                         {players
                             // winners on top
                             .sort(
                                 (a, b) =>
-                                    wins[b] - wins[a] || a.localeCompare(b)
+                                    (wins && wins[b] - wins[a]) ||
+                                    a.localeCompare(b)
                             )
                             .map((player, i) => (
                                 <Hand
@@ -389,7 +396,7 @@ export default function KingsCorner({
                                         key: `hand-${i + 1}`,
                                         drawn: allHands[player],
                                         title: player,
-                                        wins: wins[player],
+                                        wins: wins?.[player],
                                         playerPicks,
                                         drawnCardRef,
                                         isActiveHand: currentPlayer === player,

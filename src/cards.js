@@ -58,7 +58,13 @@ function getStartingBoard(alreadyDrawn) {
 
 /* MULTIPLAYER */
 
-const getPlayers = (gameKey) => gameKey.split("-");
+// gameplay order goes by who has most wins.
+// if win counts are the same, it's alphabetical.
+function sortPlayers(scores) {
+    return Object.entries(scores)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .map(([player]) => player);
+}
 
 function recursiveDealer(players) {
     const result = {};
@@ -77,14 +83,15 @@ function recursiveDealerHelper(players, player, result) {
 
 /* END MULTIPLAYER */
 
-function getGameData(username, players) {
+function getGameData(scores, players) {
+    players = players || sortPlayers(scores);
     const allHands = recursiveDealer(players),
         allHandsCards = Object.values(allHands).flat(),
         onTheBoard = getStartingBoard(allHandsCards),
         drawPile = getStartingHand([...allHandsCards, ...onTheBoard]);
     return {
         id: new Date().getTime(),
-        currentPlayer: username,
+        currentPlayer: players[0],
         allHands,
         onTheBoard,
         drawPile,
@@ -115,7 +122,7 @@ export {
     cornerIndexes,
     emptyPair,
     getGameData,
-    getPlayers,
+    sortPlayers,
     getStartingBoard,
     getStartingHand,
 };

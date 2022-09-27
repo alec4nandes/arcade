@@ -1,7 +1,4 @@
 import "../../css/challenge.css";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { firestore } from "../../database";
-import { getGameData } from "../../cards";
 import { getAllUsernames, getFormData } from "../SignIn";
 
 export default function Challenge({
@@ -29,7 +26,6 @@ export default function Challenge({
             );
         if (opponentsExist) {
             playOpponents({
-                username,
                 allPlayers: [username, ...opponents],
                 setCurrentGameKey,
                 setShowing,
@@ -83,21 +79,8 @@ export default function Challenge({
     );
 }
 
-async function playOpponents({
-    username,
-    allPlayers,
-    setCurrentGameKey,
-    setShowing,
-}) {
-    const gameKey = allPlayers.sort().join("-"),
-        theDoc = doc(firestore, "Games", gameKey),
-        checkDoc = await getDoc(theDoc);
-    if (!checkDoc.exists()) {
-        await setDoc(
-            doc(firestore, "Games", gameKey),
-            getGameData(username, allPlayers)
-        );
-    }
+async function playOpponents({ allPlayers, setCurrentGameKey, setShowing }) {
+    const gameKey = allPlayers.sort().join("-");
     setCurrentGameKey(gameKey);
     setShowing();
 }
