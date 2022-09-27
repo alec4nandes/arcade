@@ -10,13 +10,12 @@ export default function MoonAndTides({ localData, setLocalData }) {
             newMoon = new Date(phases.new_date),
             nextNewMoon = new Date(phases.nextnew_date),
             fullMoon = new Date(phases.full_date),
-            currentTime = new Date().getTime(),
+            currentDate = new Date(),
             result = {
                 currentPhase,
-                nextNewMoon:
-                    newMoon.getTime() > currentTime ? newMoon : nextNewMoon,
+                nextNewMoon: newMoon > currentDate ? newMoon : nextNewMoon,
             };
-        if (fullMoon.getTime() > currentTime) {
+        if (fullMoon > currentDate) {
             setMoonData({ ...result, nextFullMoon: fullMoon });
             return;
         }
@@ -148,9 +147,7 @@ function MoonData({ moonData }) {
     ).toFixed(2);
 
     const waxingOrWaning =
-        moonData.nextNewMoon.getTime() < moonData.nextFullMoon.getTime()
-            ? "waning"
-            : "waxing";
+        moonData.nextNewMoon < moonData.nextFullMoon ? "waning" : "waxing";
 
     function formatMoonDate(moonDate) {
         return `${formatDate(moonDate)} at ${formatTime(moonDate)}`;
@@ -173,7 +170,7 @@ function MoonData({ moonData }) {
             <li>phase: {waxingOrWaning}</li>
             {Object.entries(moonData)
                 .filter(([key]) => key !== "currentPhase")
-                .sort((a, b) => a[1].getTime() - b[1].getTime())
+                .sort((a, b) => a[1] - b[1])
                 .map(([key, value]) => (
                     <li key={key}>
                         next {key.includes("Full") ? "full" : "new"} moon:{" "}
@@ -262,17 +259,15 @@ function SunData({ solarData }) {
                     date.getDate() + (adjustDay || 0)
                 }/${date.getFullYear()} ${sunTime} UTC`
             ),
-            compare = compareDates(date, time);
+            compare = compareDatesNoTime(date, time);
         return compare ? convertSunTime(sunTime, compare > 0 ? 1 : -1) : time;
     }
 
-    function compareDates(date1, date2) {
-        const day1 = getDay(date1),
-            day2 = getDay(date2);
-        return day1.getTime() - day2.getTime();
+    function compareDatesNoTime(date1, date2) {
+        return getDateNoTime(date1) - getDateNoTime(date2);
     }
 
-    function getDay(date) {
+    function getDateNoTime(date) {
         return new Date(date.getFullYear(), date.getMonth(), date.getDate());
     }
 
