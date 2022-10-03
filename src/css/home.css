@@ -38,8 +38,19 @@
 .home .info details[open] summary, .home .info details:hover summary {
   border-bottom: 1px solid #000;
 }
+.home .info details img {
+  max-width: 400px;
+  width: 100%;
+  margin-top: 15px;
+}
+.home .info details ol li {
+  margin-bottom: 15px;
+}
 .home .info details p {
   color: #000;
+}
+.home .info details p.section-header {
+  font-weight: bold;
 }
 .home .info details summary {
   border-bottom: 1px solid #7d85cb;

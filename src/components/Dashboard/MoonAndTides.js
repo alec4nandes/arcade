@@ -54,11 +54,11 @@ export default function MoonAndTides({ localData, setLocalData }) {
         <div className="moon-and-tides">
             <p>{formatTodaysDate()}</p>
             <p>
-                <strong>the moon:</strong>
+                <strong>Moon:</strong>
             </p>
             {moonData && <MoonData {...{ moonData }} />}
             <p>
-                <strong>tides and other local stats:</strong>
+                <strong>Tides and other local stats:</strong>
             </p>
             {localData && (
                 <>
@@ -186,14 +186,15 @@ function Coordinates({ coords }) {
 
     return (
         <>
-            <p>
+            <p className="section-header">
                 <a
                     href={`https://www.google.com/maps/@${latitude},${longitude},15z`}
                     target="_blank"
                     rel="noreferrer"
                 >
-                    coordinates
+                    Coordinates
                 </a>
+                :
             </p>
             <ul>
                 <li>latitude: {latitude}</li>
@@ -224,7 +225,7 @@ function TidesData({ tides, nearestStation }) {
 
     return (
         <>
-            <p>tides</p>
+            <p className="section-header">Tides:</p>
             <ul>
                 <li>{displayTides({ isLow: true })}</li>
                 <li>{displayTides({ isLow: false })}</li>
@@ -273,7 +274,7 @@ function SunData({ solarData }) {
 
     return (
         <>
-            <p>sun</p>
+            <p className="section-header">Sun:</p>
             <ul>
                 <li>sunrise: {formatSunTime(solarData.sunrise)}</li>
                 <li>solar noon: {formatSunTime(solarData.solar_noon)}</li>
