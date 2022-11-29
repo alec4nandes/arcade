@@ -89,7 +89,7 @@ function getCardImage(card) {
             fileName =
                 [rank, suit].join("_of_").toLowerCase() +
                 (isNaN(rank) && rank !== "Ace" ? "2" : "");
-        return images[`${fileName}.jpg`];
+        return images[`${fileName}-min.jpg`];
     }
 }
 
