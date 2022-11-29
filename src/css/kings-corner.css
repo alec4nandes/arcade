@@ -77,7 +77,7 @@
   position: relative;
 }
 .kings-corner .pair.backside .card {
-  background-image: url("../images/kings-corner-card-back.png") !important;
+  background-image: url("../images/kings-corner-card-back-min.png") !important;
   background-size: cover;
   border: 2px solid #7d85cb;
 }

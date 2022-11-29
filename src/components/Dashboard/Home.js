@@ -1,11 +1,11 @@
 import "../../css/home.css";
 import { SignOut } from "../SignIn";
 import MoonAndTides from "./MoonAndTides";
-import rule2 from "../../images/rules/rule-2.png";
-import rule3 from "../../images/rules/rule-3.png";
-import rule4 from "../../images/rules/rule-4.png";
-import rule5 from "../../images/rules/rule-5.png";
-import rule6 from "../../images/rules/rule-6.png";
+import rule2 from "../../images/rules/rule-2-min.png";
+import rule3 from "../../images/rules/rule-3-min.png";
+import rule4 from "../../images/rules/rule-4-min.png";
+import rule5 from "../../images/rules/rule-5-min.png";
+import rule6 from "../../images/rules/rule-6-min.png";
 
 export default function Home({
     username,
