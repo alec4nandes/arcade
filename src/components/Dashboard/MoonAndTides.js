@@ -190,7 +190,7 @@ function Coordinates({ coords }) {
                 <a
                     href={`https://www.google.com/maps/@${latitude},${longitude},15z`}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener"
                 >
                     Coordinates
                 </a>
@@ -234,7 +234,7 @@ function TidesData({ tides, nearestStation }) {
                     <a
                         href={`https://www.google.com/maps/@${nearestStation.lat},${nearestStation.lng},15z`}
                         target="_blank"
-                        rel="noreferrer"
+                        rel="noopener"
                     >
                         {nearestStation.name}
                     </a>

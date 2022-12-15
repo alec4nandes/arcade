@@ -167,6 +167,16 @@ export default function Home({
                 <details>
                     <summary>moon and tides</summary>
                     <MoonAndTides {...{ localData, setLocalData }} />{" "}
+                    <p>
+                        Want to use this API?{" "}
+                        <a
+                            href="https://fern.haus/moon-sun-tides"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            Check out the documentation here!
+                        </a>
+                    </p>
                 </details>
             </div>
             <SignOut />
