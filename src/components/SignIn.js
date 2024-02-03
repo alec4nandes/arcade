@@ -1,9 +1,10 @@
 import "../css/sign-in.css";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
     sendEmailVerification,
+    sendPasswordResetEmail,
     signInWithEmailAndPassword,
     signOut,
     updateProfile,
@@ -24,7 +25,8 @@ export default function SignIn({
 }) {
     const [errorMessage, setErrorMessage] = useState(),
         [isSignUp, setIsSignUp] = useState(false),
-        [isLoaded, setIsLoaded] = useState(false);
+        [isLoaded, setIsLoaded] = useState(false),
+        emailRef = useRef();
 
     async function signInHandler(event) {
         try {
@@ -138,6 +140,27 @@ export default function SignIn({
         });
     }, [isLoaded, setEmail, setIsLoaded, setIsVerified, setUsername]);
 
+    async function handleResetPassword(email) {
+        if (!email.trim()) {
+            alert("Please enter a registered email address.");
+            return;
+        }
+        try {
+            await sendPasswordResetEmail(auth, email);
+            alert(`Password reset email sent to ${email}`);
+        } catch (err) {
+            console.error(err);
+            alert(
+                err.code === "auth/user-not-found"
+                    ? "No user with that email."
+                    : err.code === "auth/invalid-email"
+                    ? "Please enter a valid email."
+                    : "Could not send password reset email right now. " +
+                      "Please try again, and contact al@fern.haus if the problem persists."
+            );
+        }
+    }
+
     /* NESTED COMPONENTS */
 
     function ErrorMessage() {
@@ -183,6 +206,7 @@ export default function SignIn({
                             />
                         )}
                         <input
+                            ref={emailRef}
                             id="email"
                             name="email"
                             placeholder="email"
@@ -204,18 +228,12 @@ export default function SignIn({
                     {!isSignUp && (
                         <button
                             className="instead"
-                            onClick={() =>
-                                setErrorMessage(
-                                    <>
-                                        For password assistance, please contact{" "}
-                                        <a href="mailto:al@fern.haus">
-                                            al@fern.haus
-                                        </a>
-                                    </>
-                                )
-                            }
+                            onClick={() => {
+                                const email = emailRef.current.value;
+                                handleResetPassword(email);
+                            }}
                         >
-                            password help
+                            reset password
                         </button>
                     )}
                     <button
